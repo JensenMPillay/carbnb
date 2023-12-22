@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
 import { Raleway as FontSans } from "next/font/google";
 import "./globals.css";
@@ -21,12 +22,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={cn(
-          "bg-background font-raleway min-h-screen antialiased",
-          fontSans.variable,
-        )}
+        className={cn("min-h-screen font-sans antialiased", fontSans.variable)}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
