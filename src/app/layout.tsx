@@ -1,17 +1,20 @@
-import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/providers/theme-provider";
+import { cn } from "@/src/lib/utils";
+import { ThemeProvider } from "@/src/providers/theme-provider";
 import type { Metadata } from "next";
-import { Raleway as FontSans } from "next/font/google";
+import { Raleway } from "next/font/google";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 import "./globals.css";
 
-export const fontSans = FontSans({
+const inter = Raleway({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-raleway",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Car BnB",
-  description: "AirBnB for Cars",
+  title: "CarBnb",
+  description: "AirBnb for Cars",
 };
 
 export default function RootLayout({
@@ -20,17 +23,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body
-        className={cn("min-h-screen font-sans antialiased", fontSans.variable)}
-      >
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn("min-h-screen w-full antialiased", inter.className)}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
+          <Navbar />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
