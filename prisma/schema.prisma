@@ -1,0 +1,163 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url               = env("DATABASE_URL")
+  directUrl         = env("DIRECT_URL")
+  schemas           = ["public"]
+  // => RLS/Prisma 
+  extensions        = [hstore, pg_trgm, postgis]
+}
+
+generator client {
+  provider = "prisma-client-js"
+  // => Supabase Auth 
+  previewFeatures = ["multiSchema", "postgresqlExtensions"]
+}
+
+generator pothos {
+  provider = "prisma-pothos-types"
+  clientOutput = "@prisma/client"
+  output = "./pothos-types.ts"
+}
+
+enum Role {
+  ADMIN
+  LENDER
+  RENTER
+
+  @@schema("public")
+}
+
+model User {
+  id                String      @id @unique @default(cuid()) @db.Uuid
+  email             String      @unique
+  emailVerified     DateTime?
+  stripeCustomerId  String?
+  role              Role        @default(RENTER)
+  name              String?
+  phone             String?
+  image             String?
+  cars              Car[]
+  bookings          Booking[]   
+  sessions          Session[]
+
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  @@schema("public")
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    userId       String   @db.Uuid
+    expires      DateTime
+    sessionToken String   @unique
+    accessToken  String   @unique
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+    user         User     @relation(fields: [userId], references: [id])
+
+    @@schema("public")
+}
+
+enum Category {
+  COMPACT       // Compacte
+  LUXURY        // Luxe
+  SEDAN         // Berline
+  SUV           // SUV
+  SPORT         // Sportive
+
+  @@schema("public")
+}
+
+enum Transmission {
+  AUTOMATIC   // Automatique
+  MANUAL      // Manuelle
+
+  @@schema("public")
+}
+
+enum FuelType {
+  DIESEL      // Diesel
+  ELECTRIC    // Électrique
+  HYBRID      // Hybride
+  PETROL      // Essence
+
+  @@schema("public")
+}
+
+model Car {
+  id            Int         @id @default(autoincrement())
+  category      Category   
+  model         String
+  year          Int?
+  transmission  Transmission
+  fuelType      FuelType
+  pricePerDay   Float
+  available     Boolean
+  User          User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId        String      @db.Uuid
+  Location      Location    @relation(fields: [locationId], references: [id])
+  locationId    String
+  bookings      Booking[]
+
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([locationId])
+
+  @@schema("public")
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  CANCELED
+  REFUNDED
+
+  @@schema("public")
+}
+
+model Booking {
+  id                String      @id @unique @default(cuid())
+  startDate         DateTime    
+  endDate           DateTime    
+  totalPrice        Float
+  paymentStatus     PaymentStatus
+  stripePaymentId   String      @unique
+  User              User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId            String      @db.Uuid
+  Car               Car         @relation(fields: [carId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  carId             Int
+
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([startDate, endDate])
+  @@index([userId])
+  @@index([carId])
+
+  @@schema("public")
+}
+
+model Location {
+  id            String      @id @unique @default(cuid())
+  latitude      Float?
+  longitude     Float?
+  address       String
+  city          String
+  country       String
+  cars          Car[]
+
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  @@index([latitude, longitude])
+
+  @@schema("public")
+}
