@@ -1,5 +1,6 @@
 import prisma from "@/prisma/prisma";
 import { Role } from "@prisma/client";
+import { createGraphQLError } from "graphql-yoga";
 import { builder } from "../builder";
 
 // Role
@@ -23,62 +24,168 @@ builder.prismaObject("User", {
   }),
 });
 
-// GET Routes
-builder.queryField("user", (t) =>
+// GET Route
+builder.queryField("getUser", (t) =>
   t.prismaField({
     type: "User",
-    resolve: async (query, _parent, _args, ctx) => {
-      if (!(await ctx).user) {
-        throw new Error("You have to be logged in to perform this action");
-      }
+    resolve: async (query, _parent, args, ctx) => {
+      if (!(await ctx).user)
+        throw createGraphQLError(
+          "You have to be logged in to perform this action.",
+        );
 
-      const user = await prisma.user.findUnique({
+      const dbUser = await prisma.user.findUnique({
         ...query,
         where: {
-          email: (await ctx).user?.email,
+          id: (await ctx).user?.id,
         },
       });
 
-      if (!user) throw Error("User does not exist" + (await ctx).user?.id);
+      if (!dbUser) throw createGraphQLError("User does not exist.");
 
-      return user;
+      return dbUser;
     },
   }),
 );
 
-// GET Routes
-builder.mutationField("signUser", (t) =>
+// POST Route
+builder.mutationField("registerUser", (t) =>
   t.prismaField({
     type: "User",
     args: {
-      id: t.arg.string({ required: true }),
       email: t.arg.string({ required: true }),
+      name: t.arg.string({ required: true }),
+      phone: t.arg.string({ required: true }),
       role: t.arg({ type: Role, required: true }),
     },
     resolve: async (query, _parent, args, ctx) => {
-      if (!(await ctx).user) {
-        throw new Error("You have to be logged in to perform this action");
-      }
+      if (!(await ctx).user)
+        throw createGraphQLError(
+          "You have to be logged in to perform this action.",
+        );
 
-      let user = await prisma.user.findUnique({
+      const dbUser = await prisma.user.findUnique({
         ...query,
         where: {
-          email: (await ctx).user?.email,
+          id: (await ctx).user?.id,
         },
       });
 
-      if (!user) {
-        user = await prisma.user.create({
-          ...query,
-          data: {
-            id: args.id,
-            email: args.email,
-            role: args.role,
-          },
-        });
-      }
+      if (dbUser) throw createGraphQLError("User already exists.");
 
-      return user;
+      const userPrisma = await prisma.user.create({
+        ...query,
+        data: {
+          id: (await ctx).user?.id,
+          email: args.email,
+          name: args.name,
+          phone: args.phone,
+          role: args.role,
+        },
+      });
+
+      const userSupabase = await (
+        await ctx
+      ).supabase?.auth.updateUser({
+        email: args.email,
+        data: { name: args.name, phone: args.phone, role: args.role },
+      });
+
+      if (!userPrisma || !userSupabase)
+        throw createGraphQLError(
+          "An error occurred while updating the user information.",
+        );
+
+      return userPrisma;
+    },
+  }),
+);
+
+// POST Route
+builder.mutationField("updateUser", (t) =>
+  t.prismaField({
+    type: "User",
+    args: {
+      email: t.arg.string({ required: false }),
+      password: t.arg.string({ required: false }),
+      name: t.arg.string({ required: false }),
+      phone: t.arg.string({ required: false }),
+    },
+    resolve: async (query, _parent, args, ctx) => {
+      if (!(await ctx).user)
+        throw createGraphQLError(
+          "You have to be logged in to perform this action.",
+        );
+
+      const dbUser = await prisma.user.findUnique({
+        ...query,
+        where: {
+          id: (await ctx).user?.id,
+        },
+      });
+
+      if (!dbUser) throw createGraphQLError("User does not exist.");
+
+      const userPrisma = await prisma.user.update({
+        ...query,
+        where: {
+          id: (await ctx).user?.id,
+        },
+        data: {
+          email: args.email ?? undefined,
+          name: args.name ?? undefined,
+          phone: args.phone ?? undefined,
+        },
+      });
+
+      const userSupabase = await (
+        await ctx
+      ).supabase?.auth.updateUser({
+        email: args.email ?? undefined,
+        password: args.password ?? undefined,
+        data: { name: args.name ?? undefined, phone: args.phone ?? undefined },
+      });
+
+      if (!userPrisma || !userSupabase)
+        throw createGraphQLError(
+          "An error occurred while updating the user information.",
+        );
+
+      return userPrisma;
+    },
+  }),
+);
+
+// POST Route
+builder.mutationField("deleteUser", (t) =>
+  t.prismaField({
+    type: "User",
+    resolve: async (query, _parent, args, ctx) => {
+      if (!(await ctx).user)
+        throw createGraphQLError(
+          "You have to be logged in to perform this action.",
+        );
+
+      const dbUser = await prisma.user.findUnique({
+        ...query,
+        where: {
+          id: (await ctx).user?.id,
+        },
+      });
+
+      if (!dbUser) throw createGraphQLError("User does not exist.");
+
+      const userPrisma = await prisma.user.delete({
+        ...query,
+        where: {
+          id: (await ctx).user?.id,
+        },
+      });
+
+      if (!userPrisma)
+        throw createGraphQLError("An error occurred while deleting the user.");
+
+      return userPrisma;
     },
   }),
 );

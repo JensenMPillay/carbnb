@@ -1,8 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-
 import { Database } from "@/src/lib/supabase/database.types";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+
+import type { CookieOptions } from "@supabase/ssr";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export async function supabaseContext(
   req: NextApiRequest,
@@ -18,6 +19,12 @@ export async function supabaseContext(
         get(name: string) {
           return cookieStore.get(name)?.value;
         },
+        set(name: string, value: string, options: CookieOptions) {
+          cookieStore.set({ name, value, ...options });
+        },
+        remove(name: string, options: CookieOptions) {
+          cookieStore.set({ name, value: "", ...options });
+        },
       },
     },
   );
@@ -30,5 +37,5 @@ export async function supabaseContext(
 
   const { user, access_token } = session;
 
-  return { user, access_token };
+  return { supabase, user, access_token };
 }
