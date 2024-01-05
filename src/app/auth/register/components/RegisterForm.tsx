@@ -13,62 +13,81 @@ import { RadioGroup, RadioGroupItem } from "@/src/components/ui/radio-group";
 import { Separator } from "@/src/components/ui/separator";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import useAuthForm from "@/src/hooks/useAuthForm";
+import { REGISTER_USER_MUTATION } from "@/src/lib/apollo/user";
+import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
 import {
   RegisterUserSchemaType,
   registerUserSchema,
 } from "@/src/lib/schemas/RegisterUserSchema";
+import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type Props = {};
 
 const RegisterForm = (props: Props) => {
-  const [userInfo, setUserInfo] = useState<RegisterUserSchemaType>({
-    email: "",
-    name: "",
-    phone: "",
-    role: "",
-  });
-
-  const registerForm = useForm<RegisterUserSchemaType>({
-    resolver: zodResolver(registerUserSchema),
-  });
-
   enum roles {
     LENDER = "LENDER",
     RENTER = "RENTER",
   }
 
-  //   onSubmit Callback
+  // useAuthForm Hook
+  const { isFormLoading, session } = useAuthForm();
+
+  const registerForm = useForm<RegisterUserSchemaType>({
+    resolver: zodResolver(registerUserSchema),
+    defaultValues: { email: "", name: "", phone: "", role: "" },
+  });
+
+  const [registerUser] = useMutation(REGISTER_USER_MUTATION, {
+    onCompleted: async (data) => {
+      showNotif({
+        description: "You'll be redirected shortly!",
+      });
+    },
+    onError: async (error) => {
+      showErrorNotif({
+        description: error.message,
+      });
+      console.error("Mutation Error : ", error);
+      // Gérer l'erreur de la mutation
+    },
+  });
+
+  // onSubmit Callback
   const onSubmit: SubmitHandler<RegisterUserSchemaType> = async (
     data,
     event,
   ) => {
     event?.preventDefault();
     try {
-      // const userRegistered = await registerUser(data);
-    } catch (error: any) {
-      if (error instanceof Error) console.log(error.message);
+      await registerUser({
+        variables: data,
+      });
+    } catch (error) {
+      console.error(`Error : ${error}`);
     }
   };
 
-  // useAuthForm Hook
-  const { isFormLoading, session } = useAuthForm();
-
   // useAuthForm Callback
   useEffect(() => {
-    if (session)
-      setUserInfo((prevUserInfo) => ({
-        ...prevUserInfo,
-        email: session.user?.email ?? "",
-        name: session?.user?.user_metadata?.full_name ?? "",
-        phone: session.user?.phone ?? "",
-      }));
-
+    if (session) {
+      registerForm.setValue("email", session.user?.email ?? "", {
+        shouldTouch: true,
+      });
+      registerForm.setValue(
+        "name",
+        session?.user?.user_metadata?.full_name ?? "",
+        { shouldTouch: true },
+      );
+      registerForm.setValue("phone", session.user?.phone ?? "", {
+        shouldTouch: true,
+      });
+    }
     return () => {};
-  }, [session]);
+  }, [session, registerForm]);
 
   return (
     <>
@@ -99,7 +118,6 @@ const RegisterForm = (props: Props) => {
                       autoCapitalize="off"
                       autoComplete="email"
                       autoCorrect="off"
-                      defaultValue={userInfo.email}
                       {...field}
                     />
                   </FormControl>
@@ -120,7 +138,6 @@ const RegisterForm = (props: Props) => {
                       autoCapitalize="on"
                       autoComplete="on"
                       autoCorrect="off"
-                      defaultValue={userInfo.name}
                       {...field}
                     />
                   </FormControl>
@@ -141,7 +158,6 @@ const RegisterForm = (props: Props) => {
                       autoCapitalize="off"
                       autoComplete="true"
                       autoCorrect="off"
-                      defaultValue={userInfo.phone}
                       {...field}
                     />
                   </FormControl>
@@ -159,7 +175,6 @@ const RegisterForm = (props: Props) => {
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      value={field.value}
                       className="flex justify-around"
                     >
                       {Object.entries(roles).map(([key, value]) => {

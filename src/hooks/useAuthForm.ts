@@ -1,6 +1,6 @@
 import { supabaseBrowserClient } from "@/src/lib/supabase/supabase-browser-client";
+import { Session } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
-import { Session } from "../lib/supabase/client.types";
 
 const useAuthForm = () => {
   // Auth Form

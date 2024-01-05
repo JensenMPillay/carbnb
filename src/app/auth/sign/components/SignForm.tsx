@@ -6,15 +6,13 @@ import { customTheme } from "@/src/lib/auth-ui/customTheme";
 import { supabaseBrowserClient } from "@/src/lib/supabase/supabase-browser-client";
 import { Auth } from "@supabase/auth-ui-react";
 import { useTheme } from "next-themes";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import Router from "next/router";
 import { useEffect } from "react";
 
 type Props = {};
 
 const SignForm = (props: Props) => {
-  // Redirection
-  const router = useRouter();
-
   // Theme
   const { resolvedTheme } = useTheme();
 
@@ -28,12 +26,12 @@ const SignForm = (props: Props) => {
   // useAuthForm Callback
   useEffect(() => {
     if (session)
-      router.push(
+      Router.push(
         `/api/auth/callback?from=sign${origin ? "&origin=" + origin : ""}`,
       );
 
     return () => {};
-  }, [router, origin, session]);
+  }, [origin, session]);
 
   return (
     <>
