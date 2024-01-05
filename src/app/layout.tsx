@@ -1,6 +1,5 @@
-import { cn } from "@/src/lib/utils";
+import { cn, constructMetadata } from "@/src/lib/utils";
 import { ThemeProvider } from "@/src/providers/theme-provider";
-import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -8,30 +7,16 @@ import { Toaster } from "../components/ui/sonner";
 import { ApolloWrapper } from "../providers/apollo-wrapper";
 import "./globals.css";
 
-const inter = Raleway({
+import type { Metadata } from "next";
+import type { NextFontWithVariable } from "next/dist/compiled/@next/font";
+
+const inter: NextFontWithVariable = Raleway({
   subsets: ["latin"],
   variable: "--font-raleway",
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("http://localhost:3000"),
-  title: "CarBnb",
-  description: "AirBnb for Cars",
-  robots: {
-    index: false,
-    follow: true,
-    nocache: true,
-    googleBot: {
-      index: true,
-      follow: false,
-      noimageindex: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-};
+export const metadata: Metadata = constructMetadata();
 
 export default function RootLayout({
   children,
