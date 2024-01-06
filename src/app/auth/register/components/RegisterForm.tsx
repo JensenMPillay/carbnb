@@ -12,29 +12,41 @@ import { Input } from "@/src/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/src/components/ui/radio-group";
 import { Separator } from "@/src/components/ui/separator";
 import { Skeleton } from "@/src/components/ui/skeleton";
-import useAuthForm from "@/src/hooks/useAuthForm";
+import { useSessionContext } from "@/src/context/SessionContext";
+import useLoading from "@/src/hooks/useLoading";
 import { REGISTER_USER_MUTATION } from "@/src/lib/apollo/user";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
 import {
   RegisterUserSchemaType,
   registerUserSchema,
 } from "@/src/lib/schemas/RegisterUserSchema";
+import { supabaseBrowserClient } from "@/src/lib/supabase/supabase-browser-client";
 import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "@supabase/supabase-js";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-type Props = {};
+type RegisterFormProps = {
+  user: User;
+};
 
-const RegisterForm = (props: Props) => {
+const RegisterForm = ({ user }: RegisterFormProps) => {
   enum roles {
     LENDER = "LENDER",
     RENTER = "RENTER",
   }
 
-  // useAuthForm Hook
-  const { isFormLoading, session } = useAuthForm();
+  // Session
+  const { setSession } = useSessionContext();
+
+  // Router
+  const router = useRouter();
+
+  // Loading Hook
+  const { isLoading } = useLoading();
 
   const registerForm = useForm<RegisterUserSchemaType>({
     resolver: zodResolver(registerUserSchema),
@@ -46,6 +58,12 @@ const RegisterForm = (props: Props) => {
       showNotif({
         description: "You'll be redirected shortly!",
       });
+      const {
+        data: { session: sessionData },
+      } = await supabaseBrowserClient.auth.getSession();
+      setSession(sessionData);
+      router.refresh();
+      router.replace("/");
     },
     onError: async (error) => {
       showErrorNotif({
@@ -73,25 +91,18 @@ const RegisterForm = (props: Props) => {
 
   // useAuthForm Callback
   useEffect(() => {
-    if (session) {
-      registerForm.setValue("email", session.user?.email ?? "", {
-        shouldTouch: true,
-      });
-      registerForm.setValue(
-        "name",
-        session?.user?.user_metadata?.full_name ?? "",
-        { shouldTouch: true },
-      );
-      registerForm.setValue("phone", session.user?.phone ?? "", {
-        shouldTouch: true,
-      });
-    }
+    registerForm.reset({
+      email: user?.email ?? "",
+      name: user?.user_metadata?.full_name ?? "",
+      phone: user?.phone ?? "",
+      role: "",
+    });
     return () => {};
-  }, [session, registerForm]);
+  }, [user, registerForm]);
 
   return (
     <>
-      {isFormLoading ? (
+      {isLoading ? (
         <div className="my-2 flex flex-1 flex-col items-center space-y-10 md:my-3 lg:my-4">
           <Skeleton className="my-2 h-10 w-3/4 md:my-4 lg:my-6" />
           <Skeleton className="my-2 h-10 w-3/4 md:my-4 lg:my-6" />

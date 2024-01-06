@@ -1,5 +1,7 @@
 import AuthContainer from "@/src/components/AuthContainer";
+import { supabaseServerClient } from "@/src/lib/supabase/supabase-server-client";
 import { constructMetadata } from "@/src/lib/utils";
+import { redirect } from "next/navigation";
 import RegisterForm from "./components/RegisterForm";
 
 type Props = {};
@@ -9,13 +11,22 @@ export const metadata = constructMetadata({
   description: "Complete your registration in just a few more steps",
 });
 
-export default function Page({}: Props) {
+export default async function Page({}: Props) {
+  const {
+    data: { session },
+    error,
+  } = await supabaseServerClient.auth.getSession();
+
+  const user = session?.user;
+
+  if (!user || user.user_metadata.name) return redirect("/");
+
   return (
     <AuthContainer
       title="Almost there !"
       description="Complete your registration in just a few more steps"
     >
-      <RegisterForm />
+      <RegisterForm user={user} />
     </AuthContainer>
   );
 }

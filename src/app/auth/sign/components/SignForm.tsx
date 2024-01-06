@@ -1,41 +1,57 @@
 "use client";
 import { Separator } from "@/src/components/ui/separator";
 import { Skeleton } from "@/src/components/ui/skeleton";
-import useAuthForm from "@/src/hooks/useAuthForm";
+import { useSessionContext } from "@/src/context/SessionContext";
+import useLoading from "@/src/hooks/useLoading";
 import { customTheme } from "@/src/lib/auth-ui/customTheme";
 import { supabaseBrowserClient } from "@/src/lib/supabase/supabase-browser-client";
+import { absoluteUrl } from "@/src/lib/utils";
 import { Auth } from "@supabase/auth-ui-react";
 import { useTheme } from "next-themes";
-import { useSearchParams } from "next/navigation";
-import Router from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 type Props = {};
 
 const SignForm = (props: Props) => {
+  // Session
+  const { setSession } = useSessionContext();
+
   // Theme
   const { resolvedTheme } = useTheme();
+
+  // Router
+  const router = useRouter();
 
   // Origin
   const searchParams = useSearchParams();
   const origin = searchParams.get("origin");
 
-  // useAuthForm Hook
-  const { isFormLoading, session } = useAuthForm();
+  // Loading Hook
+  const { isLoading } = useLoading();
 
-  // useAuthForm Callback
   useEffect(() => {
-    if (session)
-      Router.push(
-        `/api/auth/callback?from=sign${origin ? "&origin=" + origin : ""}`,
-      );
-
-    return () => {};
-  }, [origin, session]);
+    // Auth Change Subscription
+    const {
+      data: { subscription },
+    } = supabaseBrowserClient.auth.onAuthStateChange(async (event, session) => {
+      if (session) {
+        setSession(session);
+        router.refresh();
+        router.push(
+          `/api/auth/callback?from=sign${origin ? "&origin=" + origin : ""}`,
+        );
+      }
+    });
+    return () => {
+      // Unsubscription
+      subscription.unsubscribe();
+    };
+  }, [setSession, router, origin]);
 
   return (
     <>
-      {isFormLoading ? (
+      {isLoading ? (
         <div className="my-2 flex flex-1 flex-col items-center space-y-6 md:my-3 lg:my-4">
           <Skeleton className="h-12 w-full" />
           <Separator orientation="horizontal" />
@@ -57,9 +73,9 @@ const SignForm = (props: Props) => {
             prompt: "consent",
             // hd: "domain.com",
           }}
-          redirectTo={`/api/auth/callback?from=sign${
-            origin ? "&origin=" + origin : ""
-          }`}
+          redirectTo={absoluteUrl(
+            `/api/auth/callback?from=sign${origin ? "&origin=" + origin : ""}`,
+          )}
         />
       )}
     </>

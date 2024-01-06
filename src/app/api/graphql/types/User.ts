@@ -88,7 +88,11 @@ builder.mutationField("registerUser", (t) =>
         await ctx
       ).supabase?.auth.updateUser({
         email: args.email,
-        data: { name: args.name, phone: args.phone, role: args.role },
+        data: {
+          name: args.name,
+          phone: args.phone,
+          role: args.role,
+        },
       });
 
       if (!userPrisma || !userSupabase)
