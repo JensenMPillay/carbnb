@@ -9,6 +9,7 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import type { NextFontWithVariable } from "next/dist/compiled/@next/font";
+import { SessionContextProvider } from "../context/SessionContext";
 
 const inter: NextFontWithVariable = Raleway({
   subsets: ["latin"],
@@ -17,6 +18,10 @@ const inter: NextFontWithVariable = Raleway({
 });
 
 export const metadata: Metadata = constructMetadata();
+
+// export const dynamic = "force-dynamic";
+
+// export const revalidate = 0;
 
 export default function RootLayout({
   children,
@@ -33,10 +38,12 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Navbar />
-            {children}
-            <Footer />
-            <Toaster />
+            <SessionContextProvider>
+              <Navbar />
+              {children}
+              <Footer />
+              <Toaster />
+            </SessionContextProvider>
           </ThemeProvider>
         </ApolloWrapper>
       </body>
