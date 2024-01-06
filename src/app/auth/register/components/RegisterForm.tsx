@@ -9,9 +9,9 @@ import {
   FormMessage,
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/src/components/ui/radio-group";
 import { Separator } from "@/src/components/ui/separator";
 import { Skeleton } from "@/src/components/ui/skeleton";
+import { ToggleGroup, ToggleGroupItem } from "@/src/components/ui/toggle-group";
 import { useSessionContext } from "@/src/context/SessionContext";
 import useLoading from "@/src/hooks/useLoading";
 import { REGISTER_USER_MUTATION } from "@/src/lib/apollo/user";
@@ -183,25 +183,24 @@ const RegisterForm = ({ user }: RegisterFormProps) => {
                 <FormItem className="mx-auto my-2 w-3/4 md:my-4 lg:my-6">
                   <FormLabel>Role</FormLabel>
                   <FormControl>
-                    <RadioGroup
+                    <ToggleGroup
+                      type="single"
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex justify-around"
                     >
                       {Object.entries(roles).map(([key, value]) => {
                         return (
-                          <FormItem
-                            key={key}
-                            className="flex items-center space-x-3 space-y-0"
-                          >
+                          <FormItem key={key}>
                             <FormControl>
-                              <RadioGroupItem value={value} />
+                              <ToggleGroupItem value={value} aria-label={value}>
+                                {value}
+                              </ToggleGroupItem>
                             </FormControl>
-                            <FormLabel className="font-normal">{key}</FormLabel>
                           </FormItem>
                         );
                       })}
-                    </RadioGroup>
+                    </ToggleGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
