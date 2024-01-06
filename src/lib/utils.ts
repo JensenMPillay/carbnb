@@ -50,7 +50,6 @@ export function constructMetadata({
     },
     icons,
     metadataBase: new URL(absoluteUrl("/")),
-    themeColor: "#FFF",
     ...(noIndex && {
       robots: {
         index: false,
