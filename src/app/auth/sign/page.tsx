@@ -1,4 +1,4 @@
-import AuthContainer from "@/src/components/AuthContainer";
+import AuthContainer from "@/src/app/auth/components/AuthContainer";
 import { constructMetadata } from "@/src/lib/utils";
 import SignForm from "./components/SignForm";
 
@@ -7,7 +7,7 @@ export const metadata = constructMetadata({
   description: "Join us or sign in to your account",
 });
 
-export default function Page() {
+export default function Sign() {
   return (
     <AuthContainer
       title="User Hub"
