@@ -63,7 +63,7 @@ const RegisterForm = ({ user }: RegisterFormProps) => {
       } = await supabaseBrowserClient.auth.getSession();
       setSession(sessionData);
       router.refresh();
-      router.replace("/");
+      router.replace("/dashboard");
     },
     onError: async (error) => {
       showErrorNotif({
