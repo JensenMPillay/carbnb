@@ -1,6 +1,23 @@
 import { gql } from "@apollo/client";
 
-// Définition de la mutation GraphQL
+// GET_USER_QUERY
+export const GET_USER_QUERY = gql`
+  query GetUser {
+    getUser {
+      id
+      email
+      emailVerified
+      role
+      name
+      phone
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+// REGISTER_USER_MUTATION
 export const REGISTER_USER_MUTATION = gql`
   mutation RegisterUser(
     $email: String!
@@ -9,10 +26,53 @@ export const REGISTER_USER_MUTATION = gql`
     $role: Role!
   ) {
     registerUser(email: $email, name: $name, phone: $phone, role: $role) {
+      id
       email
+      emailVerified
+      role
       name
       phone
+      image
+      createdAt
+    }
+  }
+`;
+
+// UPDATE_USER_MUTATION
+export const UPDATE_USER_MUTATION = gql`
+  mutation UpdateUser(
+    $email: String
+    $password: String
+    $name: String
+    $phone: String
+  ) {
+    updateUser(email: $email, password: $password, name: $name, phone: $phone) {
+      id
+      email
+      emailVerified
       role
+      name
+      phone
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+// DELETE_USER_MUTATION
+export const DELETE_USER_MUTATION = gql`
+  mutation DeleteUser {
+    deleteUser {
+      id
+      email
+      emailVerified
+      role
+      name
+      phone
+      image
+      createdAt
+      updatedAt
     }
   }
 `;
