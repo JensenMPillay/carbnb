@@ -10,10 +10,10 @@ export default function Home() {
     // Background
     <main className="flex h-[calc(100vh-9rem)] flex-col overflow-auto bg-cover bg-center md:flex-row">
       <Header />
-      <div className="flex max-h-fit w-full flex-1 flex-col items-center justify-center">
+      <section className="flex max-h-fit w-full flex-1 flex-col items-center justify-center">
         <SearchForm />
         <RandomSVGComponent className="w-3/4 lg:w-1/2" />
-      </div>
+      </section>
     </main>
   );
 }
