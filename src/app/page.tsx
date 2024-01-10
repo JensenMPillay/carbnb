@@ -1,6 +1,6 @@
-import backgroundImage from "@/public/carbnb-bg.jpg";
 import Header from "../components/Header";
 import SearchForm from "../components/SearchForm";
+import { RandomSVGComponent } from "../components/VectorImages";
 import { constructMetadata } from "../lib/utils";
 
 export const metadata = constructMetadata();
@@ -8,18 +8,11 @@ export const metadata = constructMetadata();
 export default function Home() {
   return (
     // Background
-    <main
-      className="relative flex h-[calc(100vh-9rem)] bg-cover bg-center"
-      style={{ backgroundImage: `url(${backgroundImage.src})` }}
-    >
-      {/* Gradient Layout  */}
-      <div className="absolute inset-0 h-full w-full bg-gradientLayout" />
-      {/* Content  */}
-      <div className="z-10 flex h-full w-full flex-col items-center">
-        <Header />
-        <div className="flex flex-1 items-center justify-center">
-          <SearchForm />
-        </div>
+    <main className="flex h-[calc(100vh-9rem)] flex-col overflow-auto bg-cover bg-center md:flex-row">
+      <Header />
+      <div className="flex max-h-fit w-full flex-1 flex-col items-center justify-center">
+        <SearchForm />
+        <RandomSVGComponent className="w-3/4 lg:w-1/2" />
       </div>
     </main>
   );

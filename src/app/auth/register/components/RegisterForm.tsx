@@ -48,11 +48,13 @@ const RegisterForm = ({ user }: RegisterFormProps) => {
   // Loading Hook
   const { isLoading } = useLoading();
 
+  // Form
   const registerForm = useForm<RegisterUserSchemaType>({
     resolver: zodResolver(registerUserSchema),
     defaultValues: { email: "", name: "", phone: "", role: "" },
   });
 
+  // Mutation
   const [registerUser] = useMutation(REGISTER_USER_MUTATION, {
     onCompleted: async (data) => {
       showNotif({
@@ -89,7 +91,7 @@ const RegisterForm = ({ user }: RegisterFormProps) => {
     }
   };
 
-  // useAuthForm Callback
+  // Prefill Form
   useEffect(() => {
     registerForm.reset({
       email: user?.email ?? "",
@@ -193,7 +195,11 @@ const RegisterForm = ({ user }: RegisterFormProps) => {
                         return (
                           <FormItem key={key}>
                             <FormControl>
-                              <ToggleGroupItem value={value} aria-label={value}>
+                              <ToggleGroupItem
+                                value={value}
+                                aria-label={value}
+                                variant={"outline"}
+                              >
                                 {value}
                               </ToggleGroupItem>
                             </FormControl>

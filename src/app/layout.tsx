@@ -39,10 +39,12 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <SessionContextProvider>
-              <Navbar />
-              {children}
-              <Footer />
-              <Toaster />
+              <div className="bg-gradient-animation bg-300 min-h-screen w-full">
+                <Navbar />
+                {children}
+                <Footer />
+                <Toaster />
+              </div>
             </SessionContextProvider>
           </ThemeProvider>
         </ApolloWrapper>
