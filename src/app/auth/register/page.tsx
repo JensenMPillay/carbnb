@@ -1,4 +1,9 @@
-import AuthContainer from "@/src/app/auth/components/AuthContainer";
+import {
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/src/components/ui/card";
 import { supabaseServerClient } from "@/src/lib/supabase/supabase-server-client";
 import { constructMetadata } from "@/src/lib/utils";
 import { redirect } from "next/navigation";
@@ -22,11 +27,16 @@ export default async function Register({}: Props) {
   if (!user || user.user_metadata.name) return redirect("/");
 
   return (
-    <AuthContainer
-      title="Almost there !"
-      description="Complete your registration in just a few more steps"
-    >
-      <RegisterForm user={user} />
-    </AuthContainer>
+    <>
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-center text-2xl">Almost there !</CardTitle>
+        <CardDescription className="text-center">
+          Complete your registration in just a few more steps
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <RegisterForm user={user} />
+      </CardContent>
+    </>
   );
 }
