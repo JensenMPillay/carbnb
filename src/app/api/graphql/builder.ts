@@ -1,6 +1,6 @@
 import PrismaTypes from "@/prisma/pothos-types";
 import prisma from "@/prisma/prisma";
-import { supabaseContext } from "@/src/context/graphql";
+import { supabaseContext } from "@/src/context/supabaseContext";
 import SchemaBuilder from "@pothos/core";
 import PrismaPlugin from "@pothos/plugin-prisma";
 import RelayPlugin from "@pothos/plugin-relay";

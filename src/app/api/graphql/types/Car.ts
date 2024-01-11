@@ -201,7 +201,7 @@ builder.mutationField("updateCar", (t) =>
 );
 
 // POST Route
-builder.mutationField("deleteUser", (t) =>
+builder.mutationField("deleteCar", (t) =>
   t.prismaField({
     type: "Car",
     args: {
