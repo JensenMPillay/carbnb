@@ -12,7 +12,6 @@ import { Input } from "@/src/components/ui/input";
 import { Separator } from "@/src/components/ui/separator";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import { ToggleGroup, ToggleGroupItem } from "@/src/components/ui/toggle-group";
-import { useSessionContext } from "@/src/context/SessionContext";
 import useLoading from "@/src/hooks/useLoading";
 import { REGISTER_USER_MUTATION } from "@/src/lib/apollo/user";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
@@ -20,7 +19,7 @@ import {
   RegisterUserSchemaType,
   registerUserSchema,
 } from "@/src/lib/schemas/RegisterUserSchema";
-import { supabaseBrowserClient } from "@/src/lib/supabase/supabase-browser-client";
+import useSessionStore from "@/src/store/useSessionStore";
 import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@supabase/supabase-js";
@@ -40,7 +39,7 @@ const RegisterForm = ({ user }: RegisterFormProps) => {
   }
 
   // Session
-  const { setSession } = useSessionContext();
+  const { syncSession } = useSessionStore();
 
   // Router
   const router = useRouter();
@@ -60,10 +59,7 @@ const RegisterForm = ({ user }: RegisterFormProps) => {
       showNotif({
         description: "You'll be redirected shortly!",
       });
-      const {
-        data: { session: sessionData },
-      } = await supabaseBrowserClient.auth.getSession();
-      setSession(sessionData);
+      await syncSession();
       router.refresh();
       router.replace("/dashboard");
     },

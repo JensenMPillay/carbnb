@@ -7,7 +7,8 @@ import {
 } from "@/src/components/ui/tooltip";
 import { PersonIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { useSessionContext } from "../context/SessionContext";
+import useSessionStore from "../store/useSessionStore";
+import useStore from "../store/useStore";
 import Logo from "./Logo";
 import { ModeToggle } from "./ModeToggle";
 import UserAccountNav from "./UserAccountNav";
@@ -16,7 +17,8 @@ import { Button } from "./ui/button";
 type Props = {};
 
 const Navbar = (props: Props) => {
-  const { session } = useSessionContext();
+  // Access to Store Data after Rendering (SSR Behavior)
+  const session = useStore(useSessionStore, (state) => state.session);
 
   return (
     <nav className="flex h-24 w-full flex-row items-center justify-between px-4">

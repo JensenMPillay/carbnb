@@ -1,11 +1,11 @@
 "use client";
 import { Separator } from "@/src/components/ui/separator";
 import { Skeleton } from "@/src/components/ui/skeleton";
-import { useSessionContext } from "@/src/context/SessionContext";
 import useLoading from "@/src/hooks/useLoading";
 import { customTheme } from "@/src/lib/auth-ui/customTheme";
 import { supabaseBrowserClient } from "@/src/lib/supabase/supabase-browser-client";
 import { absoluteUrl } from "@/src/lib/utils";
+import useSessionStore from "@/src/store/useSessionStore";
 import { Auth } from "@supabase/auth-ui-react";
 import { useTheme } from "next-themes";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -15,7 +15,7 @@ type Props = {};
 
 const SignForm = (props: Props) => {
   // Session
-  const { setSession } = useSessionContext();
+  const { syncSession } = useSessionStore();
 
   // Theme
   const { resolvedTheme } = useTheme();
@@ -36,7 +36,7 @@ const SignForm = (props: Props) => {
       data: { subscription },
     } = supabaseBrowserClient.auth.onAuthStateChange(async (event, session) => {
       if (session) {
-        setSession(session);
+        await syncSession();
         router.refresh();
         router.push(
           `/api/auth/callback?from=sign${origin ? "&origin=" + origin : ""}`,
@@ -47,7 +47,7 @@ const SignForm = (props: Props) => {
       // Unsubscription
       subscription.unsubscribe();
     };
-  }, [setSession, router, origin]);
+  }, [syncSession, router, origin]);
 
   return (
     <>

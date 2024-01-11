@@ -4,8 +4,8 @@ import { User } from "@supabase/supabase-js";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useSessionContext } from "../context/SessionContext";
 import { supabaseBrowserClient } from "../lib/supabase/supabase-browser-client";
+import useSessionStore from "../store/useSessionStore";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Button } from "./ui/button";
 import {
@@ -22,7 +22,7 @@ type UserAccountNavProps = {
 
 const UserAccountNav = ({ user }: UserAccountNavProps) => {
   // Session
-  const { setSession } = useSessionContext();
+  const { syncSession } = useSessionStore();
 
   // Router
   const router = useRouter();
@@ -78,7 +78,7 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
             size="lg"
             onClick={async () => {
               await supabaseBrowserClient.auth.signOut();
-              setSession(null);
+              await syncSession();
               router.refresh();
               router.push("/");
             }}

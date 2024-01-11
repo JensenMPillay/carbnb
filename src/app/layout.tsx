@@ -9,7 +9,6 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import type { NextFontWithVariable } from "next/dist/compiled/@next/font";
-import { SessionContextProvider } from "../context/SessionContext";
 
 const inter: NextFontWithVariable = Raleway({
   subsets: ["latin"],
@@ -38,14 +37,12 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <SessionContextProvider>
-              <div className="bg-gradient-animation bg-300 min-h-screen w-full">
-                <Navbar />
-                {children}
-                <Footer />
-                <Toaster />
-              </div>
-            </SessionContextProvider>
+            <div className="bg-gradient-animation min-h-screen w-full bg-300">
+              <Navbar />
+              {children}
+              <Footer />
+              <Toaster />
+            </div>
           </ThemeProvider>
         </ApolloWrapper>
       </body>
