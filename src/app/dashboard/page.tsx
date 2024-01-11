@@ -1,3 +1,5 @@
+import { Input } from "@/src/components/ui/input";
+import { Separator } from "@/src/components/ui/separator";
 import {
   Tabs,
   TabsContent,
@@ -5,7 +7,6 @@ import {
   TabsTrigger,
 } from "@/src/components/ui/tabs";
 import { constructMetadata } from "@/src/lib/utils";
-import DashboardContainer from "./components/DashboardContainer";
 
 export const metadata = constructMetadata({
   title: "Carbnb | Dashboard",
@@ -14,17 +15,35 @@ export const metadata = constructMetadata({
 
 export default function Dashboard() {
   return (
-    <DashboardContainer>
-      <Tabs defaultValue="account" className="w-[400px]">
-        <TabsList>
-          <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
+    <Tabs defaultValue="all">
+      <div className="flex items-center px-4 py-2">
+        <h1 className="text-xl font-bold">Inbox</h1>
+        <TabsList className="ml-auto">
+          <TabsTrigger value="all" className="text-zinc-600 dark:text-zinc-200">
+            All mail
+          </TabsTrigger>
+          <TabsTrigger
+            value="unread"
+            className="text-zinc-600 dark:text-zinc-200"
+          >
+            Unread
+          </TabsTrigger>
         </TabsList>
-        <TabsContent value="account">
-          Make changes to your account here.
-        </TabsContent>
-        <TabsContent value="password">Change your password here.</TabsContent>
-      </Tabs>
-    </DashboardContainer>
+      </div>
+      <Separator />
+      <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <form>
+          <div className="relative">
+            <Input placeholder="Search" className="pl-8" />
+          </div>
+        </form>
+      </div>
+      <TabsContent value="all" className="m-0">
+        <div className="h-full w-full bg-red-700">ALL</div>
+      </TabsContent>
+      <TabsContent value="unread" className="m-0">
+        <div className="h-full w-full bg-green-700">UNREAD</div>
+      </TabsContent>
+    </Tabs>
   );
 }
