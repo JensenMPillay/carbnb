@@ -1,4 +1,4 @@
-import { supabaseContext } from "@/src/context/graphql";
+import { supabaseContext } from "@/src/context/supabaseContext";
 import { createYoga } from "graphql-yoga";
 import { NextApiRequest, NextApiResponse } from "next";
 import { schema } from "./schema";
