@@ -68,7 +68,6 @@ const RegisterForm = ({ user }: RegisterFormProps) => {
         description: error.message,
       });
       console.error("Mutation Error : ", error);
-      // Gérer l'erreur de la mutation
     },
   });
 

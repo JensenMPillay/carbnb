@@ -3,8 +3,8 @@ import { Separator } from "@/src/components/ui/separator";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import useLoading from "@/src/hooks/useLoading";
 import { customTheme } from "@/src/lib/auth-ui/customTheme";
+import { showNotif } from "@/src/lib/notifications/toasters";
 import { supabaseBrowserClient } from "@/src/lib/supabase/supabase-browser-client";
-import { absoluteUrl } from "@/src/lib/utils";
 import useSessionStore from "@/src/store/useSessionStore";
 import { Auth } from "@supabase/auth-ui-react";
 import { useTheme } from "next-themes";
@@ -36,6 +36,9 @@ const SignForm = (props: Props) => {
       data: { subscription },
     } = supabaseBrowserClient.auth.onAuthStateChange(async (event, session) => {
       if (session) {
+        showNotif({
+          description: "You'll be redirected shortly!",
+        });
         await syncSession();
         router.refresh();
         router.push(
@@ -73,9 +76,6 @@ const SignForm = (props: Props) => {
             prompt: "consent",
             // hd: "domain.com",
           }}
-          redirectTo={absoluteUrl(
-            `/api/auth/callback?from=sign${origin ? "&origin=" + origin : ""}`,
-          )}
         />
       )}
     </>
