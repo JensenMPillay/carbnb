@@ -21,6 +21,7 @@ builder.prismaObject("User", {
     cars: t.relation("cars"),
     bookings: t.relation("bookings"),
     createdAt: t.expose("createdAt", { type: "Date" }),
+    updatedAt: t.expose("updatedAt", { type: "Date" }),
   }),
 });
 
@@ -78,16 +79,23 @@ builder.mutationField("registerUser", (t) =>
         data: {
           id: (await ctx).user?.id,
           email: args.email,
+          emailVerified: new Date(),
           name: args.name,
           phone: args.phone,
           role: args.role,
         },
       });
 
+      const userSupabaseAdmin = await (
+        await ctx
+      ).supabase?.auth.admin.updateUserById((await ctx).user?.id!, {
+        email: args.email,
+        email_confirm: true,
+      });
+
       const userSupabase = await (
         await ctx
       ).supabase?.auth.updateUser({
-        email: args.email,
         data: {
           name: args.name,
           phone: args.phone,
@@ -95,7 +103,7 @@ builder.mutationField("registerUser", (t) =>
         },
       });
 
-      if (!userPrisma || !userSupabase)
+      if (!userPrisma || userSupabaseAdmin?.error || userSupabase?.error)
         throw createGraphQLError(
           "An error occurred while updating the user information.",
         );
@@ -142,15 +150,20 @@ builder.mutationField("updateUser", (t) =>
         },
       });
 
+      const userSupabaseAdmin = await (
+        await ctx
+      ).supabase?.auth.admin.updateUserById((await ctx).user?.id!, {
+        email: args.email ?? undefined,
+        password: args.password ?? undefined,
+      });
+
       const userSupabase = await (
         await ctx
       ).supabase?.auth.updateUser({
-        email: args.email ?? undefined,
-        password: args.password ?? undefined,
         data: { name: args.name ?? undefined, phone: args.phone ?? undefined },
       });
 
-      if (!userPrisma || !userSupabase)
+      if (!userPrisma || userSupabaseAdmin?.error || userSupabase?.error)
         throw createGraphQLError(
           "An error occurred while updating the user information.",
         );
@@ -186,7 +199,11 @@ builder.mutationField("deleteUser", (t) =>
         },
       });
 
-      if (!userPrisma)
+      const userSupabaseAdmin = await (
+        await ctx
+      ).supabase?.auth.admin.deleteUser((await ctx).user?.id!);
+
+      if (!userPrisma || userSupabaseAdmin?.error)
         throw createGraphQLError("An error occurred while deleting the user.");
 
       return userPrisma;

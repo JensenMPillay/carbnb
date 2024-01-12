@@ -35,7 +35,7 @@ export default async function Register({}: Props) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <RegisterForm user={user} />
+        <RegisterForm />
       </CardContent>
     </>
   );

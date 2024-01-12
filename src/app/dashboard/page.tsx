@@ -1,4 +1,4 @@
-import { Input } from "@/src/components/ui/input";
+import { CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
 import { Separator } from "@/src/components/ui/separator";
 import {
   Tabs,
@@ -6,44 +6,62 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/src/components/ui/tabs";
+import { supabaseServerClient } from "@/src/lib/supabase/supabase-server-client";
 import { constructMetadata } from "@/src/lib/utils";
+import { redirect } from "next/navigation";
+import DeleteUserButton from "./components/DeleteUserButton";
+import UpdateUserForm from "./components/UpdateUserForm";
+import UserBookings from "./components/UserBookings";
+import UserCars from "./components/UserCars";
 
 export const metadata = constructMetadata({
   title: "Carbnb | Dashboard",
   description: "Manage your car rental listings and bookings on Carbnb",
 });
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const {
+    data: { session },
+    error,
+  } = await supabaseServerClient.auth.getSession();
+
+  const user = session?.user;
+
+  if (!user || !user.user_metadata.name) return redirect("/");
+
   return (
-    <Tabs defaultValue="all">
-      <div className="flex items-center px-4 py-2">
-        <h1 className="text-xl font-bold">Inbox</h1>
-        <TabsList className="ml-auto">
-          <TabsTrigger value="all" className="text-zinc-600 dark:text-zinc-200">
-            All mail
+    <Tabs className="flex h-full w-full flex-col" defaultValue="profile">
+      <CardHeader className="flex w-full p-2 md:p-3 lg:p-4">
+        <CardTitle className="text-xl font-bold">Dashboard</CardTitle>
+      </CardHeader>
+      <Separator orientation="horizontal" />
+      <CardContent className="flex flex-1 flex-col p-0 lg:flex-row">
+        <TabsList className="flex h-fit w-full justify-start rounded-none lg:h-full lg:w-fit lg:flex-col ">
+          <TabsTrigger value="profile" className="">
+            Profile
           </TabsTrigger>
-          <TabsTrigger
-            value="unread"
-            className="text-zinc-600 dark:text-zinc-200"
-          >
-            Unread
+          <TabsTrigger value="cars" className="">
+            Cars
+          </TabsTrigger>
+          <TabsTrigger value="bookings" className="">
+            Booking
           </TabsTrigger>
         </TabsList>
-      </div>
-      <Separator />
-      <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <form>
-          <div className="relative">
-            <Input placeholder="Search" className="pl-8" />
-          </div>
-        </form>
-      </div>
-      <TabsContent value="all" className="m-0">
-        <div className="h-full w-full bg-red-700">ALL</div>
-      </TabsContent>
-      <TabsContent value="unread" className="m-0">
-        <div className="h-full w-full bg-green-700">UNREAD</div>
-      </TabsContent>
+        <Separator orientation="horizontal" className="block lg:hidden" />
+        <Separator orientation="vertical" className="hidden lg:block" />
+        <TabsContent value="profile" className="mt-0 flex-1">
+          <UpdateUserForm />
+          <Separator orientation="horizontal" />
+          <DeleteUserButton />
+        </TabsContent>
+        <TabsContent value="cars" className="mt-0 flex-1">
+          <UserCars />
+        </TabsContent>
+        <TabsContent value="bookings" className="mt-0 flex-1">
+          <UserBookings />
+        </TabsContent>
+      </CardContent>
+      <Separator orientation="horizontal" />
     </Tabs>
   );
 }

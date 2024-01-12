@@ -33,6 +33,7 @@ builder.prismaObject("Car", {
     location: t.relation("Location"),
     bookings: t.relation("bookings"),
     createdAt: t.expose("createdAt", { type: "Date" }),
+    updatedAt: t.expose("updatedAt", { type: "Date" }),
   }),
 });
 

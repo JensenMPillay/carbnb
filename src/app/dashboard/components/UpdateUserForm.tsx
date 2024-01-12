@@ -11,31 +11,25 @@ import {
 import { Input } from "@/src/components/ui/input";
 import { Separator } from "@/src/components/ui/separator";
 import { Skeleton } from "@/src/components/ui/skeleton";
-import { ToggleGroup, ToggleGroupItem } from "@/src/components/ui/toggle-group";
 import useLoading from "@/src/hooks/useLoading";
-import { REGISTER_USER_MUTATION } from "@/src/lib/apollo/user";
+import { UPDATE_USER_MUTATION } from "@/src/lib/apollo/user";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
 import {
-  RegisterUserSchemaType,
-  registerUserSchema,
-} from "@/src/lib/schemas/RegisterUserSchema";
+  UpdateUserSchemaType,
+  updateUserSchema,
+} from "@/src/lib/schemas/UpdateUserSchema";
+import { cn } from "@/src/lib/utils";
 import useSessionStore from "@/src/store/useSessionStore";
 import useStore from "@/src/store/useStore";
 import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type Props = {};
 
-const RegisterForm = (props: Props) => {
-  enum roles {
-    LENDER = "LENDER",
-    RENTER = "RENTER",
-  }
-
+const UpdateUserForm = ({}: Props) => {
   // Session
   const { syncSession } = useSessionStore();
 
@@ -52,20 +46,19 @@ const RegisterForm = (props: Props) => {
   const { isLoading } = useLoading();
 
   // Form
-  const registerForm = useForm<RegisterUserSchemaType>({
-    resolver: zodResolver(registerUserSchema),
-    defaultValues: { email: "", name: "", phone: "", role: "" },
+  const updateUserForm = useForm<UpdateUserSchemaType>({
+    resolver: zodResolver(updateUserSchema),
+    defaultValues: { email: "", name: "", phone: "" },
   });
 
-  // Mutation
-  const [registerUser] = useMutation(REGISTER_USER_MUTATION, {
+  // Update Mutation
+  const [updateUser] = useMutation(UPDATE_USER_MUTATION, {
     onCompleted: async (data) => {
       showNotif({
-        description: "You'll be redirected shortly!",
+        description: "User Info has been updated successfully!",
       });
       await syncSession();
       router.refresh();
-      router.replace("/dashboard");
     },
     onError: async (error) => {
       showErrorNotif({
@@ -76,13 +69,10 @@ const RegisterForm = (props: Props) => {
   });
 
   // onSubmit Callback
-  const onSubmit: SubmitHandler<RegisterUserSchemaType> = async (
-    data,
-    event,
-  ) => {
+  const onSubmit: SubmitHandler<UpdateUserSchemaType> = async (data, event) => {
     event?.preventDefault();
     try {
-      await registerUser({
+      await updateUser({
         variables: data,
       });
     } catch (error) {
@@ -92,14 +82,13 @@ const RegisterForm = (props: Props) => {
 
   // Prefill Form
   useEffect(() => {
-    registerForm.reset({
+    updateUserForm.reset({
       email: user?.email ?? "",
-      name: user?.user_metadata?.full_name ?? "",
-      phone: user?.phone ?? "",
-      role: "",
+      name: user?.user_metadata?.name ?? "",
+      phone: user?.user_metadata?.phone ?? "",
     });
     return () => {};
-  }, [user, registerForm]);
+  }, [user, updateUserForm]);
 
   return (
     <>
@@ -108,20 +97,21 @@ const RegisterForm = (props: Props) => {
           <Skeleton className="my-2 h-10 w-full md:my-4 lg:my-6" />
           <Skeleton className="my-2 h-10 w-full md:my-4 lg:my-6" />
           <Skeleton className="my-2 h-10 w-full md:my-4 lg:my-6" />
+          <Skeleton className="my-2 h-10 w-full md:my-4 lg:my-6" />
           <Separator orientation="horizontal" className="w-full" />
-          <Skeleton className="mt-4 h-10 w-full md:mt-8 lg:mt-12" />
+          <Skeleton className="ml-auto mt-4 h-10 w-1/6 md:mt-8 lg:mt-12" />
         </div>
       ) : (
-        <Form {...registerForm}>
+        <Form {...updateUserForm}>
           <form
-            onSubmit={registerForm.handleSubmit(onSubmit)}
+            onSubmit={updateUserForm.handleSubmit(onSubmit)}
             className="space-4 mx-auto w-3/4"
           >
             <FormField
-              control={registerForm.control}
+              control={updateUserForm.control}
               name="email"
-              render={({ field }) => (
-                <FormItem className="mx-auto my-2 w-full md:my-4 lg:my-6">
+              render={({ field, fieldState }) => (
+                <FormItem className="my-2 mr-auto w-full md:my-4 md:w-1/2 lg:my-6 lg:w-1/3">
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
@@ -130,6 +120,10 @@ const RegisterForm = (props: Props) => {
                       autoCapitalize="off"
                       autoComplete="email"
                       autoCorrect="off"
+                      className={cn(
+                        "text-muted-foreground focus:text-foreground",
+                        fieldState.isTouched && "text-foreground",
+                      )}
                       {...field}
                     />
                   </FormControl>
@@ -138,10 +132,30 @@ const RegisterForm = (props: Props) => {
               )}
             />
             <FormField
-              control={registerForm.control}
-              name="name"
+              control={updateUserForm.control}
+              name="password"
               render={({ field }) => (
-                <FormItem className="mx-auto my-2 w-full md:my-4 lg:my-6">
+                <FormItem className="my-2 mr-auto w-full md:my-4 md:w-1/2 lg:my-6 lg:w-1/3">
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder=""
+                      type="password"
+                      autoCapitalize="off"
+                      autoComplete="new-password"
+                      autoCorrect="off"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={updateUserForm.control}
+              name="name"
+              render={({ field, fieldState }) => (
+                <FormItem className="my-2 mr-auto w-full md:my-4 md:w-1/2 lg:my-6 lg:w-1/3">
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
@@ -150,6 +164,10 @@ const RegisterForm = (props: Props) => {
                       autoCapitalize="on"
                       autoComplete="on"
                       autoCorrect="off"
+                      className={cn(
+                        "text-muted-foreground focus:text-foreground",
+                        fieldState.isTouched && "text-foreground",
+                      )}
                       {...field}
                     />
                   </FormControl>
@@ -158,10 +176,10 @@ const RegisterForm = (props: Props) => {
               )}
             />
             <FormField
-              control={registerForm.control}
+              control={updateUserForm.control}
               name="phone"
-              render={({ field }) => (
-                <FormItem className="mx-auto my-2 w-full md:my-4 lg:my-6">
+              render={({ field, fieldState }) => (
+                <FormItem className="my-2 mr-auto w-full md:my-4 md:w-1/2 lg:my-6 lg:w-1/3">
                   <FormLabel>Phone</FormLabel>
                   <FormControl>
                     <Input
@@ -170,6 +188,10 @@ const RegisterForm = (props: Props) => {
                       autoCapitalize="off"
                       autoComplete="true"
                       autoCorrect="off"
+                      className={cn(
+                        "text-muted-foreground focus:text-foreground",
+                        fieldState.isTouched && "text-foreground",
+                      )}
                       {...field}
                     />
                   </FormControl>
@@ -177,66 +199,16 @@ const RegisterForm = (props: Props) => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={registerForm.control}
-              name="role"
-              render={({ field }) => (
-                <FormItem className="mx-auto my-2 w-full md:my-4 lg:my-6">
-                  <FormLabel>Role</FormLabel>
-                  <FormControl>
-                    <ToggleGroup
-                      type="single"
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex justify-around"
-                    >
-                      {Object.entries(roles).map(([key, value]) => {
-                        return (
-                          <FormItem key={key}>
-                            <FormControl>
-                              <ToggleGroupItem
-                                value={value}
-                                aria-label={value}
-                                variant={"outline"}
-                              >
-                                {value}
-                              </ToggleGroupItem>
-                            </FormControl>
-                          </FormItem>
-                        );
-                      })}
-                    </ToggleGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <Separator orientation="horizontal" className="mx-auto w-full" />
-            <div className="flex flex-col items-center justify-center py-2 md:py-3 lg:py-4">
-              <p className="mx-auto my-4 text-center text-sm text-muted-foreground">
-                By clicking below, you agree to our{" "}
-                <Link
-                  href="/terms"
-                  className="underline underline-offset-4 hover:text-primary"
-                >
-                  Terms of Service
-                </Link>{" "}
-                and{" "}
-                <Link
-                  href="/privacy"
-                  className="underline underline-offset-4 hover:text-primary"
-                >
-                  Privacy Policy.
-                </Link>
-              </p>
+            <div className="flex w-full flex-col items-end justify-end py-2 md:py-3 lg:py-4">
               <Button
                 className={buttonVariants({
-                  className: "my-2 w-full",
-                  variant: "default",
+                  className: "my-2",
+                  variant: "secondary",
                 })}
                 type="submit"
               >
-                Register
+                Save Changes
               </Button>
             </div>
           </form>
@@ -246,4 +218,4 @@ const RegisterForm = (props: Props) => {
   );
 };
 
-export default RegisterForm;
+export default UpdateUserForm;
