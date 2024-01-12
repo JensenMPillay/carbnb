@@ -91,7 +91,7 @@ enum FuelType {
 model Car {
   id            Int         @id @default(autoincrement())
   category      Category   
-  brand          String
+  brand         String
   model         String
   year          Int?
   transmission  Transmission
