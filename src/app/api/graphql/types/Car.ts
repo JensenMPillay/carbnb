@@ -23,6 +23,7 @@ builder.prismaObject("Car", {
   fields: (t) => ({
     id: t.exposeID("id"),
     category: t.expose("category", { type: Category }),
+    brand: t.exposeString("brand"),
     model: t.exposeString("model"),
     year: t.exposeInt("year", { nullable: true }),
     transmission: t.expose("transmission", { type: Transmission }),
@@ -70,6 +71,7 @@ builder.mutationField("registerCar", (t) =>
     type: "Car",
     args: {
       category: t.arg({ type: Category, required: true }),
+      brand: t.arg.string({ required: true }),
       model: t.arg.string({ required: true }),
       year: t.arg.int({ required: false }),
       transmission: t.arg({ type: Transmission, required: true }),
@@ -105,6 +107,7 @@ builder.mutationField("registerCar", (t) =>
         ...query,
         data: {
           category: args.category,
+          brand: args.brand,
           model: args.model,
           year: args.year ?? undefined,
           transmission: args.transmission,
@@ -133,6 +136,7 @@ builder.mutationField("updateCar", (t) =>
     args: {
       id: t.arg.int({ required: true }),
       category: t.arg({ type: Category, required: false }),
+      brand: t.arg.string({ required: false }),
       model: t.arg.string({ required: false }),
       year: t.arg.int({ required: false }),
       transmission: t.arg({ type: Transmission, required: false }),
@@ -180,6 +184,7 @@ builder.mutationField("updateCar", (t) =>
         },
         data: {
           category: args.category ?? undefined,
+          brand: args.brand ?? undefined,
           model: args.model ?? undefined,
           year: args.year ?? undefined,
           transmission: args.transmission ?? undefined,

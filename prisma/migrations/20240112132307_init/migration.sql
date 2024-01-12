@@ -1,6 +1,3 @@
--- CreateSchema
-CREATE SCHEMA IF NOT EXISTS "public";
-
 -- CreateExtension
 CREATE EXTENSION IF NOT EXISTS "hstore";
 
@@ -27,7 +24,7 @@ CREATE TYPE "public"."PaymentStatus" AS ENUM ('PENDING', 'PROCESSING', 'SUCCEEDE
 
 -- CreateTable
 CREATE TABLE "public"."User" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "email" TEXT NOT NULL,
     "emailVerified" TIMESTAMP(3),
     "stripeCustomerId" TEXT,
@@ -44,7 +41,7 @@ CREATE TABLE "public"."User" (
 -- CreateTable
 CREATE TABLE "public"."Session" (
     "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "userId" UUID NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL,
     "sessionToken" TEXT NOT NULL,
     "accessToken" TEXT NOT NULL,
@@ -58,13 +55,14 @@ CREATE TABLE "public"."Session" (
 CREATE TABLE "public"."Car" (
     "id" SERIAL NOT NULL,
     "category" "public"."Category" NOT NULL,
+    "brand" TEXT NOT NULL,
     "model" TEXT NOT NULL,
     "year" INTEGER,
     "transmission" "public"."Transmission" NOT NULL,
     "fuelType" "public"."FuelType" NOT NULL,
     "pricePerDay" DOUBLE PRECISION NOT NULL,
     "available" BOOLEAN NOT NULL,
-    "userId" TEXT NOT NULL,
+    "userId" UUID NOT NULL,
     "locationId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -80,7 +78,7 @@ CREATE TABLE "public"."Booking" (
     "totalPrice" DOUBLE PRECISION NOT NULL,
     "paymentStatus" "public"."PaymentStatus" NOT NULL,
     "stripePaymentId" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "userId" UUID NOT NULL,
     "carId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -155,4 +153,3 @@ ALTER TABLE "public"."Booking" ADD CONSTRAINT "Booking_userId_fkey" FOREIGN KEY 
 
 -- AddForeignKey
 ALTER TABLE "public"."Booking" ADD CONSTRAINT "Booking_carId_fkey" FOREIGN KEY ("carId") REFERENCES "public"."Car"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-

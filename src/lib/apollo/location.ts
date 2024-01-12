@@ -12,6 +12,7 @@ export const GET_LOCATION_QUERY = gql`
       country
       cars {
         category
+        brand
         model
         year
         transmission

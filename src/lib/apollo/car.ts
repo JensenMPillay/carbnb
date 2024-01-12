@@ -6,6 +6,7 @@ export const GET_CAR_QUERY = gql`
     getCar(id: $id) {
       id
       category
+      brand
       model
       year
       transmission
@@ -37,6 +38,7 @@ export const GET_CAR_QUERY = gql`
 export const REGISTER_CAR_MUTATION = gql`
   mutation RegisterCar(
     $category: Category!
+    $brand: String!
     $model: String!
     $year: Int
     $transmission: Transmission!
@@ -46,6 +48,7 @@ export const REGISTER_CAR_MUTATION = gql`
   ) {
     registerCar(
       category: $category
+      brand: $brand
       model: $model
       year: $year
       transmission: $transmission
@@ -55,6 +58,7 @@ export const REGISTER_CAR_MUTATION = gql`
     ) {
       id
       category
+      brand
       model
       year
       transmission
@@ -86,6 +90,7 @@ export const UPDATE_CAR_MUTATION = gql`
   mutation UpdateCar(
     $id: Int!
     $category: Category
+    $brand: String
     $model: String
     $year: Int
     $transmission: Transmission
@@ -97,6 +102,7 @@ export const UPDATE_CAR_MUTATION = gql`
     updateCar(
       id: $id
       category: $category
+      brand: $brand
       model: $model
       year: $year
       transmission: $transmission
@@ -107,6 +113,7 @@ export const UPDATE_CAR_MUTATION = gql`
     ) {
       id
       category
+      brand
       model
       year
       transmission
@@ -140,6 +147,7 @@ export const DELETE_CAR_MUTATION = gql`
     deleteCar(id: $id) {
       id
       category
+      brand
       model
       year
       transmission
