@@ -8,7 +8,7 @@ export default function AuthLayout({
 }) {
   return (
     // Main
-    <main className="flex h-[calc(100vh-9rem)] flex-row overflow-auto">
+    <main className="flex h-[calc(100vh-9rem)] flex-row">
       {/* Image  */}
       <aside className="relative hidden h-auto flex-1 md:flex">
         <RandomSVGComponent className="w-full" />
