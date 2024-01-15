@@ -1,3 +1,5 @@
+CREATE SCHEMA IF NOT EXISTS extensions;
+
 -- CreateExtension
 CREATE EXTENSION IF NOT EXISTS "hstore";
 
@@ -6,6 +8,38 @@ CREATE EXTENSION IF NOT EXISTS "pg_trgm";
 
 -- CreateExtension
 CREATE EXTENSION IF NOT EXISTS "postgis";
+
+CREATE SCHEMA IF NOT EXISTS graphql;
+
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "pg_graphql" WITH SCHEMA "graphql" VERSION "1.4.2";
+
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "pg_stat_statements" WITH SCHEMA "extensions" VERSION "1.10";
+
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "pgcrypto" WITH SCHEMA "extensions" VERSION "1.3";
+
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "pgjwt" WITH SCHEMA "extensions" VERSION "0.2.0";
+
+CREATE SCHEMA IF NOT EXISTS pgsodium;
+
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "pgsodium" WITH SCHEMA "pgsodium" VERSION "3.1.8";
+
+-- CREATE SCHEMA IF NOT EXISTS pg_catalog;
+
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "plpgsql" WITH SCHEMA "pg_catalog" VERSION "1.0";
+
+CREATE SCHEMA IF NOT EXISTS vault;
+
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "supabase_vault" WITH SCHEMA "vault" VERSION "0.2.8";
+
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions" VERSION "1.1";
 
 -- CreateEnum
 CREATE TYPE "public"."Role" AS ENUM ('ADMIN', 'LENDER', 'RENTER');
