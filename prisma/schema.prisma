@@ -7,7 +7,7 @@ datasource db {
   directUrl         = env("DIRECT_URL")
   schemas           = ["public"]
   // => RLS/Prisma 
-  extensions        = [hstore, pg_trgm, postgis]
+  extensions        = [hstore, pg_trgm, postgis, pg_graphql(schema:"graphql"), pg_stat_statements(schema:"extensions"), pgcrypto(schema:"extensions"), pgjwt(schema:"extensions"), pgsodium(schema: "pgsodium"), plpgsql(schema:"pg_catalog"), supabase_vault(schema:"vault"), uuid_ossp(map: "uuid-ossp", schema: "extensions")]
 }
 
 generator client {
@@ -72,6 +72,101 @@ enum Category {
   @@schema("public")
 }
 
+enum Brand {
+  ACURA
+  ALFA_ROMEO
+  ALPINE
+  ASTON_MARTIN
+  AUSTIN
+  BYD
+  BENTLEY
+  BUICK
+  BUGATTI
+  BMW
+  CHEVROLET
+  CITROEN
+  DACIA
+  DATSUN
+  DELOREAN
+  FERRARI
+  FIAT
+  FORD
+  GENESIS
+  GMC
+  HONDA
+  HUMMER
+  HYUNDAI
+  HUDSON
+  INFINITI
+  ISUZU
+  IVECO
+  JAGUAR
+  JEEP
+  KIA
+  LADA
+  LAMBORGHINI
+  LAND_ROVER
+  LANCIA
+  LOTUS
+  MASERATI
+  MAYBACH
+  MAZDA
+  MCLAREN
+  MERCEDES_BENZ
+  MERCURY
+  MINI
+  MITSUBISHI
+  NISSAN
+  OPEL
+  PEUGEOT
+  PLYMOUTH
+  PONTIAC
+  PORSCHE
+  RENAULT
+  ROLLS_ROYCE
+  SAAB
+  SATURN
+  SEAT
+  SKODA
+  SMART
+  SUBARU
+  SUZUKI
+  TESLA
+  TOYOTA
+  TRIUMPH
+  VAUXHALL
+  VOLKSWAGEN
+  VOLVO
+  
+  @@schema("public")
+}
+
+enum Color {
+  AQUA
+  BEIGE
+  BLACK
+  BLUE
+  BROWN
+  FUCHSIA
+  GREEN
+  GREY
+  LIME
+  MAROON
+  NAVY
+  OLIVE
+  ORANGE
+  PINK
+  PURPLE
+  RED
+  SILVER
+  TEAL
+  VIOLET
+  WHITE
+  YELLOW
+
+  @@schema("public")
+}
+
 enum Transmission {
   AUTOMATIC   // Automatique
   MANUAL      // Manuelle
@@ -91,9 +186,11 @@ enum FuelType {
 model Car {
   id            Int         @id @default(autoincrement())
   category      Category   
-  brand         String
+  brand         Brand
   model         String
   year          Int?
+  primaryColor  Color       @default(SILVER)
+  trueColor     String         
   transmission  Transmission
   fuelType      FuelType
   pricePerDay   Float
