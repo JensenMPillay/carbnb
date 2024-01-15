@@ -18,7 +18,7 @@ import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
 import {
   RegisterUserSchemaType,
   registerUserSchema,
-} from "@/src/lib/schemas/RegisterUserSchema";
+} from "@/src/lib/schemas/user/RegisterUserSchema";
 import useSessionStore from "@/src/store/useSessionStore";
 import useStore from "@/src/store/useStore";
 import { useMutation } from "@apollo/client";
@@ -192,17 +192,15 @@ const RegisterForm = (props: Props) => {
                     >
                       {Object.entries(roles).map(([key, value]) => {
                         return (
-                          <FormItem key={key}>
-                            <FormControl>
-                              <ToggleGroupItem
-                                value={value}
-                                aria-label={value}
-                                variant={"outline"}
-                              >
-                                {value}
-                              </ToggleGroupItem>
-                            </FormControl>
-                          </FormItem>
+                          <FormControl key={key}>
+                            <ToggleGroupItem
+                              value={value}
+                              aria-label={value}
+                              variant={"outline"}
+                            >
+                              {value}
+                            </ToggleGroupItem>
+                          </FormControl>
                         );
                       })}
                     </ToggleGroup>
