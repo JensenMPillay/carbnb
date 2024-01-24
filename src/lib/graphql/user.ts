@@ -13,6 +13,32 @@ export const GET_USER_QUERY = gql`
       image
       createdAt
       updatedAt
+      cars {
+        id
+        category
+        brand
+        model
+        year
+        primaryColor
+        trueColor
+        transmission
+        fuelType
+        imageUrl
+        pricePerDay
+        available
+        location {
+          id
+          latitude
+          longitude
+          address
+          city
+          postalCode
+          state
+          country
+        }
+        createdAt
+        updatedAt
+      }
     }
   }
 `;

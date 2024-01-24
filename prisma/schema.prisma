@@ -184,15 +184,16 @@ enum FuelType {
 }
 
 model Car {
-  id            Int         @id @default(autoincrement())
+  id            String      @id @default(cuid())
   category      Category   
   brand         Brand
   model         String
-  year          Int?
+  year          Int
   primaryColor  Color       @default(SILVER)
   trueColor     String         
   transmission  Transmission
   fuelType      FuelType
+  imageUrl      String
   pricePerDay   Float
   available     Boolean
   User          User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -231,7 +232,7 @@ model Booking {
   User              User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   userId            String      @db.Uuid
   Car               Car         @relation(fields: [carId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  carId             Int
+  carId             String
 
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
@@ -249,6 +250,8 @@ model Location {
   longitude     Float?
   address       String
   city          String
+  postalCode    String
+  state         String
   country       String
   cars          Car[]
 

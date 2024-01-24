@@ -29,8 +29,8 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="overflow-visible">
-        <Button className="group aspect-square h-8 w-8 rounded-full border bg-accent transition-all duration-300 ease-in-out hover:bg-accent">
-          <Avatar className="relative h-8 w-8 bg-background transition-all duration-300 ease-in-out group-hover:bg-accent">
+        <Button className="group aspect-square size-8 rounded-full border bg-accent transition-all duration-300 ease-in-out hover:bg-accent">
+          <Avatar className="relative size-8 bg-background transition-all duration-300 ease-in-out group-hover:bg-accent">
             {user.user_metadata.image ? (
               <div className="relative aspect-square h-full w-full">
                 <Image
@@ -41,9 +41,9 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
                 />
               </div>
             ) : (
-              <AvatarFallback className="h-8 w-8 bg-background transition-all duration-300 ease-in-out group-hover:bg-accent">
+              <AvatarFallback className="size-8 bg-background transition-all duration-300 ease-in-out group-hover:bg-accent">
                 <span className="sr-only">Avatar</span>
-                <PersonIcon className="h-5 w-5 text-foreground" />
+                <PersonIcon className="size-5 text-foreground" />
               </AvatarFallback>
             )}
           </Avatar>

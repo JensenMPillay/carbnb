@@ -9,12 +9,16 @@ export const GET_LOCATION_QUERY = gql`
       longitude
       address
       city
+      postalCode
+      state
       country
       cars {
         category
         brand
         model
         year
+        primaryColor
+        trueColor
         transmission
         fuelType
         pricePerDay
@@ -34,17 +38,23 @@ export const GET_LOCATION_QUERY = gql`
 // REGISTER_LOCATION_MUTATION
 export const REGISTER_LOCATION_MUTATION = gql`
   mutation RegisterLocation(
+    $id: String!
     $latitude: Float!
     $longitude: Float!
     $address: String!
     $city: String!
+    $postalCode: String!
+    $state: String!
     $country: String!
   ) {
     registerLocation(
+      id: $id
       latitude: $latitude
       longitude: $longitude
       address: $address
       city: $city
+      postalCode: $postalCode
+      state: $state
       country: $country
     ) {
       id
@@ -52,6 +62,8 @@ export const REGISTER_LOCATION_MUTATION = gql`
       longitude
       address
       city
+      postalCode
+      state
       country
     }
   }

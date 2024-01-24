@@ -9,6 +9,7 @@ import {
 import { supabaseServerClient } from "@/src/lib/supabase/supabase-server-client";
 import { constructMetadata } from "@/src/lib/utils";
 import { redirect } from "next/navigation";
+import AddCarButton from "./components/AddCarButton";
 import DeleteUserButton from "./components/DeleteUserButton";
 import UpdateUserForm from "./components/UpdateUserForm";
 import UserBookings from "./components/UserBookings";
@@ -35,27 +36,33 @@ export default async function Dashboard() {
         <CardTitle className="text-xl font-bold">Dashboard</CardTitle>
       </CardHeader>
       <Separator orientation="horizontal" />
-      <CardContent className="flex flex-1 flex-col p-0 lg:flex-row">
-        <TabsList className="flex h-fit w-full justify-start rounded-none lg:h-full lg:w-fit lg:flex-col ">
-          <TabsTrigger value="profile" className="">
+      <CardContent className="flex flex-1 flex-col p-0">
+        <TabsList className="flex h-fit w-full rounded-none">
+          <TabsTrigger value="profile" className="flex-1">
             Profile
           </TabsTrigger>
-          <TabsTrigger value="cars" className="">
+          <TabsTrigger value="cars" className="flex-1">
             Cars
           </TabsTrigger>
-          <TabsTrigger value="bookings" className="">
+          <TabsTrigger value="bookings" className="flex-1">
             Booking
           </TabsTrigger>
         </TabsList>
-        <Separator orientation="horizontal" className="block lg:hidden" />
-        <Separator orientation="vertical" className="hidden lg:block" />
         <TabsContent value="profile" className="mt-0 flex-1">
-          <UpdateUserForm />
-          <Separator orientation="horizontal" />
-          <DeleteUserButton />
+          <div className="flex h-full w-full flex-col">
+            <UpdateUserForm />
+            <div className="mb-1 mt-auto w-full space-y-1 text-center">
+              <DeleteUserButton />
+            </div>
+          </div>
         </TabsContent>
         <TabsContent value="cars" className="mt-0 flex-1">
-          <UserCars />
+          <div className="flex h-full w-full flex-col">
+            <UserCars />
+            <div className="mb-1 mt-auto w-full space-y-1 text-center">
+              <AddCarButton />
+            </div>
+          </div>
         </TabsContent>
         <TabsContent value="bookings" className="mt-0 flex-1">
           <UserBookings />

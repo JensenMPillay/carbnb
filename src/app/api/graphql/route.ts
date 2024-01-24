@@ -1,6 +1,7 @@
 import { supabaseContext } from "@/src/context/supabaseContext";
 import { createYoga } from "graphql-yoga";
 import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import { schema } from "./schema";
 
 // Router
@@ -13,7 +14,7 @@ const { handleRequest } = createYoga<{
   // Configure Yoga to use the correct endpoint
   graphqlEndpoint: "/api/graphql",
   // Yoga needs to know how to create a valid Next response
-  fetchAPI: { Request: Request, Response: Response },
+  fetchAPI: { Request: NextRequest, Response: NextResponse },
 });
 
 export {

@@ -2,15 +2,18 @@ import { gql } from "@apollo/client";
 
 // GET_CAR_QUERY
 export const GET_CAR_QUERY = gql`
-  query GetCar($id: Int!) {
+  query GetCar($id: String!) {
     getCar(id: $id) {
       id
       category
       brand
       model
       year
+      primaryColor
+      trueColor
       transmission
       fuelType
+      imageUrl
       pricePerDay
       available
       user {
@@ -26,6 +29,8 @@ export const GET_CAR_QUERY = gql`
         longitude
         address
         city
+        postalCode
+        state
         country
       }
       createdAt
@@ -38,12 +43,15 @@ export const GET_CAR_QUERY = gql`
 export const REGISTER_CAR_MUTATION = gql`
   mutation RegisterCar(
     $category: Category!
-    $brand: String!
+    $brand: Brand!
     $model: String!
-    $year: Int
+    $year: Int!
+    $primaryColor: Color!
+    $trueColor: String!
     $transmission: Transmission!
     $fuelType: FuelType!
-    $pricePerDay: Float!
+    $imageUrl: String!
+    $pricePerDay: Int!
     $locationId: String!
   ) {
     registerCar(
@@ -51,8 +59,11 @@ export const REGISTER_CAR_MUTATION = gql`
       brand: $brand
       model: $model
       year: $year
+      primaryColor: $primaryColor
+      trueColor: $trueColor
       transmission: $transmission
       fuelType: $fuelType
+      imageUrl: $imageUrl
       pricePerDay: $pricePerDay
       locationId: $locationId
     ) {
@@ -61,8 +72,11 @@ export const REGISTER_CAR_MUTATION = gql`
       brand
       model
       year
+      primaryColor
+      trueColor
       transmission
       fuelType
+      imageUrl
       pricePerDay
       available
       user {
@@ -78,6 +92,8 @@ export const REGISTER_CAR_MUTATION = gql`
         longitude
         address
         city
+        postalCode
+        state
         country
       }
       createdAt
@@ -88,14 +104,17 @@ export const REGISTER_CAR_MUTATION = gql`
 // UPDATE_CAR_MUTATION
 export const UPDATE_CAR_MUTATION = gql`
   mutation UpdateCar(
-    $id: Int!
+    $id: String!
     $category: Category
-    $brand: String
+    $brand: Brand
     $model: String
     $year: Int
+    $primaryColor: Color
+    $trueColor: String
     $transmission: Transmission
     $fuelType: FuelType
-    $pricePerDay: Float
+    $imageUrl: String
+    $pricePerDay: Int
     $available: Boolean
     $locationId: String
   ) {
@@ -105,8 +124,11 @@ export const UPDATE_CAR_MUTATION = gql`
       brand: $brand
       model: $model
       year: $year
+      primaryColor: $primaryColor
+      trueColor: $trueColor
       transmission: $transmission
       fuelType: $fuelType
+      imageUrl: $imageUrl
       pricePerDay: $pricePerDay
       available: $available
       locationId: $locationId
@@ -116,8 +138,11 @@ export const UPDATE_CAR_MUTATION = gql`
       brand
       model
       year
+      primaryColor
+      trueColor
       transmission
       fuelType
+      imageUrl
       pricePerDay
       available
       user {
@@ -133,6 +158,8 @@ export const UPDATE_CAR_MUTATION = gql`
         longitude
         address
         city
+        postalCode
+        state
         country
       }
       createdAt
@@ -143,15 +170,18 @@ export const UPDATE_CAR_MUTATION = gql`
 
 // DELETE_CAR_MUTATION
 export const DELETE_CAR_MUTATION = gql`
-  mutation DeleteCar($id: Int!) {
+  mutation DeleteCar($id: String!) {
     deleteCar(id: $id) {
       id
       category
       brand
       model
       year
+      primaryColor
+      trueColor
       transmission
       fuelType
+      imageUrl
       pricePerDay
       available
       user {
@@ -167,6 +197,8 @@ export const DELETE_CAR_MUTATION = gql`
         longitude
         address
         city
+        postalCode
+        state
         country
       }
       createdAt

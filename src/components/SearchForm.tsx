@@ -18,6 +18,7 @@ import { Separator } from "./ui/separator";
 type Props = {};
 
 const SearchForm = (props: Props) => {
+  // Form
   const searchForm = useForm<SearchFormSchemaType>({
     resolver: zodResolver(searchFormSchema),
     defaultValues: {
@@ -106,7 +107,7 @@ const SearchForm = (props: Props) => {
                         ) : (
                           <span>When</span>
                         )}
-                        <CalendarIcon className="mx-2 h-4 w-4 opacity-50" />
+                        <CalendarIcon className="mx-2 size-4 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
@@ -155,7 +156,7 @@ const SearchForm = (props: Props) => {
                         ) : (
                           <span>When</span>
                         )}
-                        <CalendarIcon className="mx-2 h-4 w-4 opacity-50" />
+                        <CalendarIcon className="mx-2 size-4 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
@@ -181,7 +182,7 @@ const SearchForm = (props: Props) => {
             type="submit"
             className="max-w-fit cursor-pointer rounded-full bg-primary p-4 text-accent transition-all duration-300 ease-in-out group-hover:scale-125 group-hover:bg-accent group-hover:text-accent-foreground md:p-3 lg:right-3 lg:top-1/2 lg:p-2"
           >
-            <MagnifyingGlassIcon className="h-5 w-5" />
+            <MagnifyingGlassIcon className="size-5" />
           </Button>
         </div>
       </form>

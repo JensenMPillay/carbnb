@@ -13,7 +13,7 @@ import { Separator } from "@/src/components/ui/separator";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import { ToggleGroup, ToggleGroupItem } from "@/src/components/ui/toggle-group";
 import useLoading from "@/src/hooks/useLoading";
-import { REGISTER_USER_MUTATION } from "@/src/lib/apollo/user";
+import { REGISTER_USER_MUTATION } from "@/src/lib/graphql/user";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
 import {
   RegisterUserSchemaType,
@@ -81,6 +81,9 @@ const RegisterForm = (props: Props) => {
     event,
   ) => {
     event?.preventDefault();
+    showNotif({
+      description: "Submitting your request, please wait...",
+    });
     try {
       await registerUser({
         variables: data,

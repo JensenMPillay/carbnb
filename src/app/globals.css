@@ -102,6 +102,21 @@
       background-position: left;
     }
   }
+
+  *::-webkit-scrollbar {
+    /* -webkit-appearance: none; */
+    width: 0.625rem;
+    height: 0.625rem;
+  }
+
+  *::-webkit-scrollbar-track {
+    border-radius: 9999px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #3d9b8b;
+    border-radius: 9999px;
+  }
 }
 
 @layer base {

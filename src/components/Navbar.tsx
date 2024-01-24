@@ -43,7 +43,7 @@ const Navbar = (props: Props) => {
               <TooltipTrigger asChild>
                 <Button variant="outline" size="icon">
                   <Link href="/auth/sign">
-                    <PersonIcon className="h-5 w-5" />
+                    <PersonIcon className="size-5" />
                     <span className="sr-only">Sign In</span>
                   </Link>
                 </Button>

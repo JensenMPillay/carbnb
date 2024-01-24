@@ -12,12 +12,12 @@ import { Input } from "@/src/components/ui/input";
 import { Separator } from "@/src/components/ui/separator";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import useLoading from "@/src/hooks/useLoading";
-import { UPDATE_USER_MUTATION } from "@/src/lib/apollo/user";
+import { UPDATE_USER_MUTATION } from "@/src/lib/graphql/user";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
 import {
   UpdateUserSchemaType,
   updateUserSchema,
-} from "@/src/lib/schemas/UpdateUserSchema";
+} from "@/src/lib/schemas/user/UpdateUserSchema";
 import { cn } from "@/src/lib/utils";
 import useSessionStore from "@/src/store/useSessionStore";
 import useStore from "@/src/store/useStore";

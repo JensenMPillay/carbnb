@@ -10,36 +10,29 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/src/components/ui/alert-dialog";
-import { Button, buttonVariants } from "@/src/components/ui/button";
-import { DELETE_USER_MUTATION } from "@/src/lib/graphql/user";
+import { Button } from "@/src/components/ui/button";
+import { DELETE_CAR_MUTATION } from "@/src/lib/graphql/car";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
-import { supabaseBrowserClient } from "@/src/lib/supabase/supabase-browser-client";
-import useSessionStore from "@/src/store/useSessionStore";
 import { useMutation } from "@apollo/client";
-import { useRouter } from "next/navigation";
+import { Car } from "@prisma/client";
+import { TrashIcon } from "@radix-ui/react-icons";
 import { MouseEvent, useState } from "react";
 
-type Props = {};
+type CarProps = {
+  car?: Car;
+};
 
-const DeleteUserButton = (props: Props) => {
+const DeleteCarButton = ({ car }: CarProps) => {
   // Open State
   const [open, setOpen] = useState<boolean>(false);
 
-  // Session
-  const { syncSession } = useSessionStore();
-
-  // Router
-  const router = useRouter();
-
-  // Delete Mutation
-  const [deleteUser] = useMutation(DELETE_USER_MUTATION, {
+  // Mutation
+  const [deleteCar] = useMutation(DELETE_CAR_MUTATION, {
+    errorPolicy: "all",
     onCompleted: async (data) => {
       showNotif({
-        description: "User has been deleted successfully!",
+        description: "Your car is deleted successfully",
       });
-      await supabaseBrowserClient.auth.signOut();
-      await syncSession();
-      router.push("/");
     },
     onError: async (error) => {
       showErrorNotif({
@@ -52,9 +45,13 @@ const DeleteUserButton = (props: Props) => {
   // Delete Callback
   const onClick = async (event: MouseEvent<HTMLButtonElement>) => {
     event?.preventDefault();
-    setOpen(false);
     try {
-      await deleteUser();
+      if (car) {
+        await deleteCar({
+          variables: { id: car.id },
+        });
+      }
+      setOpen(false);
     } catch (error) {
       console.error(`Error : ${error}`);
     }
@@ -62,27 +59,23 @@ const DeleteUserButton = (props: Props) => {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button
-          className={buttonVariants({
-            className: "w-3/4",
-            variant: "destructive",
-          })}
-          type="button"
-        >
-          Delete Account
+        <Button variant="destructive" size="icon">
+          <TrashIcon className="h-4 w-4" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            This action cannot be undone. This will permanently delete this car
+            and remove its data from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={(event) => onClick(event)}>
+          <AlertDialogAction
+            onClick={(event: MouseEvent<HTMLButtonElement>) => onClick(event)}
+          >
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -91,4 +84,4 @@ const DeleteUserButton = (props: Props) => {
   );
 };
 
-export default DeleteUserButton;
+export default DeleteCarButton;
