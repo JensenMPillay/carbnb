@@ -2,6 +2,7 @@ import prisma from "@/prisma/prisma";
 import { IMAGE_BUCKET } from "@/src/config/supabase";
 import { getFileFromUrl } from "@/src/lib/utils";
 import { Brand, Category, Color, FuelType, Transmission } from "@prisma/client";
+import { randomUUID } from "crypto";
 import { createGraphQLError } from "graphql-yoga";
 import { builder } from "../builder";
 
@@ -94,7 +95,7 @@ builder.mutationField("registerCar", (t) =>
       transmission: t.arg({ type: Transmission, required: true }),
       fuelType: t.arg({ type: FuelType, required: true }),
       imageUrl: t.arg.string({ required: true }),
-      pricePerDay: t.arg.float({ required: true }),
+      pricePerDay: t.arg.int({ required: true }),
       available: t.arg.boolean({ required: false }),
       locationId: t.arg.string({ required: true }),
     },
@@ -120,14 +121,15 @@ builder.mutationField("registerCar", (t) =>
 
       if (!dbLocation) throw createGraphQLError("Location does not exist.");
 
+      // Car Id
+      const carId = randomUUID();
+
       // Upload File
       const file = await getFileFromUrl(args.imageUrl);
 
-      const fileName = `${dbUser.id}-${args.brand}-${args.model}`;
-
       const uploadFile = await (await ctx).supabase?.storage
         .from(IMAGE_BUCKET)
-        .upload(fileName, file, {
+        .upload(carId, file, {
           upsert: true,
         });
 
@@ -139,12 +141,13 @@ builder.mutationField("registerCar", (t) =>
 
       const fileUrl = (await ctx).supabase?.storage
         .from(IMAGE_BUCKET)
-        .getPublicUrl(fileName);
+        .getPublicUrl(carId);
 
       // Register Car
       const carPrisma = await prisma.car.create({
         ...query,
         data: {
+          id: carId,
           category: args.category,
           brand: args.brand,
           model: args.model,
@@ -222,14 +225,12 @@ builder.mutationField("updateCar", (t) =>
         : null;
 
       // Upload File
-      const fileName = `${dbUser.id}-${args.brand ?? dbCar.brand}-${args.model ?? dbCar.model}`;
-
-      if (args.imageUrl && args.imageUrl != dbCar.imageUrl) {
+      if (args.imageUrl) {
         const file = await getFileFromUrl(args.imageUrl);
 
         const uploadFile = await (await ctx).supabase?.storage
           .from(IMAGE_BUCKET)
-          .upload(fileName, file, {
+          .upload(args.id, file, {
             upsert: true,
           });
 
@@ -241,8 +242,9 @@ builder.mutationField("updateCar", (t) =>
 
       const fileUrl = (await ctx).supabase?.storage
         .from(IMAGE_BUCKET)
-        .getPublicUrl(fileName);
+        .getPublicUrl(args.id);
 
+      // Update Car
       const carPrisma = await prisma.car.update({
         ...query,
         where: {
@@ -298,6 +300,7 @@ builder.mutationField("deleteCar", (t) =>
 
       if (!dbUser) throw createGraphQLError("User does not exist.");
 
+      // Delete Car
       const carPrisma = await prisma.car.delete({
         ...query,
         where: {
@@ -311,7 +314,7 @@ builder.mutationField("deleteCar", (t) =>
       // Remove File
       const removeFile = await (await ctx).supabase?.storage
         .from(IMAGE_BUCKET)
-        .remove([carPrisma.imageUrl]);
+        .remove([args.id]);
 
       if (removeFile?.error)
         throw createGraphQLError(
