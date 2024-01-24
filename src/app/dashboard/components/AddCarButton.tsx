@@ -90,7 +90,7 @@ const AddCarButton = ({ car }: CarProps) => {
           <Button
             className={buttonVariants({
               className: "w-3/4",
-              variant: "secondary",
+              variant: "default",
               size: "icon",
             })}
             type="button"

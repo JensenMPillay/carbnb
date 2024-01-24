@@ -74,7 +74,7 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
 
         <DropdownMenuItem className="flex cursor-pointer justify-center focus:bg-transparent">
           <Button
-            variant="secondary"
+            variant="outline"
             size="lg"
             onClick={async () => {
               await supabaseBrowserClient.auth.signOut();

@@ -89,7 +89,7 @@ const UpdateCarButton = ({ car }: CarProps) => {
     >
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="secondary" size="icon">
+          <Button variant="outline" size="icon">
             <UpdateIcon className="size-4" />
           </Button>
         </DialogTrigger>

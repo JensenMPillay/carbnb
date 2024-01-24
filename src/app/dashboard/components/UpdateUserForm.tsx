@@ -204,7 +204,7 @@ const UpdateUserForm = ({}: Props) => {
               <Button
                 className={buttonVariants({
                   className: "my-2",
-                  variant: "secondary",
+                  variant: "default",
                 })}
                 type="submit"
               >
