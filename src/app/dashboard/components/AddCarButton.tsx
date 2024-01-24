@@ -63,6 +63,7 @@ const AddCarButton = ({ car }: CarProps) => {
       });
       console.error("Mutation Error : ", error);
     },
+    refetchQueries: "active",
   });
 
   // Callback Action

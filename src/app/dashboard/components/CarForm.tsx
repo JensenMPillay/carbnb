@@ -80,7 +80,7 @@ const CarForm = ({
       category: "COMPACT",
       brand: "ACURA",
       model: "",
-      year: 2000,
+      year: 2010,
       primaryColor: "AQUA",
       trueColor: "",
       transmission: "AUTOMATIC",
@@ -167,9 +167,9 @@ const CarForm = ({
                     <FormControl>
                       <Input
                         type="number"
-                        min={1900}
+                        min={1950}
                         max={new Date().getFullYear()}
-                        placeholder="2000"
+                        placeholder="2010"
                         autoCapitalize="off"
                         autoComplete="on"
                         autoCorrect="off"

@@ -40,6 +40,7 @@ const DeleteCarButton = ({ car }: CarProps) => {
       });
       console.error("Mutation Error : ", error);
     },
+    refetchQueries: "active",
   });
 
   // Delete Callback
