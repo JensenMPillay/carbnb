@@ -193,7 +193,7 @@ model Car {
   trueColor     String         
   transmission  Transmission
   fuelType      FuelType
-  imageUrl      String
+  imageUrl      String[]
   pricePerDay   Float
   available     Boolean
   User          User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)

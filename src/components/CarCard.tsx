@@ -61,42 +61,20 @@ const CarCard = ({
       <CardContent className="flex flex-col space-y-2 p-1 md:p-2 lg:p-3">
         <Carousel>
           <CarouselContent>
-            <CarouselItem>
-              <div className="relative aspect-square h-[250px] w-full rounded-lg border border-muted">
-                <Image
-                  src={imageUrl}
-                  alt="car model"
-                  className="object-contain"
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  priority
-                />
-              </div>
-            </CarouselItem>
-            <CarouselItem>
-              <div className="relative aspect-square h-[250px] w-full rounded-lg border border-muted">
-                <Image
-                  src={imageUrl}
-                  alt="car model"
-                  className="object-contain"
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  priority
-                />
-              </div>
-            </CarouselItem>
-            <CarouselItem>
-              <div className="relative aspect-square h-[250px] w-full rounded-lg border border-muted">
-                <Image
-                  src={imageUrl}
-                  alt="car model"
-                  className="object-contain"
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  priority
-                />
-              </div>
-            </CarouselItem>
+            {imageUrl.map((url, index) => (
+              <CarouselItem key={index}>
+                <div className="relative aspect-square h-[250px] w-full rounded-lg border border-muted">
+                  <Image
+                    src={url}
+                    alt="car model"
+                    className="object-contain"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority
+                  />
+                </div>
+              </CarouselItem>
+            ))}
           </CarouselContent>
           <CarouselPrevious className="left-[4px]" />
           <CarouselNext className="right-[4px]" />

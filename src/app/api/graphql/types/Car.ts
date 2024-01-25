@@ -1,5 +1,5 @@
 import prisma from "@/prisma/prisma";
-import { IMAGE_BUCKET } from "@/src/config/supabase";
+import { IMAGE_ANGLES, IMAGE_BUCKET } from "@/src/config/supabase";
 import { getFileFromUrl } from "@/src/lib/utils";
 import { Brand, Category, Color, FuelType, Transmission } from "@prisma/client";
 import { randomUUID } from "crypto";
@@ -43,7 +43,7 @@ builder.prismaObject("Car", {
     trueColor: t.exposeString("trueColor"),
     transmission: t.expose("transmission", { type: Transmission }),
     fuelType: t.expose("fuelType", { type: FuelType }),
-    imageUrl: t.exposeString("imageUrl"),
+    imageUrl: t.exposeStringList("imageUrl"),
     pricePerDay: t.exposeInt("pricePerDay"),
     available: t.exposeBoolean("available"),
     user: t.relation("User"),
@@ -124,24 +124,48 @@ builder.mutationField("registerCar", (t) =>
       // Car Id
       const carId = randomUUID();
 
-      // Upload File
-      const file = await getFileFromUrl(args.imageUrl);
+      // Upload Files (Different Angles)
+      const uploadedFileUrls = await Promise.all(
+        IMAGE_ANGLES.map(async (angle) => {
+          // Same URL
+          const imageUrl = new URL(args.imageUrl);
 
-      const uploadFile = await (await ctx).supabase?.storage
-        .from(IMAGE_BUCKET)
-        .upload(carId, file, {
-          upsert: true,
-        });
+          // Add Different Angle
+          imageUrl.searchParams.append("angle", `${angle}`);
 
-      if (uploadFile?.error) {
-        throw createGraphQLError(
-          "An error occurred while uploading the car image.",
-        );
-      }
+          // Get Blob
+          const fileBlob = await getFileFromUrl(imageUrl);
 
-      const fileUrl = (await ctx).supabase?.storage
-        .from(IMAGE_BUCKET)
-        .getPublicUrl(carId);
+          // Set Name
+          const fileName = `${carId}/${angle}`;
+
+          // Upload
+          const uploadFile = await (await ctx).supabase?.storage
+            .from(IMAGE_BUCKET)
+            .upload(fileName, fileBlob, {
+              upsert: true,
+            });
+
+          if (uploadFile?.error) {
+            throw createGraphQLError(
+              "An error occurred while uploading the car image.",
+            );
+          }
+
+          // Get File URL
+          const uploadedFileUrl = (await ctx).supabase?.storage
+            .from(IMAGE_BUCKET)
+            .getPublicUrl(fileName);
+
+          if (!uploadedFileUrl) {
+            throw createGraphQLError(
+              "An error occurred while retrieving the car image url.",
+            );
+          }
+
+          return uploadedFileUrl.data.publicUrl as string;
+        }),
+      );
 
       // Register Car
       const carPrisma = await prisma.car.create({
@@ -156,7 +180,7 @@ builder.mutationField("registerCar", (t) =>
           trueColor: args.trueColor,
           transmission: args.transmission,
           fuelType: args.fuelType,
-          imageUrl: fileUrl ? fileUrl.data.publicUrl : args.imageUrl,
+          imageUrl: uploadedFileUrls,
           pricePerDay: args.pricePerDay,
           available: args.available ?? true,
           userId: dbUser.id,
@@ -225,24 +249,52 @@ builder.mutationField("updateCar", (t) =>
         : null;
 
       // Upload File
+      let uploadedFileUrls: string[] = [];
+
       if (args.imageUrl) {
-        const file = await getFileFromUrl(args.imageUrl);
+        // Upload Files (Different Angles)
+        uploadedFileUrls = await Promise.all(
+          IMAGE_ANGLES.map(async (angle) => {
+            // Same URL
+            const imageUrl = new URL(args.imageUrl as string);
 
-        const uploadFile = await (await ctx).supabase?.storage
-          .from(IMAGE_BUCKET)
-          .upload(args.id, file, {
-            upsert: true,
-          });
+            // Add Different Angle
+            imageUrl.searchParams.append("angle", `${angle}`);
 
-        if (uploadFile?.error)
-          throw createGraphQLError(
-            "An error occurred while uploading the car image.",
-          );
+            // Get Blob
+            const fileBlob = await getFileFromUrl(imageUrl);
+
+            // Set Name
+            const fileName = `${dbCar.id}/${angle}`;
+
+            // Upload
+            const uploadFile = await (await ctx).supabase?.storage
+              .from(IMAGE_BUCKET)
+              .upload(fileName, fileBlob, {
+                upsert: true,
+              });
+
+            if (uploadFile?.error) {
+              throw createGraphQLError(
+                "An error occurred while uploading the car image.",
+              );
+            }
+
+            // Get File URL
+            const uploadedFileUrl = (await ctx).supabase?.storage
+              .from(IMAGE_BUCKET)
+              .getPublicUrl(fileName);
+
+            if (!uploadedFileUrl) {
+              throw createGraphQLError(
+                "An error occurred while retrieving the car image url.",
+              );
+            }
+
+            return uploadedFileUrl.data.publicUrl as string;
+          }),
+        );
       }
-
-      const fileUrl = (await ctx).supabase?.storage
-        .from(IMAGE_BUCKET)
-        .getPublicUrl(args.id);
 
       // Update Car
       const carPrisma = await prisma.car.update({
@@ -259,9 +311,7 @@ builder.mutationField("updateCar", (t) =>
           trueColor: args.trueColor ?? undefined,
           transmission: args.transmission ?? undefined,
           fuelType: args.fuelType ?? undefined,
-          imageUrl: fileUrl
-            ? fileUrl.data.publicUrl
-            : args.imageUrl ?? undefined,
+          imageUrl: uploadedFileUrls.length > 0 ? uploadedFileUrls : undefined,
           pricePerDay: args.pricePerDay ?? undefined,
           available: args.available ?? undefined,
           userId: dbUser.id,
@@ -314,7 +364,7 @@ builder.mutationField("deleteCar", (t) =>
       // Remove File
       const removeFile = await (await ctx).supabase?.storage
         .from(IMAGE_BUCKET)
-        .remove([args.id]);
+        .remove(carPrisma.imageUrl);
 
       if (removeFile?.error)
         throw createGraphQLError(

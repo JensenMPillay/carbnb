@@ -5,7 +5,7 @@ type Props = {};
 
 function Bookings({}: Props) {
   return (
-    <TabsContent value="/dashboard/bookings" className="mt-0 flex-1">
+    <TabsContent value="/dashboard/bookings" className="mt-0 flex-1" forceMount>
       <UserBookings />
     </TabsContent>
   );

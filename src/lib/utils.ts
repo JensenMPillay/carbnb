@@ -72,14 +72,6 @@ export function constructMetadata({
   };
 }
 
-export async function getFileFromUrl(url: URL["href"]) {
-  const response = await fetch(url);
-  const blob = await response.blob();
-  const formData = new FormData();
-  formData.append("file", blob, "temp.webp");
-  return formData;
-}
-
 // Car Model Utils
 function generateCarModelsSearchUrl({
   brand,
@@ -87,7 +79,7 @@ function generateCarModelsSearchUrl({
 }: {
   brand: string;
   year: number;
-}) {
+}): string {
   const baseUrl = new URL(
     "https://data.opendatasoft.com/api/explore/v2.1/catalog/datasets/all-vehicles-model@public/records",
   );
@@ -108,7 +100,7 @@ export async function getCarModels({
 }: {
   brand: string;
   year: number;
-}) {
+}): Promise<string[]> {
   const url = generateCarModelsSearchUrl({ brand: brand, year: year });
   const response = await fetch(url);
   const json = await response.json();
@@ -120,7 +112,7 @@ export async function getCarModels({
 }
 
 // Car Paint Utils
-function generateCarPaintsUrl({ brand }: { brand: string }) {
+function generateCarPaintsUrl({ brand }: { brand: string }): URL {
   const url = new URL("https://cdn.imagin.studio/getPaints");
 
   url.searchParams.append(
@@ -193,7 +185,7 @@ export async function getCarTrueColors({
 }: {
   brand: string;
   primaryColor: string;
-}) {
+}): Promise<string[]> {
   const url: URL = generateCarPaintsUrl({ brand: brand });
   const paintCombinations: PaintCombinations = await getCarPaintCombinations({
     url: url,
@@ -207,11 +199,11 @@ export async function getCarTrueColors({
 // Car Image Utils
 export function generateCarImageUrl({
   car: { brand, model, year, trueColor = "black" },
-  angle = 0,
+  angle,
 }: {
   car: Pick<Car, "brand" | "model" | "year" | "trueColor">;
   angle?: number;
-}) {
+}): URL["href"] {
   const url = new URL("https://cdn.imagin.studio/getimage");
 
   url.searchParams.append(
@@ -226,7 +218,15 @@ export function generateCarImageUrl({
   // url.searchParams.append("transmission", transmission);
   url.searchParams.append("countryCode", "FR");
   url.searchParams.append("zoomType", "fullscreen");
-  url.searchParams.append("angle", `${angle}`);
+  angle && url.searchParams.append("angle", `${angle}`);
 
   return url.href;
+}
+
+export async function getFileFromUrl(url: URL) {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  const formData = new FormData();
+  formData.append("file", blob, "temp.webp");
+  return formData;
 }
