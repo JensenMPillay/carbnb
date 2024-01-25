@@ -1,8 +1,14 @@
 import { TabsContent } from "@/src/components/ui/tabs";
-import DeleteUserButton from "../components/DeleteUserButton";
-import UpdateUserForm from "../components/UpdateUserForm";
+import { constructMetadata } from "@/src/lib/utils";
+import DeleteUserButton from "./components/DeleteUserButton";
+import UpdateUserForm from "./components/UpdateUserForm";
 
 type Props = {};
+
+export const metadata = constructMetadata({
+  title: "Carbnb | Dashboard | Profile",
+  description: "Manage your account settings on Carbnb",
+});
 
 function Profile({}: Props) {
   return (

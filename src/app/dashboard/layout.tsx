@@ -23,7 +23,7 @@ export default function DashboardLayout({
         <Card className="min-h-fit flex-1 py-4">
           <Tabs
             className="flex h-full w-full flex-col"
-            defaultValue={pathname}
+            value={pathname}
             onValueChange={(value) => {
               router.push(value);
             }}
@@ -47,7 +47,6 @@ export default function DashboardLayout({
               </TabsList>
               {children}
             </CardContent>
-            <Separator orientation="horizontal" />
           </Tabs>
         </Card>
       </section>

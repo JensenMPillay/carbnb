@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 
 import { Color, type Car } from "@prisma/client";
 import type { Metadata } from "next";
-import { ColorsMap, PaintCombinations, resultODModel } from "./types";
+import { ColorsMap, PaintCombinations, resultODModel } from "./imaginstudio";
 
 // Classname Util
 export function cn(...inputs: ClassValue[]) {

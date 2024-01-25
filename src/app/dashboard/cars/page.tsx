@@ -1,8 +1,14 @@
 import { TabsContent } from "@/src/components/ui/tabs";
-import AddCarButton from "../components/AddCarButton";
-import UserCars from "../components/UserCars";
+import { constructMetadata } from "@/src/lib/utils";
+import AddCarButton from "./components/AddCarButton";
+import UserCars from "./components/UserCars";
 
 type Props = {};
+
+export const metadata = constructMetadata({
+  title: "Carbnb | Dashboard | Cars",
+  description: "Manage your car rental listings on Carbnb",
+});
 
 function Cars({}: Props) {
   return (

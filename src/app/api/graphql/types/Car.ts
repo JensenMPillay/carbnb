@@ -81,6 +81,30 @@ builder.queryField("getCar", (t) =>
   }),
 );
 
+// GET Route
+builder.queryField("getAvailableCars", (t) =>
+  t.prismaField({
+    type: ["Car"],
+    args: {
+      locationId: t.arg.string({ required: true }),
+      startDate: t.arg({ type: "Date", required: true }),
+      endDate: t.arg({ type: "Date", required: true }),
+    },
+    resolve: async (query, _parent, args, ctx) => {
+      const dbCars = await prisma.car.findMany({
+        ...query,
+        where: {
+          available: true,
+        },
+      });
+
+      if (!dbCars) throw createGraphQLError("Cars do not exist.");
+
+      return dbCars;
+    },
+  }),
+);
+
 // POST Route
 builder.mutationField("registerCar", (t) =>
   t.prismaField({
