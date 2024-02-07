@@ -35,28 +35,32 @@ const CarCard = ({
     fuelType,
     imageUrl,
     pricePerDay,
-    available,
   },
   className,
   children,
 }: PropsWithChildren<CarCardProps>) => {
   return (
-    <Card className={cn("border-transparent bg-transparent", className)}>
-      <CardHeader className="flex flex-row justify-between space-y-0 p-1 md:p-2 lg:p-3">
-        <div className="flex flex-col items-start justify-center">
-          <CardTitle className="space-x-2 text-xl normal-case">
-            <span className="font-semibold capitalize">{brand}</span>
-            <span className="font-light uppercase">{model}</span>
-          </CardTitle>
-          <CardDescription className="uppercase">{category}</CardDescription>
-        </div>
-        <p className="flex h-fit text-3xl font-extrabold leading-10">
-          {pricePerDay}
-          <span className="self-start text-sm">€</span>
-          <span className="self-end text-sm font-medium leading-4 text-muted-foreground">
-            /day
+    <Card
+      className={cn(
+        "overflow-hidden border-transparent bg-transparent",
+        className,
+      )}
+    >
+      <CardHeader className="flex flex-col items-start justify-between space-y-0 p-1 md:p-2 lg:p-3">
+        <CardTitle className="space-x-2 truncate text-xl normal-case">
+          <span className="font-semibold capitalize">{brand}</span>
+          <span className="font-light uppercase">{model}</span>
+        </CardTitle>
+        <CardDescription className="flex w-full flex-row justify-between">
+          <span className="uppercase">{category}</span>
+          <span className="flex h-fit text-3xl font-extrabold leading-10 text-primary">
+            {pricePerDay}
+            <span className="self-start text-sm">€</span>
+            <span className="self-end text-sm font-medium leading-4 text-muted-foreground">
+              /day
+            </span>
           </span>
-        </p>
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col space-y-2 p-1 md:p-2 lg:p-3">
         <Carousel>

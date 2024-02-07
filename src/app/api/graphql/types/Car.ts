@@ -91,16 +91,53 @@ builder.queryField("getAvailableCars", (t) =>
       endDate: t.arg({ type: "Date", required: true }),
     },
     resolve: async (query, _parent, args, ctx) => {
-      const dbCars = await prisma.car.findMany({
+      // All Active Cars
+      const dbActiveCars = await prisma.car.findMany({
         ...query,
         where: {
           available: true,
         },
       });
 
-      if (!dbCars) throw createGraphQLError("Cars do not exist.");
+      if (!dbActiveCars) throw createGraphQLError("Cars do not exist.");
 
-      return dbCars;
+      // Booked Cars (Overlap Date)
+      const dbBookedCars = await prisma.booking.findMany({
+        where: {
+          AND: [
+            {
+              OR: [
+                {
+                  startDate: {
+                    lte: args.endDate,
+                  },
+                  endDate: {
+                    gte: args.startDate,
+                  },
+                },
+                {
+                  startDate: {
+                    gte: args.startDate,
+                  },
+                  endDate: {
+                    lte: args.endDate,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        select: {
+          carId: true,
+        },
+      });
+
+      // Filter Cars => Not Booked
+      const availableCars = dbActiveCars.filter(
+        (car) => !dbBookedCars.some((bookedCar) => bookedCar.carId === car.id),
+      );
+
+      return availableCars;
     },
   }),
 );

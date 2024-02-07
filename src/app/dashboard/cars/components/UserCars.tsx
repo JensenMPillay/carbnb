@@ -37,7 +37,6 @@ const UserCars = (props: Props) => {
         <Skeleton className="h-[50dvh] w-full" />
         <Skeleton className="h-[50dvh] w-full" />
         <Skeleton className="h-[50dvh] w-full" />
-        <Skeleton className="h-[50dvh] w-full" />
       </div>
     );
 

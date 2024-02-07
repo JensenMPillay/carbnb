@@ -32,7 +32,9 @@ export default function SearchLayout({
             </CardDescription>
           </CardHeader>
           <Separator orientation="horizontal" />
-          <CardContent className="flex flex-1 flex-col p-0"></CardContent>
+          <CardContent className="flex flex-1 flex-col p-0">
+            {children}
+          </CardContent>
         </Card>
       </section>
     </main>

@@ -39,6 +39,53 @@ export const GET_CAR_QUERY = gql`
   }
 `;
 
+// GET_AVAILABLE_CARS_QUERY
+export const GET_AVAILABLE_CARS_QUERY = gql`
+  query GetAvailableCars(
+    $locationId: String!
+    $startDate: Date!
+    $endDate: Date!
+  ) {
+    getAvailableCars(
+      locationId: $locationId
+      startDate: $startDate
+      endDate: $endDate
+    ) {
+      id
+      category
+      brand
+      model
+      year
+      primaryColor
+      trueColor
+      transmission
+      fuelType
+      imageUrl
+      pricePerDay
+      available
+      user {
+        id
+        email
+        name
+        phone
+        role
+      }
+      location {
+        id
+        latitude
+        longitude
+        address
+        city
+        postalCode
+        state
+        country
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 // REGISTER_CAR_MUTATION
 export const REGISTER_CAR_MUTATION = gql`
   mutation RegisterCar(

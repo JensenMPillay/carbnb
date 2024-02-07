@@ -223,6 +223,7 @@ export function generateCarImageUrl({
   return url.href;
 }
 
+// File Image Utils
 export async function getFileFromUrl(url: URL) {
   const response = await fetch(url);
   const blob = await response.blob();

@@ -2,6 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { addDays, format } from "date-fns";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
   SearchFormSchemaType,
@@ -18,6 +19,9 @@ import { Separator } from "./ui/separator";
 type Props = {};
 
 const SearchForm = (props: Props) => {
+  // Router
+  const router = useRouter();
+
   // Form
   const searchForm = useForm<SearchFormSchemaType>({
     resolver: zodResolver(searchFormSchema),
@@ -31,9 +35,12 @@ const SearchForm = (props: Props) => {
   const onSubmit: SubmitHandler<SearchFormSchemaType> = async (data, event) => {
     event?.preventDefault();
     try {
-      // await registerUser({
-      //   variables: data,
-      // });
+      const params = new URLSearchParams({
+        locationId: data.location,
+        startDate: data.date.from.toISOString(),
+        endDate: data.date.to.toISOString(),
+      });
+      router.push(`/search?${params}`);
     } catch (error) {
       console.error(`Error : ${error}`);
     }
