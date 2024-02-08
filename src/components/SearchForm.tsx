@@ -79,7 +79,7 @@ const SearchForm = (props: Props) => {
             name="date"
             render={({ field, fieldState }) => (
               <>
-                <FormItem className="group relative w-full flex xl:w-1/4 flex-col px-4 py-2 transition-all duration-300 ease-in-out">
+                <FormItem className="group relative flex w-full flex-col px-4 py-2 transition-all duration-300 ease-in-out xl:w-1/4">
                   <FormLabel
                     className={cn(
                       "text-base uppercase text-primary transition-all duration-300 ease-in-out group-hover:text-foreground md:text-sm xl:text-xs",
@@ -128,7 +128,7 @@ const SearchForm = (props: Props) => {
                   orientation="horizontal"
                   className="inline-block w-3/4 xl:hidden"
                 />
-                <FormItem className="group relative flex w-full xl:w-1/4 flex-col px-4 py-2 transition-all duration-300 ease-in-out">
+                <FormItem className="group relative flex w-full flex-col px-4 py-2 transition-all duration-300 ease-in-out xl:w-1/4">
                   <FormLabel
                     className={cn(
                       "text-base uppercase text-primary transition-all duration-300 ease-in-out group-hover:text-foreground md:text-sm xl:text-xs",
