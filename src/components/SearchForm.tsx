@@ -3,7 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { addDays, format } from "date-fns";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
   SearchFormSchemaType,
@@ -17,35 +18,44 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Separator } from "./ui/separator";
 
-type Props = {};
+type SearchFormProps = {
+  onSubmit: SubmitHandler<SearchFormSchemaType>;
+};
 
-const SearchForm = (props: Props) => {
-  // Router
-  const router = useRouter();
+const SearchForm = ({ onSubmit }: SearchFormProps) => {
+  const [defaultValue, setDefaultValue] = useState<string>("");
+  // Params
+  const searchParams = useSearchParams();
+  const locationId = searchParams.get("locationId");
+  const startDate = searchParams.get("startDate");
+  const endDate = searchParams.get("endDate");
+  const location = searchParams.get("location");
 
   // Form
   const searchForm = useForm<SearchFormSchemaType>({
     resolver: zodResolver(searchFormSchema),
     defaultValues: {
       locationId: "",
+      location: "",
       date: { from: new Date(), to: addDays(new Date(), 7) },
     },
   });
 
-  // onSubmit Callback
-  const onSubmit: SubmitHandler<SearchFormSchemaType> = async (data, event) => {
-    event?.preventDefault();
-    try {
-      const params = new URLSearchParams({
-        locationId: data.locationId,
-        startDate: data.date.from.toISOString(),
-        endDate: data.date.to.toISOString(),
+  // PrefillForm
+  useEffect(() => {
+    if (locationId && location && startDate && endDate) {
+      searchForm.reset({
+        locationId: locationId,
+        location: decodeURIComponent(location),
+        date: {
+          from: new Date(startDate),
+          to: new Date(endDate),
+        },
       });
-      router.push(`/search?${params}`);
-    } catch (error) {
-      console.error(`Error : ${error}`);
+      setDefaultValue(decodeURIComponent(location));
     }
-  };
+    return () => {};
+  }, [searchForm, locationId, startDate, endDate, location]);
 
   return (
     <APIProvider
@@ -55,34 +65,36 @@ const SearchForm = (props: Props) => {
       <Form {...searchForm}>
         <form
           onSubmit={searchForm.handleSubmit(onSubmit)}
-          className="order-2 flex max-h-fit w-3/4 min-w-fit flex-col items-center justify-center rounded-lg bg-card text-lg shadow-md backdrop-blur-sm md:text-base xl:order-1 xl:w-full xl:flex-row xl:items-center xl:rounded-full xl:text-sm"
+          className="flex max-h-fit w-3/4 min-w-fit flex-col items-center justify-center rounded-lg bg-card text-lg shadow-md backdrop-blur-sm md:text-base lg:w-full lg:flex-row lg:items-center lg:rounded-full lg:text-sm"
         >
           <AddressFormField
             form={searchForm}
-            fieldName="locationId"
-            classNameItem="group flex w-full xl:w-2/4 flex-col rounded-t-lg px-4 py-2 transition-all duration-300 ease-in-out xl:h-fit xl:rounded-l-full xl:pl-8"
-            classNameLabel="text-base uppercase text-primary transition-all duration-300 ease-in-out group-hover:text-foreground md:text-sm xl:text-xs"
+            fieldNameId="locationId"
+            fieldName="location"
+            defaultValue={defaultValue}
+            classNameItem="group flex w-full lg:w-2/4 flex-col rounded-t-lg px-4 py-2 transition-all duration-300 ease-in-out lg:h-fit lg:rounded-l-full lg:pl-8"
+            classNameLabel="text-base uppercase text-primary transition-all duration-300 ease-in-out group-hover:text-foreground md:text-sm lg:text-xs"
             classNameInput="border-none bg-transparent px-0 py-0 outline-none focus-visible:ring-0"
             classNameInputWrapper="border-none"
             classNameListWrapper="border-none"
           />
           <Separator
             orientation="vertical"
-            className="hidden h-3/4 xl:inline-block"
+            className="hidden h-3/4 lg:inline-block"
           />
           <Separator
             orientation="horizontal"
-            className="inline-block w-3/4 xl:hidden"
+            className="inline-block w-3/4 lg:hidden"
           />
           <FormField
             control={searchForm.control}
             name="date"
             render={({ field, fieldState }) => (
               <>
-                <FormItem className="group relative flex w-full flex-col px-4 py-2 transition-all duration-300 ease-in-out xl:w-1/4">
+                <FormItem className="group relative flex w-full flex-col px-4 py-2 transition-all duration-300 ease-in-out lg:w-1/4">
                   <FormLabel
                     className={cn(
-                      "text-base uppercase text-primary transition-all duration-300 ease-in-out group-hover:text-foreground md:text-sm xl:text-xs",
+                      "text-base uppercase text-primary transition-all duration-300 ease-in-out group-hover:text-foreground md:text-sm lg:text-xs",
                       fieldState.error && "text-destructive",
                     )}
                   >
@@ -122,16 +134,16 @@ const SearchForm = (props: Props) => {
                 </FormItem>
                 <Separator
                   orientation="vertical"
-                  className="hidden h-3/4 xl:inline-block"
+                  className="hidden h-3/4 lg:inline-block"
                 />
                 <Separator
                   orientation="horizontal"
-                  className="inline-block w-3/4 xl:hidden"
+                  className="inline-block w-3/4 lg:hidden"
                 />
-                <FormItem className="group relative flex w-full flex-col px-4 py-2 transition-all duration-300 ease-in-out xl:w-1/4">
+                <FormItem className="group relative flex w-full flex-col px-4 py-2 transition-all duration-300 ease-in-out lg:w-1/4">
                   <FormLabel
                     className={cn(
-                      "text-base uppercase text-primary transition-all duration-300 ease-in-out group-hover:text-foreground md:text-sm xl:text-xs",
+                      "text-base uppercase text-primary transition-all duration-300 ease-in-out group-hover:text-foreground md:text-sm lg:text-xs",
                       fieldState.error && "text-destructive",
                     )}
                   >
@@ -172,10 +184,10 @@ const SearchForm = (props: Props) => {
               </>
             )}
           />
-          <div className="group flex min-w-fit flex-col items-center justify-center rounded-b-lg px-4 py-2 xl:h-fit xl:rounded-r-full">
+          <div className="group flex min-w-fit flex-col items-center justify-center rounded-b-lg px-4 py-2 lg:h-fit lg:rounded-r-full">
             <Button
               type="submit"
-              className="max-w-fit cursor-pointer rounded-full bg-primary p-4 text-accent transition-all duration-300 ease-in-out group-hover:scale-125 group-hover:bg-accent group-hover:text-accent-foreground md:p-3 xl:right-3 xl:top-1/2 xl:p-2"
+              className="max-w-fit cursor-pointer rounded-full bg-primary p-4 text-accent transition-all duration-300 ease-in-out group-hover:scale-125 group-hover:bg-accent group-hover:text-accent-foreground md:p-3 lg:right-3 lg:top-1/2 lg:p-2"
             >
               <MagnifyingGlassIcon className="size-5" />
             </Button>

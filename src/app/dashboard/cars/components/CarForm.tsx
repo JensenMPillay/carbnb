@@ -89,6 +89,7 @@ const CarForm = ({
       imageUrl: "https://dummyimage.com/280x250/21322F/4ac29a",
       pricePerDay: 50,
       locationId: "",
+      location: "",
     },
   });
 
@@ -293,7 +294,8 @@ const CarForm = ({
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <AddressFormField
                   form={carForm}
-                  fieldName="locationId"
+                  fieldNameId="locationId"
+                  fieldName="location"
                   classNameLabel="capitalize"
                   classNameInput="flex h-9 w-full rounded-md border-none bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
                   classNameInputWrapper="border"

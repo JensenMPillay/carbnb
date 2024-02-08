@@ -6,6 +6,11 @@ export const searchFormSchema = z.object({
       required_error: "Required.",
     })
     .min(1, { message: "Required" }),
+  location: z
+    .string({
+      required_error: "Required.",
+    })
+    .min(1, { message: "Required" }),
   date: z.object({
     from: z
       .date({

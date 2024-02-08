@@ -14,13 +14,16 @@ import {
 } from "@/src/components/ui/form";
 import { cn } from "@/src/lib/utils";
 import { CheckIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { useEffect } from "react";
 import { FieldValues, Path, PathValue, UseFormReturn } from "react-hook-form";
 import useAutocomplete from "../hooks/useAutocomplete";
 import { Input } from "./ui/input";
 
 type AddressFormFieldProps<FormSchemaType extends FieldValues> = {
   form: UseFormReturn<FormSchemaType>;
+  fieldNameId: Path<FormSchemaType>;
   fieldName: Path<FormSchemaType>;
+  defaultValue?: string;
   classNameItem?: string;
   classNameLabel?: string;
   classNameInput?: string;
@@ -30,7 +33,9 @@ type AddressFormFieldProps<FormSchemaType extends FieldValues> = {
 
 const AddressFormField = <FormSchemaType extends FieldValues>({
   form,
+  fieldNameId,
   fieldName,
+  defaultValue,
   classNameItem,
   classNameLabel,
   classNameInput,
@@ -44,6 +49,13 @@ const AddressFormField = <FormSchemaType extends FieldValues>({
     suggestions,
     clearSuggestions,
   } = useAutocomplete();
+
+  // Prefill Field
+  useEffect(() => {
+    if (defaultValue) setInputValue(defaultValue);
+
+    return () => {};
+  }, [defaultValue, setInputValue]);
 
   return (
     <FormField
@@ -86,8 +98,20 @@ const AddressFormField = <FormSchemaType extends FieldValues>({
                       key={suggestion.place_id}
                       onSelect={() => {
                         form.setValue(
-                          fieldName,
+                          fieldNameId,
                           suggestion.place_id as PathValue<
+                            FormSchemaType,
+                            Path<FormSchemaType>
+                          >,
+                          {
+                            shouldTouch: true,
+                            shouldDirty: true,
+                            shouldValidate: true,
+                          },
+                        );
+                        form.setValue(
+                          fieldName,
+                          suggestion.description as PathValue<
                             FormSchemaType,
                             Path<FormSchemaType>
                           >,
