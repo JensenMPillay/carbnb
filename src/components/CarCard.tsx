@@ -48,7 +48,7 @@ const CarCard = ({
     >
       <CardHeader className="flex flex-col items-start justify-between space-y-0 p-1 md:p-2 lg:p-3">
         <CardTitle className="space-x-2 truncate text-xl normal-case">
-          <span className="font-semibold capitalize">{brand}</span>
+          <span className="font-semibold capitalize">{brand.replace("_", " ")}</span>
           <span className="font-light uppercase">{model}</span>
         </CardTitle>
         <CardDescription className="flex w-full flex-row justify-between">
