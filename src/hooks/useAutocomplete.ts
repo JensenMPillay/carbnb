@@ -21,6 +21,11 @@ const useAutocomplete = () => {
   const IsLoaded = useApiIsLoaded();
 
   // Instances States
+  // Service SessionToken
+  const [sessionToken, setSessionToken] =
+    useState<google.maps.places.AutocompleteSessionToken>();
+
+  // Autocomplete Service
   const [autocomplete, setAutocomplete] =
     useState<google.maps.places.AutocompleteService | null>(null);
 
@@ -35,6 +40,7 @@ const useAutocomplete = () => {
   useEffect(() => {
     if (IsLoaded && placesLibrary) {
       setAutocomplete(new placesLibrary.AutocompleteService());
+      setSessionToken(new placesLibrary.AutocompleteSessionToken());
     }
 
     // Instances Clean
@@ -77,6 +83,9 @@ const useAutocomplete = () => {
 
   const clearSuggestions: () => void = () => {
     setSuggestions([]);
+    // Init New Token
+    if (placesLibrary)
+      setSessionToken(new placesLibrary.AutocompleteSessionToken());
   };
 
   // Service Not Working
