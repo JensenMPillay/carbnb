@@ -18,7 +18,6 @@ import { cn } from "@/src/lib/utils";
 import { useMutation } from "@apollo/client";
 import { Car, Location } from "@prisma/client";
 import { UpdateIcon } from "@radix-ui/react-icons";
-import { APIProvider } from "@vis.gl/react-google-maps";
 import { useState } from "react";
 import CarForm from "./CarForm";
 
@@ -83,46 +82,41 @@ const UpdateCarButton = ({ car }: CarProps) => {
   };
 
   return (
-    <APIProvider
-      apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
-      libraries={["places", "geocoding"]}
-    >
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button variant="outline" size="icon">
-            <UpdateIcon className="size-4" />
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="icon">
+          <UpdateIcon className="size-4" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Update Your Car</DialogTitle>
+          <DialogDescription>
+            List your car for rental in just a few simple steps.
+          </DialogDescription>
+        </DialogHeader>
+        <CarForm car={car} callbackAction={updateCarCallback} />
+        <DialogFooter>
+          <DialogClose
+            className={cn(
+              buttonVariants({ variant: "outline" }),
+              "my-1 w-fit place-self-center",
+            )}
+          >
+            Cancel
+          </DialogClose>
+          <Button
+            type="submit"
+            className="my-1 w-fit place-self-center"
+            variant="default"
+            form="carForm"
+            size="default"
+          >
+            Save Changes
           </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Update Your Car</DialogTitle>
-            <DialogDescription>
-              List your car for rental in just a few simple steps.
-            </DialogDescription>
-          </DialogHeader>
-          <CarForm car={car} callbackAction={updateCarCallback} />
-          <DialogFooter>
-            <DialogClose
-              className={cn(
-                buttonVariants({ variant: "outline" }),
-                "my-1 w-fit place-self-center",
-              )}
-            >
-              Cancel
-            </DialogClose>
-            <Button
-              type="submit"
-              className="my-1 w-fit place-self-center"
-              variant="default"
-              form="carForm"
-              size="default"
-            >
-              Save Changes
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </APIProvider>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 

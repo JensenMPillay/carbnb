@@ -10,9 +10,9 @@ export default function Home() {
     // Background
     <main className="flex min-h-[calc(100vh-9rem)] flex-col bg-cover bg-center md:flex-row">
       <Header />
-      <section className="flex max-h-fit w-full flex-1 flex-col items-center justify-center">
+      <section className="flex max-h-fit w-full md:w-2/3 flex-col items-center justify-center">
         <SearchForm />
-        <RandomSVGComponent className="w-3/4 lg:w-1/2" />
+        <RandomSVGComponent className="w-3/4 xl:w-1/2" />
       </section>
     </main>
   );

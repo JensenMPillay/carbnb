@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const searchFormSchema = z.object({
-  location: z
+  locationId: z
     .string({
       required_error: "Required.",
     })

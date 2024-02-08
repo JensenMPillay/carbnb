@@ -24,6 +24,8 @@ type AddressFormFieldProps<FormSchemaType extends FieldValues> = {
   classNameItem?: string;
   classNameLabel?: string;
   classNameInput?: string;
+  classNameInputWrapper?: string;
+  classNameListWrapper?: string;
 };
 
 const AddressFormField = <FormSchemaType extends FieldValues>({
@@ -32,6 +34,8 @@ const AddressFormField = <FormSchemaType extends FieldValues>({
   classNameItem,
   classNameLabel,
   classNameInput,
+  classNameInputWrapper,
+  classNameListWrapper,
 }: AddressFormFieldProps<FormSchemaType>) => {
   const {
     inputValue,
@@ -46,22 +50,22 @@ const AddressFormField = <FormSchemaType extends FieldValues>({
       control={form.control}
       name={fieldName}
       render={({ field: { value, onChange, ...rest }, fieldState }) => (
-        <FormItem className={cn("flex-1", classNameItem)}>
+        <FormItem className={cn("bg-inherit flex-1", classNameItem)}>
           <FormLabel className={cn("capitalize", classNameLabel)}>
             {fieldName === "locationId" ? "Location" : "Address"}
           </FormLabel>
-          <Command className="rounded-md border">
+          <Command className={cn("rounded-md overflow-visible", classNameInputWrapper)}>
             <div
-              className="flex items-center rounded-t-md border-b p-1 pl-3"
+              className={cn(
+                "flex items-center rounded-t-md",
+                classNameListWrapper,
+              )}
               cmdk-input-wrapper=""
             >
               <MagnifyingGlassIcon className="mr-2 size-4 shrink-0 opacity-50" />
               <FormControl>
                 <Input
-                  className={cn(
-                    "flex h-9 w-full rounded-md border-none bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
-                    classNameInput,
-                  )}
+                  className={classNameInput}
                   placeholder={`Search address...`}
                   value={inputValue}
                   onChange={onInputChange}
@@ -70,11 +74,12 @@ const AddressFormField = <FormSchemaType extends FieldValues>({
               </FormControl>
             </div>
             {suggestions.length > 0 ? (
-              <>
+              <div className="relative max-h-full w-max-content">
                 <CommandEmpty>No {fieldName} found.</CommandEmpty>
-                <CommandList>
+                <CommandList className="max-h-[25vh] absolute left-0 top-0">
                   {suggestions.map((suggestion) => (
                     <CommandItem
+                    className="bg-card z-10"
                       value={suggestion.description}
                       key={suggestion.place_id}
                       onSelect={() => {
@@ -104,7 +109,7 @@ const AddressFormField = <FormSchemaType extends FieldValues>({
                     </CommandItem>
                   ))}
                 </CommandList>
-              </>
+              </div>
             ) : null}
           </Command>
           <FormMessage />
