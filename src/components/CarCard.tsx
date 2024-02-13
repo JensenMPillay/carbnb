@@ -48,7 +48,9 @@ const CarCard = ({
     >
       <CardHeader className="flex flex-col items-start justify-between space-y-0 p-1 md:p-2 lg:p-3">
         <CardTitle className="space-x-2 truncate text-xl normal-case">
-          <span className="font-semibold capitalize">{brand.replace("_", " ")}</span>
+          <span className="font-semibold capitalize">
+            {brand.replace("_", " ")}
+          </span>
           <span className="font-light uppercase">{model}</span>
         </CardTitle>
         <CardDescription className="flex w-full flex-row justify-between">
@@ -83,7 +85,7 @@ const CarCard = ({
           <CarouselPrevious className="left-[4px]" />
           <CarouselNext className="right-[4px]" />
         </Carousel>
-        <div className="grid grid-cols-3 place-content-center place-items-center gap-4">
+        <div className="grid grid-cols-3 place-content-center place-items-center gap-4 text-xs md:text-sm">
           <div className="block space-y-1">
             <span>
               <TransmissionIcon className="mx-auto size-6" />

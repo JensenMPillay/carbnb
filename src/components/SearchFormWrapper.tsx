@@ -1,4 +1,5 @@
 "use client";
+import { APIProvider } from "@vis.gl/react-google-maps";
 import { useRouter } from "next/navigation";
 import { SubmitHandler } from "react-hook-form";
 import { SearchFormSchemaType } from "../lib/schemas/SearchFormSchema";
@@ -16,10 +17,9 @@ const SearchFormWrapper = (props: Props) => {
     try {
       // Set Search Params
       const params = new URLSearchParams({
-        locationId: data.locationId,
+        locationId: data.location.id,
         startDate: data.date.from.toISOString(),
         endDate: data.date.to.toISOString(),
-        location: encodeURIComponent(data.location),
       });
       // Redirect
       router.push(`/search?${params}`);
@@ -28,7 +28,14 @@ const SearchFormWrapper = (props: Props) => {
     }
   };
 
-  return <SearchForm onSubmit={onSubmit} />;
+  return (
+    <APIProvider
+      apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
+      libraries={["places", "geocoding"]}
+    >
+      <SearchForm onSubmit={onSubmit} />
+    </APIProvider>
+  );
 };
 
 export default SearchFormWrapper;

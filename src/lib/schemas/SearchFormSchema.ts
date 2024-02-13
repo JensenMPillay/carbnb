@@ -1,16 +1,18 @@
 import { z } from "zod";
 
 export const searchFormSchema = z.object({
-  locationId: z
-    .string({
-      required_error: "Required.",
-    })
-    .min(1, { message: "Required" }),
-  location: z
-    .string({
-      required_error: "Required.",
-    })
-    .min(1, { message: "Required" }),
+  location: z.object({
+    id: z
+      .string({
+        required_error: "Required.",
+      })
+      .min(1, { message: "Required" }),
+    description: z
+      .string({
+        required_error: "Required.",
+      })
+      .min(1, { message: "Required" }),
+  }),
   date: z.object({
     from: z
       .date({

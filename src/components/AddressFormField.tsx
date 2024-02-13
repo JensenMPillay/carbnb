@@ -19,9 +19,9 @@ import { FieldValues, Path, PathValue, UseFormReturn } from "react-hook-form";
 import useAutocomplete from "../hooks/useAutocomplete";
 import { Input } from "./ui/input";
 
+// TO DO : Verify fieldName Object type {id, description}
 type AddressFormFieldProps<FormSchemaType extends FieldValues> = {
   form: UseFormReturn<FormSchemaType>;
-  fieldNameId: Path<FormSchemaType>;
   fieldName: Path<FormSchemaType>;
   defaultValue?: string;
   classNameItem?: string;
@@ -33,7 +33,6 @@ type AddressFormFieldProps<FormSchemaType extends FieldValues> = {
 
 const AddressFormField = <FormSchemaType extends FieldValues>({
   form,
-  fieldNameId,
   fieldName,
   defaultValue,
   classNameItem,
@@ -64,7 +63,7 @@ const AddressFormField = <FormSchemaType extends FieldValues>({
       render={({ field: { value, onChange, ...rest }, fieldState }) => (
         <FormItem className={cn("flex-1 bg-inherit", classNameItem)}>
           <FormLabel className={cn("capitalize", classNameLabel)}>
-            {fieldName === "locationId" ? "Location" : "Address"}
+            Address
           </FormLabel>
           <Command
             className={cn("overflow-visible rounded-md", classNameInputWrapper)}
@@ -98,23 +97,11 @@ const AddressFormField = <FormSchemaType extends FieldValues>({
                       key={suggestion.place_id}
                       onSelect={() => {
                         form.setValue(
-                          fieldNameId,
-                          suggestion.place_id as PathValue<
-                            FormSchemaType,
-                            Path<FormSchemaType>
-                          >,
-                          {
-                            shouldTouch: true,
-                            shouldDirty: true,
-                            shouldValidate: true,
-                          },
-                        );
-                        form.setValue(
                           fieldName,
-                          suggestion.description as PathValue<
-                            FormSchemaType,
-                            Path<FormSchemaType>
-                          >,
+                          {
+                            id: suggestion.place_id,
+                            description: suggestion.description,
+                          } as PathValue<FormSchemaType, Path<FormSchemaType>>,
                           {
                             shouldTouch: true,
                             shouldDirty: true,
