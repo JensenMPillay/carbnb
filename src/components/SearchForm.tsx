@@ -56,7 +56,7 @@ const SearchForm = ({ onSubmit, defaultValues }: SearchFormProps) => {
     <Form {...searchForm}>
       <form
         onSubmit={searchForm.handleSubmit(onSubmit)}
-        className="flex max-h-fit w-3/4 min-w-fit flex-col items-center justify-center rounded-lg bg-card text-lg shadow-md backdrop-blur-sm md:text-base lg:w-full lg:flex-row lg:items-center lg:rounded-full lg:text-sm"
+        className="z-10 flex max-h-fit w-3/4 min-w-fit flex-col items-center justify-center rounded-lg bg-card text-lg shadow-md backdrop-blur-sm md:text-base lg:w-full lg:flex-row lg:items-center lg:rounded-full lg:text-sm"
       >
         <AddressFormField
           form={searchForm}

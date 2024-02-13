@@ -37,7 +37,7 @@ const SearchContainer = (props: Props) => {
   const pathname = usePathname();
 
   // Geocoder
-  const { getLocation } = useGeocoder();
+  const { getFormattedLocation } = useGeocoder();
 
   // Cars Store
   const { setCars } = useSearchStore();
@@ -85,13 +85,14 @@ const SearchContainer = (props: Props) => {
     const updateValues = async () => {
       if (!(locationId && startDate && endDate)) return;
       // Get Location
-      const location = await getLocation(locationId);
-      if (!location) return;
+      const formattedLocation = await getFormattedLocation(locationId);
+      if (!formattedLocation) return;
+      const { description, lat, lng } = formattedLocation;
       // Set Default Values
       setDefaultValues({
         location: {
           id: locationId,
-          description: `${location.address}, ${location.postalCode}, ${location.city}, ${location.state}, ${location.country}`,
+          description: description,
         },
         date: {
           from: new Date(startDate),
@@ -99,15 +100,15 @@ const SearchContainer = (props: Props) => {
         },
       });
       // Get Location Coordinates
-      if (!(location.latitude && location.longitude)) return;
+      if (!(lat && lng)) return;
       setLocationLatLng({
-        lat: location.latitude,
-        lng: location.longitude,
+        lat: lat,
+        lng: lng,
       });
     };
     updateValues();
     return () => {};
-  }, [locationId, startDate, endDate, getLocation]);
+  }, [locationId, startDate, endDate, getFormattedLocation]);
 
   useEffect(() => {
     // Set Cars Data
