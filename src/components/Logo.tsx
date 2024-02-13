@@ -22,9 +22,9 @@ const Logo = ({ className, color }: LogoProps) => {
     // Static Colors Cases
     color ? (
       color === "dark" ? (
-        <Image src={logoDark} alt="logo" className={className} />
+        <Image src={logoDark} alt="logo" className={className} priority />
       ) : (
-        <Image src={logoWhite} alt="logo" className={className} />
+        <Image src={logoWhite} alt="logo" className={className} priority />
       )
     ) : (
       // Theme Case
