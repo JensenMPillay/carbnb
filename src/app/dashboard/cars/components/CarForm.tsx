@@ -1,4 +1,5 @@
 "use client";
+import { CarQuery } from "@/src/@types/queries.types";
 import AddressFormField from "@/src/components/AddressFormField";
 import {
   EuroIcon,
@@ -17,33 +18,30 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import useGeocoder from "@/src/hooks/useGeocoder";
-import { usePrefillForm } from "@/src/hooks/usePrefillForm";
 import { showNotif } from "@/src/lib/notifications/toasters";
 import { CarSchemaType, carSchema } from "@/src/lib/schemas/car/CarSchema";
 import { cn, getCarModels, getCarTrueColors } from "@/src/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Brand,
-  Car,
   Category,
   Color,
   FuelType,
   Location,
   Transmission,
 } from "@prisma/client";
-import { APIProvider } from "@vis.gl/react-google-maps";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import { Path, SubmitHandler, useForm } from "react-hook-form";
 import CarFormImage from "./CarFormImage";
 
 type CarProps = {
-  car?: Car;
+  car?: CarQuery;
   callbackAction: ({
     carData,
     locationData,
   }: {
     carData: CarSchemaType;
-    locationData: Location;
+    locationData: Location | undefined;
   }) => Promise<void>;
 };
 
@@ -88,13 +86,12 @@ const CarForm = ({
       fuelType: "DIESEL",
       imageUrl: "https://dummyimage.com/280x250/21322F/4cc2ae",
       pricePerDay: 50,
-      locationId: "",
-      location: "",
+      location: {
+        id: "",
+        description: "",
+      },
     },
   });
-
-  // Prefill Form
-  usePrefillForm({ form: carForm, entity: car });
 
   // Geocoder
   const { getLocation } = useGeocoder();
@@ -106,9 +103,8 @@ const CarForm = ({
       description: "Submitting your request, please wait...",
     });
     try {
-      const location = await getLocation(data.locationId);
-      if (location)
-        await callbackAction({ carData: data, locationData: location });
+      const location = await getLocation(data.location.id);
+      await callbackAction({ carData: data, locationData: location });
     } catch (error) {
       console.error(`Error : ${error}`);
     }
@@ -144,172 +140,181 @@ const CarForm = ({
     }
   };
 
+  // Prefill Form
+  useEffect(() => {
+    if (car)
+      carForm.reset({
+        ...car,
+        imageUrl: car.imageUrl[0],
+        location: {
+          id: car.locationId,
+          description: car.location.formatted_address,
+        },
+      });
+    return () => {};
+  }, [car, carForm]);
+
   return (
-    <APIProvider
-      apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
-      libraries={["places", "geocoding"]}
-    >
-      <Card className="">
-        <Form {...carForm}>
-          <form id="carForm" onSubmit={carForm.handleSubmit(onSubmit)}>
-            <CardContent className="flex flex-col space-y-2 p-4 md:p-5 lg:p-6">
-              <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+    <Card className="">
+      <Form {...carForm}>
+        <form id="carForm" onSubmit={carForm.handleSubmit(onSubmit)}>
+          <CardContent className="flex flex-col space-y-2 p-4 md:p-5 lg:p-6">
+            <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+              <ComboboxFormField
+                form={carForm}
+                fieldName="brand"
+                items={brands}
+                prismaEnum={Brand}
+                resetFields={() => {
+                  carForm.resetField("model");
+                  carForm.resetField("trueColor");
+                }}
+              />
+              <FormField
+                control={carForm.control}
+                name="year"
+                render={({ field: { onChange, ...rest }, fieldState }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Year</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        min={1950}
+                        max={new Date().getFullYear()}
+                        placeholder="2010"
+                        autoCapitalize="off"
+                        autoComplete="on"
+                        autoCorrect="off"
+                        className={cn(
+                          "w-fit text-muted-foreground focus:text-foreground",
+                          fieldState.isTouched && "text-foreground",
+                        )}
+                        onChange={(event) => {
+                          onChange(parseInt(event.target.value));
+                          carForm.resetField("model");
+                        }}
+                        {...rest}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <ComboboxFormField
+                form={carForm}
+                fieldName="category"
+                items={categories}
+                prismaEnum={Category}
+              />
+              <ComboboxFormField
+                form={carForm}
+                fieldName="model"
+                items={models}
+                updateItems={updateModelItems}
+              />
+              <ComboboxFormField
+                form={carForm}
+                fieldName="primaryColor"
+                items={primaryColors}
+                prismaEnum={Color}
+                resetFields={() => {
+                  carForm.resetField("trueColor");
+                }}
+              />
+              <ComboboxFormField
+                form={carForm}
+                fieldName="trueColor"
+                items={trueColors}
+                updateItems={updateTrueColorItems}
+              />
+            </div>
+            <div className="relative aspect-square h-[300px] w-fit self-center rounded-lg border border-muted">
+              <CarFormImage
+                form={carForm}
+                fieldName="imageUrl"
+                watchedFields={watchedFields}
+              />
+            </div>
+            <div className="grid grid-cols-1 place-content-center place-items-center gap-4 md:grid-cols-3">
+              <div className="block space-y-1">
+                <span>
+                  <TransmissionIcon className="mx-auto size-6" />
+                </span>
                 <ComboboxFormField
                   form={carForm}
-                  fieldName="brand"
-                  items={brands}
-                  prismaEnum={Brand}
-                  resetFields={() => {
-                    carForm.resetField("model");
-                    carForm.resetField("trueColor");
-                  }}
+                  fieldName="transmission"
+                  items={transmissions}
+                  prismaEnum={Transmission}
                 />
+              </div>
+              <div className="block space-y-1">
+                <span>
+                  <FuelTypeIcon className="mx-auto size-6" />
+                </span>
+                <ComboboxFormField
+                  form={carForm}
+                  fieldName="fuelType"
+                  items={fuelTypes}
+                  prismaEnum={FuelType}
+                />
+              </div>
+              <div className="block space-y-1">
+                <span>
+                  <EuroIcon className="mx-auto size-6" />
+                </span>
                 <FormField
                   control={carForm.control}
-                  name="year"
-                  render={({ field: { onChange, ...rest }, fieldState }) => (
+                  name="pricePerDay"
+                  render={({ field, fieldState }) => (
                     <FormItem className="flex-1">
-                      <FormLabel>Year</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          min={1950}
-                          max={new Date().getFullYear()}
-                          placeholder="2010"
-                          autoCapitalize="off"
-                          autoComplete="on"
-                          autoCorrect="off"
-                          className={cn(
-                            "w-fit text-muted-foreground focus:text-foreground",
-                            fieldState.isTouched && "text-foreground",
-                          )}
-                          onChange={(event) => {
-                            onChange(parseInt(event.target.value));
-                            carForm.resetField("model");
-                          }}
-                          {...rest}
-                        />
-                      </FormControl>
+                      <FormLabel>Price</FormLabel>
+                      <div className="flex flex-row text-3xl font-extrabold leading-10">
+                        <FormControl>
+                          <Input
+                            type="number"
+                            min="1"
+                            max="9999"
+                            placeholder="50"
+                            autoCapitalize="off"
+                            autoComplete="on"
+                            autoCorrect="off"
+                            className={cn(
+                              "w-fit text-muted-foreground focus:text-foreground",
+                              fieldState.isTouched && "text-foreground",
+                            )}
+                            {...field}
+                          />
+                        </FormControl>
+                        <span className="self-start text-sm">€</span>
+                        <span className="self-end text-sm font-medium leading-4 text-muted-foreground">
+                          /day
+                        </span>
+                      </div>
+
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <ComboboxFormField
-                  form={carForm}
-                  fieldName="category"
-                  items={categories}
-                  prismaEnum={Category}
-                />
-                <ComboboxFormField
-                  form={carForm}
-                  fieldName="model"
-                  items={models}
-                  updateItems={updateModelItems}
-                />
-                <ComboboxFormField
-                  form={carForm}
-                  fieldName="primaryColor"
-                  items={primaryColors}
-                  prismaEnum={Color}
-                  resetFields={() => {
-                    carForm.resetField("trueColor");
-                  }}
-                />
-                <ComboboxFormField
-                  form={carForm}
-                  fieldName="trueColor"
-                  items={trueColors}
-                  updateItems={updateTrueColorItems}
-                />
               </div>
-              <div className="relative aspect-square h-[300px] w-fit self-center rounded-lg border border-muted">
-                <CarFormImage
-                  form={carForm}
-                  fieldName="imageUrl"
-                  watchedFields={watchedFields}
-                />
-              </div>
-              <div className="grid grid-cols-1 place-content-center place-items-center gap-4 md:grid-cols-3">
-                <div className="block space-y-1">
-                  <span>
-                    <TransmissionIcon className="mx-auto size-6" />
-                  </span>
-                  <ComboboxFormField
-                    form={carForm}
-                    fieldName="transmission"
-                    items={transmissions}
-                    prismaEnum={Transmission}
-                  />
-                </div>
-                <div className="block space-y-1">
-                  <span>
-                    <FuelTypeIcon className="mx-auto size-6" />
-                  </span>
-                  <ComboboxFormField
-                    form={carForm}
-                    fieldName="fuelType"
-                    items={fuelTypes}
-                    prismaEnum={FuelType}
-                  />
-                </div>
-                <div className="block space-y-1">
-                  <span>
-                    <EuroIcon className="mx-auto size-6" />
-                  </span>
-                  <FormField
-                    control={carForm.control}
-                    name="pricePerDay"
-                    render={({ field, fieldState }) => (
-                      <FormItem className="flex-1">
-                        <FormLabel>Price</FormLabel>
-                        <div className="flex flex-row text-3xl font-extrabold leading-10">
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="1"
-                              max="9999"
-                              placeholder="50"
-                              autoCapitalize="off"
-                              autoComplete="on"
-                              autoCorrect="off"
-                              className={cn(
-                                "w-fit text-muted-foreground focus:text-foreground",
-                                fieldState.isTouched && "text-foreground",
-                              )}
-                              {...field}
-                            />
-                          </FormControl>
-                          <span className="self-start text-sm">€</span>
-                          <span className="self-end text-sm font-medium leading-4 text-muted-foreground">
-                            /day
-                          </span>
-                        </div>
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-              <div className="grid w-full max-w-sm items-center gap-1.5">
-                <AddressFormField
-                  form={carForm}
-                  fieldNameId="locationId"
-                  fieldName="location"
-                  classNameLabel="capitalize"
-                  classNameInput="flex h-9 w-full rounded-md border-none bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                  classNameInputWrapper="border"
-                  classNameListWrapper="border-b p-1 pl-3"
-                />
-              </div>
-            </CardContent>
-            <CardFooter className="mx-auto flex justify-between p-1 md:p-2 lg:p-3">
-              {children}
-            </CardFooter>
-          </form>
-        </Form>
-      </Card>
-    </APIProvider>
+            </div>
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <AddressFormField
+                form={carForm}
+                fieldName="location"
+                defaultValue={car ? car.location.formatted_address : undefined}
+                classNameLabel="capitalize"
+                classNameInput="flex h-9 w-full rounded-md border-none bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                classNameInputWrapper="border"
+                classNameListWrapper="border-b p-1 pl-3"
+              />
+            </div>
+          </CardContent>
+          <CardFooter className="mx-auto flex justify-between p-1 md:p-2 lg:p-3">
+            {children}
+          </CardFooter>
+        </form>
+      </Form>
+    </Card>
   );
 };
 

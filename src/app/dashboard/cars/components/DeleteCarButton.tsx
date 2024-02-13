@@ -1,4 +1,5 @@
 "use client";
+import { CarQuery } from "@/src/@types/queries.types";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,12 +15,11 @@ import { Button } from "@/src/components/ui/button";
 import { DELETE_CAR_MUTATION } from "@/src/lib/graphql/car";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
 import { useMutation } from "@apollo/client";
-import { Car } from "@prisma/client";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { MouseEvent, useState } from "react";
 
 type CarProps = {
-  car?: Car;
+  car?: CarQuery;
 };
 
 const DeleteCarButton = ({ car }: CarProps) => {

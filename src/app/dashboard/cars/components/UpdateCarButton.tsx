@@ -1,4 +1,5 @@
 "use client";
+import { CarQuery } from "@/src/@types/queries.types";
 import { Button, buttonVariants } from "@/src/components/ui/button";
 import {
   Dialog,
@@ -16,18 +17,19 @@ import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
 import { CarSchemaType } from "@/src/lib/schemas/car/CarSchema";
 import { cn } from "@/src/lib/utils";
 import { useMutation } from "@apollo/client";
-import { Car, Location } from "@prisma/client";
+import { Location } from "@prisma/client";
 import { UpdateIcon } from "@radix-ui/react-icons";
+import { APIProvider } from "@vis.gl/react-google-maps";
 import { useState } from "react";
 import CarForm from "./CarForm";
 
 type CarProps = {
-  car?: Car;
+  car?: CarQuery;
 };
 
 type CallbackActionProps = {
   carData: CarSchemaType;
-  locationData: Location;
+  locationData: Location | undefined;
 };
 
 const UpdateCarButton = ({ car }: CarProps) => {
@@ -95,7 +97,12 @@ const UpdateCarButton = ({ car }: CarProps) => {
             List your car for rental in just a few simple steps.
           </DialogDescription>
         </DialogHeader>
-        <CarForm car={car} callbackAction={updateCarCallback} />
+        <APIProvider
+          apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
+          libraries={["places", "geocoding"]}
+        >
+          <CarForm car={car} callbackAction={updateCarCallback} />
+        </APIProvider>
         <DialogFooter>
           <DialogClose
             className={cn(

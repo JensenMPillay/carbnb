@@ -17,16 +17,18 @@ export const carSchema = z.object({
   fuelType: z.nativeEnum(FuelType),
   imageUrl: z.string(),
   pricePerDay: z.coerce.number().min(1, { message: "Price is required" }),
-  locationId: z
-    .string({
-      required_error: "Required.",
-    })
-    .min(1, { message: "Required" }),
-  location: z
-    .string({
-      required_error: "Required.",
-    })
-    .min(1, { message: "Required" }),
+  location: z.object({
+    id: z
+      .string({
+        required_error: "Required.",
+      })
+      .min(1, { message: "Required." }),
+    description: z
+      .string({
+        required_error: "Required.",
+      })
+      .min(1, { message: "Required." }),
+  }),
 });
 
 export type CarSchemaType = z.infer<typeof carSchema>;

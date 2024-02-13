@@ -1,17 +1,16 @@
 "use client";
+import { CarQuery } from "@/src/@types/queries.types";
 import CarCard from "@/src/components/CarCard";
 import { Label } from "@/src/components/ui/label";
 import { Switch } from "@/src/components/ui/switch";
 import { UPDATE_CAR_MUTATION } from "@/src/lib/graphql/car";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
 import { useMutation } from "@apollo/client";
-import { Car } from "@prisma/client";
 import DeleteCarButton from "./DeleteCarButton";
 import UpdateCarButton from "./UpdateCarButton";
 
 type CarProps = {
-  key: string;
-  car: Car;
+  car: CarQuery;
 };
 
 const UserCarCard = ({ car }: CarProps) => {

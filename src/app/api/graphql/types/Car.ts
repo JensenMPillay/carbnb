@@ -6,6 +6,14 @@ import { randomUUID } from "crypto";
 import { createGraphQLError } from "graphql-yoga";
 import { builder } from "../builder";
 
+// Location Input
+const LocationInput = builder.inputType("LocationInput", {
+  fields: (t) => ({
+    id: t.string({ required: true }),
+    description: t.string({ required: true }),
+  }),
+});
+
 // Category
 builder.enumType(Category, {
   name: "Category",
@@ -157,7 +165,7 @@ builder.mutationField("registerCar", (t) =>
       imageUrl: t.arg.string({ required: true }),
       pricePerDay: t.arg.int({ required: true }),
       available: t.arg.boolean({ required: false }),
-      locationId: t.arg.string({ required: true }),
+      location: t.arg({ type: LocationInput, required: true }),
     },
     resolve: async (query, _parent, args, ctx) => {
       if (!(await ctx).user)
@@ -175,7 +183,7 @@ builder.mutationField("registerCar", (t) =>
 
       const dbLocation = await prisma.location.findUnique({
         where: {
-          id: args.locationId,
+          id: args.location.id,
         },
       });
 
@@ -275,7 +283,7 @@ builder.mutationField("updateCar", (t) =>
       imageUrl: t.arg.string({ required: false }),
       pricePerDay: t.arg.int({ required: false }),
       available: t.arg.boolean({ required: false }),
-      locationId: t.arg.string({ required: false }),
+      location: t.arg({ type: LocationInput, required: false }),
     },
     resolve: async (query, _parent, args, ctx) => {
       if (!(await ctx).user)
@@ -300,10 +308,10 @@ builder.mutationField("updateCar", (t) =>
 
       if (!dbCar) throw createGraphQLError("Car does not exist.");
 
-      const dbLocation = args.locationId
+      const dbLocation = args.location?.id
         ? await prisma.location.findUnique({
             where: {
-              id: args.locationId,
+              id: args.location.id,
             },
           })
         : null;

@@ -1,14 +1,14 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { CarData } from "../@types/queries.types";
+import { CarQuery } from "../@types/queries.types";
 
 type SearchStore = {
   // Available Cars Filtered
-  cars: CarData[] | null;
-  setCars: (cars: CarData[] | null) => void;
+  cars: CarQuery[] | null;
+  setCars: (cars: CarQuery[] | null) => void;
   //   Car Selected
-  carSelected: CarData | null;
-  setCarSelected: (car: CarData | null) => void;
+  carSelected: CarQuery | null;
+  setCarSelected: (car: CarQuery | null) => void;
 };
 
 const useSearchStore = create<SearchStore>()(
