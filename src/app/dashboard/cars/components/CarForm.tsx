@@ -86,7 +86,7 @@ const CarForm = ({
       trueColor: "",
       transmission: "AUTOMATIC",
       fuelType: "DIESEL",
-      imageUrl: "https://dummyimage.com/280x250/21322F/4ac29a",
+      imageUrl: "https://dummyimage.com/280x250/21322F/4cc2ae",
       pricePerDay: 50,
       locationId: "",
       location: "",

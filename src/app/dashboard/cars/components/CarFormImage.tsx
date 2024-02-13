@@ -22,7 +22,7 @@ const CarFormImage = <FormSchemaType extends FieldValues>({
   watchedFields,
 }: ImageProps<FormSchemaType>) => {
   const [src, setSrc] = useState<URL["href"]>(
-    "https://dummyimage.com/300x300/21322F/4ac29a",
+    "https://dummyimage.com/300x300/21322F/4cc2ae",
   );
 
   const imageParams = useWatch({

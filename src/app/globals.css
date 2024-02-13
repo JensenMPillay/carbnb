@@ -6,7 +6,7 @@
   :root {
     --gradient: linear-gradient(
       to left top,
-      #4ac29a,
+      #4cc2ae,
       #67d1b2,
       #83e1c8,
       #a0f0de,
@@ -14,7 +14,7 @@
       #a0f0de,
       #83e1c8,
       #67d1b2,
-      #4ac29a
+      #4cc2ae
     );
 
     --background: 150, 100%, 98%;

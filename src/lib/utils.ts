@@ -3,7 +3,14 @@ import { twMerge } from "tailwind-merge";
 
 import { Color, type Car } from "@prisma/client";
 import type { Metadata } from "next";
-import { ColorsMap, PaintCombinations, resultODModel } from "./imaginstudio";
+import {
+  ColorsMap,
+  PaintCombinations,
+  resultODModel,
+} from "../@types/imaginstudio";
+
+// primary Color (Map...)
+export const PRIMARY_COLOR = "#4cc2ae";
 
 // Classname Util
 export function cn(...inputs: ClassValue[]) {

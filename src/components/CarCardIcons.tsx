@@ -10,7 +10,7 @@ export const TransmissionIcon = ({ className, ...rest }: SVGProps) => (
     className={className}
     {...rest}
   >
-    <g fill="#4ac29a">
+    <g fill="#4cc2ae">
       <path d="M2 4a2 2 0 112.75 1.855v5.395h6.5V5.855a2 2 0 111.5 0v5.395H16c.964 0 1.612-.002 2.095-.066.461-.063.659-.17.789-.3.13-.13.237-.328.3-.79.064-.482.066-1.13.066-2.094V5.855a2 2 0 111.5 0v2.197c0 .898 0 1.648-.08 2.242-.084.628-.27 1.195-.726 1.65-.455.456-1.022.642-1.65.726-.594.08-1.343.08-2.242.08H12.75v5.395a2 2 0 11-1.5 0V12.75h-6.5v5.395a2 2 0 11-1.5 0V5.855A2 2 0 012 4z"></path>
       <path
         fillRule="evenodd"
@@ -33,7 +33,7 @@ export const FuelTypeIcon = ({ className, ...rest }: SVGProps) => (
     {...rest}
   >
     <path
-      fill="#4ac29a"
+      fill="#4cc2ae"
       fillRule="evenodd"
       d="M2 13.087c0-2.096 0-3.145.553-3.94C3 8.506 3.718 8.157 5 7.681v-.62c0-1.306 0-1.958.338-2.408.087-.116.189-.22.302-.308C6.08 4 6.72 4 8 4h.818c.507 0 .761 0 .97.057a1.653 1.653 0 011.156 1.18l.072.293 3.002-1.07c3.636-1.298 5.454-1.947 6.718-1.032C22 4.342 22 6.305 22 10.233v5.65c0 2.884 0 4.326-.879 5.221C20.243 22 18.828 22 16 22H8c-2.828 0-4.243 0-5.121-.896C2 20.21 2 18.767 2 15.884v-2.797zm5.47-2.557a.75.75 0 111.06-1.06l1.5 1.5c.039.038.072.08.1.123C10.564 11 11.156 11 12 11c.831 0 1.418 0 1.85.09l1.62-1.62a.75.75 0 111.06 1.06l-1.62 1.62c.09.432.09 1.019.09 1.85 0 .831 0 1.418-.09 1.85l1.62 1.62a.75.75 0 11-1.06 1.06l-1.62-1.62c-.432.09-1.019.09-1.85.09-.831 0-1.418 0-1.85-.09l-1.62 1.62a.75.75 0 01-1.06-1.06l1.62-1.62C9 15.418 9 14.831 9 14c0-.844 0-1.436.093-1.87a.756.756 0 01-.123-.1l-1.5-1.5z"
       clipRule="evenodd"
@@ -46,7 +46,7 @@ export const YearIcon = ({ className, ...rest }: SVGProps) => (
     xmlns="http://www.w3.org/2000/svg"
     width="800"
     height="800"
-    fill="#4ac29a"
+    fill="#4cc2ae"
     version="1.1"
     viewBox="0 0 254.532 254.532"
     xmlSpace="preserve"
@@ -59,20 +59,20 @@ export const YearIcon = ({ className, ...rest }: SVGProps) => (
 
 export const EuroIcon = ({ className, ...rest }: SVGProps) => (
   <svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="800"
-  height="800"
-  fill="none"
-  stroke="#4ac29a"
-  viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+    width="800"
+    height="800"
+    fill="none"
+    stroke="#4cc2ae"
+    viewBox="0 0 24 24"
     className={className}
     {...rest}
   >
     <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        d="M16 8.944C15.183 7.762 13.904 7 12.465 7 10 7 8 9.239 8 12s2 5 4.465 5c1.439 0 2.718-.762 3.535-1.944M7 10.5h4m-4 3h4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-      ></path>
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M16 8.944C15.183 7.762 13.904 7 12.465 7 10 7 8 9.239 8 12s2 5 4.465 5c1.439 0 2.718-.762 3.535-1.944M7 10.5h4m-4 3h4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+    ></path>
   </svg>
 );

@@ -10,7 +10,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import type { NextFontWithVariable } from "next/dist/compiled/@next/font";
 
-const inter: NextFontWithVariable = Raleway({
+const raleway: NextFontWithVariable = Raleway({
   subsets: ["latin"],
   variable: "--font-raleway",
   display: "swap",
@@ -29,7 +29,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("min-h-screen w-full antialiased", inter.className)}>
+      <body
+        className={cn("min-h-screen w-full antialiased", raleway.className)}
+      >
         <ApolloWrapper>
           <ThemeProvider
             attribute="class"
