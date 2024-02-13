@@ -32,6 +32,7 @@ export const GET_CAR_QUERY = gql`
         postalCode
         state
         country
+        formatted_address
       }
       createdAt
       updatedAt
@@ -71,6 +72,7 @@ export const GET_AVAILABLE_CARS_QUERY = gql`
         postalCode
         state
         country
+        formatted_address
       }
       createdAt
       updatedAt
@@ -91,7 +93,7 @@ export const REGISTER_CAR_MUTATION = gql`
     $fuelType: FuelType!
     $imageUrl: String!
     $pricePerDay: Int!
-    $locationId: String!
+    $location: LocationInput!
   ) {
     registerCar(
       category: $category
@@ -104,7 +106,7 @@ export const REGISTER_CAR_MUTATION = gql`
       fuelType: $fuelType
       imageUrl: $imageUrl
       pricePerDay: $pricePerDay
-      locationId: $locationId
+      location: $location
     ) {
       id
       category
@@ -134,6 +136,7 @@ export const REGISTER_CAR_MUTATION = gql`
         postalCode
         state
         country
+        formatted_address
       }
       createdAt
     }
@@ -155,7 +158,7 @@ export const UPDATE_CAR_MUTATION = gql`
     $imageUrl: String
     $pricePerDay: Int
     $available: Boolean
-    $locationId: String
+    $location: LocationInput
   ) {
     updateCar(
       id: $id
@@ -170,7 +173,7 @@ export const UPDATE_CAR_MUTATION = gql`
       imageUrl: $imageUrl
       pricePerDay: $pricePerDay
       available: $available
-      locationId: $locationId
+      location: $location
     ) {
       id
       category
@@ -200,6 +203,7 @@ export const UPDATE_CAR_MUTATION = gql`
         postalCode
         state
         country
+        formatted_address
       }
       createdAt
       updatedAt
@@ -239,6 +243,7 @@ export const DELETE_CAR_MUTATION = gql`
         postalCode
         state
         country
+        formatted_address
       }
       createdAt
     }

@@ -68,6 +68,7 @@ export const REGISTER_LOCATION_MUTATION = gql`
       postalCode
       state
       country
+      formatted_address
     }
   }
 `;

@@ -35,6 +35,7 @@ export const GET_USER_QUERY = gql`
           postalCode
           state
           country
+          formatted_address
         }
         createdAt
         updatedAt

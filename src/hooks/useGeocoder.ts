@@ -70,6 +70,7 @@ const useGeocoder = () => {
     // Values
     const {
       place_id,
+      formatted_address,
       address_components,
       geometry: {
         location: { lat, lng },
@@ -98,6 +99,7 @@ const useGeocoder = () => {
       postalCode: postalCode,
       state: state,
       country: country,
+      formatted_address: formatted_address,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
