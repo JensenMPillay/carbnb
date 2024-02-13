@@ -86,7 +86,6 @@ builder.queryField("getAvailableCars", (t) =>
   t.prismaField({
     type: ["Car"],
     args: {
-      locationId: t.arg.string({ required: true }),
       startDate: t.arg({ type: "Date", required: true }),
       endDate: t.arg({ type: "Date", required: true }),
     },
