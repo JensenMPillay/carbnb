@@ -20,6 +20,7 @@ const SearchMap = ({ userLocation }: SearchMapProps) => {
       className="h-[75dvh] w-full rounded"
       defaultZoom={10}
       defaultCenter={userLocation}
+      center={userLocation}
       gestureHandling={"greedy"}
       disableDefaultUI={true}
     >
