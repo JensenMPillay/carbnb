@@ -1,15 +1,16 @@
 "use client";
 import { Circle } from "@/src/components/Circle";
+import { FormattedLocation } from "@/src/hooks/useGeocoder";
 import useMarker from "@/src/hooks/useMarker";
 import { PRIMARY_COLOR } from "@/src/lib/utils";
 import { Map, Marker } from "@vis.gl/react-google-maps";
 import CarMarkers from "./CarMarkers";
 
 type SearchMapProps = {
-  locationLatLng: google.maps.LatLngLiteral | undefined;
+  userLocation: FormattedLocation | undefined;
 };
 
-const SearchMap = ({ locationLatLng }: SearchMapProps) => {
+const SearchMap = ({ userLocation }: SearchMapProps) => {
   // Marker Library State
   const markerLoaded = useMarker();
   if (!markerLoaded) return;
@@ -18,14 +19,14 @@ const SearchMap = ({ locationLatLng }: SearchMapProps) => {
       mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_ID ?? ""}
       className="h-[75dvh] w-full rounded"
       defaultZoom={10}
-      defaultCenter={locationLatLng}
+      defaultCenter={userLocation}
       gestureHandling={"greedy"}
       disableDefaultUI={true}
     >
-      <Marker position={locationLatLng} title="Location" />
+      <Marker position={userLocation} title={userLocation?.description} />
       <Circle
         radius={25000}
-        center={locationLatLng}
+        center={userLocation}
         strokeColor={PRIMARY_COLOR}
         strokeOpacity={1}
         strokeWeight={3}

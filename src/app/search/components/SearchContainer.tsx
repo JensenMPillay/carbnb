@@ -1,7 +1,7 @@
 "use client";
 import SearchForm from "@/src/components/SearchForm";
 import { Skeleton } from "@/src/components/ui/skeleton";
-import useGeocoder from "@/src/hooks/useGeocoder";
+import useGeocoder, { FormattedLocation } from "@/src/hooks/useGeocoder";
 import { GET_AVAILABLE_CARS_QUERY } from "@/src/lib/graphql/car";
 import { showErrorNotif } from "@/src/lib/notifications/toasters";
 import { SearchFormSchemaType } from "@/src/lib/schemas/SearchFormSchema";
@@ -17,9 +17,8 @@ import SearchSheet from "./SearchSheet";
 type Props = {};
 
 const SearchContainer = (props: Props) => {
-  // location Coordinates State
-  const [locationLatLng, setLocationLatLng] =
-    useState<google.maps.LatLngLiteral>();
+  // User Location State
+  const [userLocation, setUserLocation] = useState<FormattedLocation>();
 
   // Form defaultValues State
   const [defaultValues, setDefaultValues] = useState<SearchFormSchemaType>();
@@ -48,7 +47,6 @@ const SearchContainer = (props: Props) => {
   // Get Query
   const { loading, error, data } = useQuery(GET_AVAILABLE_CARS_QUERY, {
     variables: {
-      locationId: locationId,
       startDate: startDate && new Date(startDate),
       endDate: endDate && new Date(endDate),
     },
@@ -81,18 +79,19 @@ const SearchContainer = (props: Props) => {
   };
 
   useEffect(() => {
-    // Prefill Form & getLatLng Location
+    // Prefill Form
     const updateValues = async () => {
       if (!(locationId && startDate && endDate)) return;
-      // Get Location
+      // Get FormattedLocation
       const formattedLocation = await getFormattedLocation(locationId);
       if (!formattedLocation) return;
-      const { description, lat, lng } = formattedLocation;
+      // Set UserLocation
+      setUserLocation(formattedLocation);
       // Set Default Values
       setDefaultValues({
         location: {
           id: locationId,
-          description: description,
+          description: formattedLocation.description,
         },
         date: {
           from: new Date(startDate),
@@ -100,11 +99,6 @@ const SearchContainer = (props: Props) => {
         },
       });
       // Get Location Coordinates
-      if (!(lat && lng)) return;
-      setLocationLatLng({
-        lat: lat,
-        lng: lng,
-      });
     };
     updateValues();
     return () => {};
@@ -131,7 +125,7 @@ const SearchContainer = (props: Props) => {
         <p>No cars available. Please adjust your dates.</p>
       ) : (
         <>
-          <SearchMap locationLatLng={locationLatLng} />
+          <SearchMap userLocation={userLocation} />
           <SearchSheet />
         </>
       )}

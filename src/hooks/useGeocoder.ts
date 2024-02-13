@@ -5,9 +5,7 @@ import { useEffect, useState } from "react";
 
 export type FormattedLocation = {
   description: string;
-  lat: number | null;
-  lng: number | null;
-};
+} & google.maps.LatLngLiteral;
 
 const useGeocoder = () => {
   // Google Maps Libraries
