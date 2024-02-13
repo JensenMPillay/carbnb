@@ -13,6 +13,7 @@ builder.prismaObject("Location", {
     postalCode: t.exposeString("postalCode"),
     state: t.exposeString("state"),
     country: t.exposeString("country"),
+    formatted_address: t.exposeString("formatted_address"),
     cars: t.relation("cars"),
   }),
 });
@@ -52,6 +53,7 @@ builder.mutationField("registerLocation", (t) =>
       postalCode: t.arg.string({ required: true }),
       state: t.arg.string({ required: true }),
       country: t.arg.string({ required: true }),
+      formatted_address: t.arg.string({ required: true }),
     },
     resolve: async (query, _parent, args, ctx) => {
       const dbLocation = await prisma.location.findUnique({
@@ -73,6 +75,7 @@ builder.mutationField("registerLocation", (t) =>
           postalCode: args.postalCode,
           state: args.state,
           country: args.country,
+          formatted_address: args.formatted_address,
         },
       });
 

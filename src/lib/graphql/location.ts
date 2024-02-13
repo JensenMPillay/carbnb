@@ -12,6 +12,7 @@ export const GET_LOCATION_QUERY = gql`
       postalCode
       state
       country
+      formatted_address
       cars {
         category
         brand
@@ -46,6 +47,7 @@ export const REGISTER_LOCATION_MUTATION = gql`
     $postalCode: String!
     $state: String!
     $country: String!
+    $formatted_address: String!
   ) {
     registerLocation(
       id: $id
@@ -56,6 +58,7 @@ export const REGISTER_LOCATION_MUTATION = gql`
       postalCode: $postalCode
       state: $state
       country: $country
+      formatted_address: $formatted_address
     ) {
       id
       latitude

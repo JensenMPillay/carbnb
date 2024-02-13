@@ -245,18 +245,19 @@ model Booking {
 }
 
 model Location {
-  id            String      @id @unique @default(cuid())
-  latitude      Float?
-  longitude     Float?
-  address       String
-  city          String
-  postalCode    String
-  state         String
-  country       String
-  cars          Car[]
+  id                String      @id @unique @default(cuid())
+  latitude          Float?
+  longitude         Float?
+  address           String
+  city              String
+  postalCode        String
+  state             String
+  country           String
+  formatted_address String
+  cars              Car[]
 
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
   
   @@index([latitude, longitude])
 
