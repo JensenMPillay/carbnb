@@ -74,9 +74,10 @@ const ComboboxFormField = <
                   }}
                 >
                   {field.value && prismaEnum
-                    ? items.find((key) => prismaEnum[key] === field.value) ??
-                      `Select ${fieldName}`
-                    : field.value ?? `Select ${fieldName}`}
+                    ? items
+                        .find((key) => prismaEnum[key] === field.value)
+                        ?.replace("_", " ") ?? `Select ${fieldName}`
+                    : field.value?.replace("_", " ") ?? `Select ${fieldName}`}
                   <CaretSortIcon className="ml-2 size-4 shrink-0 opacity-50" />
                 </Button>
               </FormControl>
@@ -110,7 +111,7 @@ const ComboboxFormField = <
                         resetFields && resetFields();
                       }}
                     >
-                      {item}
+                      {item.replace("_", " ")}
                       <CheckIcon
                         className={cn(
                           "ml-auto h-4 w-4",
