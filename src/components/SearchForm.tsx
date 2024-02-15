@@ -9,6 +9,8 @@ import {
   searchFormSchema,
 } from "../lib/schemas/SearchFormSchema";
 import { cn } from "../lib/utils";
+import useSearchStore from "../store/useSearchStore";
+import useStore from "../store/useStore";
 import AddressFormField from "./AddressFormField";
 import { Button } from "./ui/button";
 import { Calendar } from "./ui/calendar";
@@ -18,10 +20,9 @@ import { Separator } from "./ui/separator";
 
 type SearchFormProps = {
   onSubmit: SubmitHandler<SearchFormSchemaType>;
-  defaultValues?: SearchFormSchemaType;
 };
 
-const SearchForm = ({ onSubmit, defaultValues }: SearchFormProps) => {
+const SearchForm = ({ onSubmit }: SearchFormProps) => {
   // Form
   const searchForm = useForm<SearchFormSchemaType>({
     resolver: zodResolver(searchFormSchema),
@@ -33,6 +34,12 @@ const SearchForm = ({ onSubmit, defaultValues }: SearchFormProps) => {
       date: { from: new Date(), to: addDays(new Date(), 7) },
     },
   });
+
+  // Access to Store Data after Rendering (SSR Behavior)
+  const defaultValues = useStore(
+    useSearchStore,
+    (state) => state.searchValues?.formValues,
+  );
 
   // PrefillForm
   useEffect(() => {

@@ -1,7 +1,7 @@
 "use client";
 import SearchForm from "@/src/components/SearchForm";
 import { Skeleton } from "@/src/components/ui/skeleton";
-import useGeocoder, { FormattedLocation } from "@/src/hooks/useGeocoder";
+import useGeocoder from "@/src/hooks/useGeocoder";
 import { GET_AVAILABLE_CARS_QUERY } from "@/src/lib/graphql/car";
 import { showErrorNotif } from "@/src/lib/notifications/toasters";
 import { SearchFormSchemaType } from "@/src/lib/schemas/SearchFormSchema";
@@ -9,20 +9,14 @@ import useSearchStore from "@/src/store/useSearchStore";
 import useStore from "@/src/store/useStore";
 import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SubmitHandler } from "react-hook-form";
+import CarSheet from "./CarSheet";
 import SearchMap from "./SearchMap";
-import SearchSheet from "./SearchSheet";
 
 type Props = {};
 
 const SearchContainer = (props: Props) => {
-  // User Location State
-  const [userLocation, setUserLocation] = useState<FormattedLocation>();
-
-  // Form defaultValues State
-  const [defaultValues, setDefaultValues] = useState<SearchFormSchemaType>();
-
   // Params
   const searchParams = useSearchParams();
   const locationId = searchParams.get("locationId");
@@ -38,8 +32,8 @@ const SearchContainer = (props: Props) => {
   // Geocoder
   const { getFormattedLocation } = useGeocoder();
 
-  // Cars Store
-  const { setCars } = useSearchStore();
+  // Store
+  const { setSearchValues, setCars } = useSearchStore();
 
   // Access to Store Data after Rendering (SSR Behavior)
   const cars = useStore(useSearchStore, (state) => state.cars);
@@ -50,10 +44,10 @@ const SearchContainer = (props: Props) => {
       startDate: startDate && new Date(startDate),
       endDate: endDate && new Date(endDate),
     },
-    // notifyOnNetworkStatusChange: true,
-    // onCompleted: async (data) => {
-    // },
-
+    onCompleted: async (data) => {
+      // Set Cars Data
+      setCars(data?.getAvailableCars);
+    },
     onError: async (error) => {
       showErrorNotif({
         description: error.message,
@@ -69,8 +63,8 @@ const SearchContainer = (props: Props) => {
       // Set New Search Params
       const params = new URLSearchParams(searchParams.toString());
       params.set("locationId", data.location.id);
-      params.set("startDate", data.date.from.toISOString());
-      params.set("endDate", data.date.to.toISOString());
+      params.set("startDate", data.date.from.toISOString().slice(0, 10));
+      params.set("endDate", data.date.to.toISOString().slice(0, 10));
       // Refresh Page
       router.push(pathname + "?" + params);
     } catch (error) {
@@ -85,35 +79,22 @@ const SearchContainer = (props: Props) => {
       // Get FormattedLocation
       const formattedLocation = await getFormattedLocation(locationId);
       if (!formattedLocation) return;
-      // Set UserLocation
-      setUserLocation(formattedLocation);
-      // Set Default Values
-      setDefaultValues({
-        location: {
-          id: locationId,
-          description: formattedLocation.description,
-        },
-        date: {
-          from: new Date(startDate),
-          to: new Date(endDate),
-        },
+      // Set SearchValues
+      setSearchValues({
+        locationId: locationId,
+        startDate: startDate,
+        endDate: endDate,
+        formattedLocation: formattedLocation,
       });
-      // Get Location Coordinates
     };
     updateValues();
     return () => {};
-  }, [locationId, startDate, endDate, getFormattedLocation]);
-
-  useEffect(() => {
-    // Set Cars Data
-    setCars(data?.getAvailableCars);
-    return () => {};
-  }, [setCars, data?.getAvailableCars]);
+  }, [locationId, startDate, endDate, getFormattedLocation, setSearchValues]);
 
   if (loading)
     return (
       <div className="flex flex-1 flex-col items-center space-y-4 p-2 md:p-3 lg:p-4 xl:p-5">
-        <SearchForm onSubmit={onSubmit} defaultValues={defaultValues} />
+        <SearchForm onSubmit={onSubmit} />
         <Skeleton className="h-[75dvh] w-full" />
       </div>
     );
@@ -125,8 +106,8 @@ const SearchContainer = (props: Props) => {
         <p>No cars available. Please adjust your dates.</p>
       ) : (
         <>
-          <SearchMap userLocation={userLocation} />
-          <SearchSheet />
+          <SearchMap />
+          <CarSheet />
         </>
       )}
     </div>

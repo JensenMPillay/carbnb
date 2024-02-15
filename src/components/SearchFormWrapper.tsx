@@ -18,8 +18,8 @@ const SearchFormWrapper = (props: Props) => {
       // Set Search Params
       const params = new URLSearchParams({
         locationId: data.location.id,
-        startDate: data.date.from.toISOString(),
-        endDate: data.date.to.toISOString(),
+        startDate: data.date.from.toISOString().slice(0, 10),
+        endDate: data.date.to.toISOString().slice(0, 10),
       });
       // Redirect
       router.push(`/search?${params}`);

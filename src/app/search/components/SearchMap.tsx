@@ -1,18 +1,23 @@
 "use client";
 import { Circle } from "@/src/components/Circle";
-import { FormattedLocation } from "@/src/hooks/useGeocoder";
 import useMarker from "@/src/hooks/useMarker";
 import { PRIMARY_COLOR } from "@/src/lib/utils";
+import useSearchStore from "@/src/store/useSearchStore";
+import useStore from "@/src/store/useStore";
 import { Map, Marker } from "@vis.gl/react-google-maps";
 import CarMarkers from "./CarMarkers";
+import FiltersSheet from "./FiltersSheet";
 
-type SearchMapProps = {
-  userLocation: FormattedLocation | undefined;
-};
-
-const SearchMap = ({ userLocation }: SearchMapProps) => {
+const SearchMap = () => {
   // Marker Library State
   const markerLoaded = useMarker();
+
+  // Access to Store Data after Rendering (SSR Behavior)
+  const userLocation = useStore(
+    useSearchStore,
+    (state) => state.searchValues?.formattedLocation,
+  );
+
   if (!markerLoaded) return;
   return (
     <Map
@@ -20,7 +25,6 @@ const SearchMap = ({ userLocation }: SearchMapProps) => {
       className="h-[75dvh] w-full rounded"
       defaultZoom={10}
       defaultCenter={userLocation}
-      center={userLocation}
       gestureHandling={"greedy"}
       disableDefaultUI={true}
     >
@@ -38,6 +42,7 @@ const SearchMap = ({ userLocation }: SearchMapProps) => {
         editable={false}
       />
       <CarMarkers />
+      <FiltersSheet />
     </Map>
   );
 };
