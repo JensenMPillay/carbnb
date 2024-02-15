@@ -1,7 +1,7 @@
 "use client";
 import { Location } from "@prisma/client";
 import { useApiIsLoaded, useMapsLibrary } from "@vis.gl/react-google-maps";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export type FormattedLocation = {
   description: string;
@@ -30,23 +30,24 @@ const useGeocoder = () => {
     };
   }, [IsLoaded, geocodingLibrary]);
 
-  async function getGeocodeResponse(
-    placeId: string | null,
-  ): Promise<google.maps.GeocoderResult | undefined> {
-    // Service Not Working
-    if (!geocoder || !placeId) {
-      return;
-    }
+  const getGeocodeResponse = useCallback(
+    async (placeId: string | null) => {
+      // Service Not Working
+      if (!geocoder || !placeId) {
+        return;
+      }
 
-    // Request
-    const request: google.maps.GeocoderRequest = {
-      placeId: placeId,
-    };
+      // Request
+      const request: google.maps.GeocoderRequest = {
+        placeId: placeId,
+      };
 
-    // Response Results
-    const response = (await geocoder.geocode(request)).results[0];
-    return response;
-  }
+      // Response Results
+      const response = (await geocoder.geocode(request)).results[0];
+      return response;
+    },
+    [geocoder],
+  );
 
   // Destruct Address Component
   function getComponentValue(
@@ -60,76 +61,83 @@ const useGeocoder = () => {
   }
 
   // Callback Handle Geocoding => Location
-  const getLocation: (
-    placeId: string | null,
-  ) => Promise<Location | undefined> = async (placeId) => {
-    // Get Response Results
-    const geocodeResponse = await getGeocodeResponse(placeId);
-    if (!geocodeResponse) return;
+  const getLocation = useCallback(
+    async (placeId: string | null) => {
+      // Get Response Results
+      const geocodeResponse = await getGeocodeResponse(placeId);
+      if (!geocodeResponse) return;
 
-    // Values
-    const {
-      place_id,
-      formatted_address,
-      address_components,
-      geometry: {
-        location: { lat, lng },
-      },
-    }: google.maps.GeocoderResult = geocodeResponse;
+      // Values
+      const {
+        place_id,
+        formatted_address,
+        address_components,
+        geometry: {
+          location: { lat, lng },
+        },
+      }: google.maps.GeocoderResult = geocodeResponse;
 
-    const streetNumber = getComponentValue(address_components, "street_number");
-    const route = getComponentValue(address_components, "route");
-    const subCity = getComponentValue(address_components, "sublocality");
-    const city = getComponentValue(address_components, "locality");
-    const postalCode = getComponentValue(address_components, "postal_code");
-    const state = getComponentValue(
-      address_components,
-      "administrative_area_level_2",
-    );
-    const country = getComponentValue(address_components, "country");
+      const streetNumber = getComponentValue(
+        address_components,
+        "street_number",
+      );
+      const route = getComponentValue(address_components, "route");
+      const subCity = getComponentValue(address_components, "sublocality");
+      const city = getComponentValue(address_components, "locality");
+      const postalCode = getComponentValue(address_components, "postal_code");
+      const state = getComponentValue(
+        address_components,
+        "administrative_area_level_2",
+      );
+      const country = getComponentValue(address_components, "country");
 
-    // Return Data
-    const location: Location = {
-      id: place_id,
-      latitude: lat(),
-      longitude: lng(),
-      address:
-        streetNumber && route ? `${streetNumber}, ${route}` : route ?? subCity,
-      city: city,
-      postalCode: postalCode,
-      state: state,
-      country: country,
-      formatted_address: formatted_address,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    return location;
-  };
+      // Return Data
+      const location: Location = {
+        id: place_id,
+        latitude: lat(),
+        longitude: lng(),
+        address:
+          streetNumber && route
+            ? `${streetNumber}, ${route}`
+            : route ?? subCity,
+        city: city,
+        postalCode: postalCode,
+        state: state,
+        country: country,
+        formatted_address: formatted_address,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      return location;
+    },
+    [getGeocodeResponse],
+  );
 
   // Callbacks Handle Geocoding => Formatted_Address
-  const getFormattedLocation: (
-    placeId: string | null,
-  ) => Promise<FormattedLocation | undefined> = async (placeId) => {
-    // Get Response Results
-    const geocodeResponse = await getGeocodeResponse(placeId);
-    if (!geocodeResponse) return;
+  const getFormattedLocation = useCallback(
+    async (placeId: string | null) => {
+      // Get Response Results
+      const geocodeResponse = await getGeocodeResponse(placeId);
+      if (!geocodeResponse) return;
 
-    // Values
-    const {
-      formatted_address,
-      geometry: {
-        location: { lat, lng },
-      },
-    }: google.maps.GeocoderResult = geocodeResponse;
+      // Values
+      const {
+        formatted_address,
+        geometry: {
+          location: { lat, lng },
+        },
+      }: google.maps.GeocoderResult = geocodeResponse;
 
-    // Return Data
-    const formattedLocation: FormattedLocation = {
-      description: formatted_address ?? "",
-      lat: lat(),
-      lng: lng(),
-    };
-    return formattedLocation;
-  };
+      // Return Data
+      const formattedLocation: FormattedLocation = {
+        description: formatted_address ?? "",
+        lat: lat(),
+        lng: lng(),
+      };
+      return formattedLocation;
+    },
+    [getGeocodeResponse],
+  );
 
   return { getLocation, getFormattedLocation };
 };

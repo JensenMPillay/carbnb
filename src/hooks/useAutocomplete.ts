@@ -81,12 +81,12 @@ const useAutocomplete = () => {
     [updateSuggestions],
   );
 
-  const clearSuggestions: () => void = () => {
+  const clearSuggestions: () => void = useCallback(() => {
     setSuggestions([]);
     // Init New Token
     if (placesLibrary)
       setSessionToken(new placesLibrary.AutocompleteSessionToken());
-  };
+  }, [placesLibrary]);
 
   // Service Not Working
   if (!autocomplete)
