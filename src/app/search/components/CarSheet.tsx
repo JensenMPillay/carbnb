@@ -15,15 +15,16 @@ import useSearchStore from "@/src/store/useSearchStore";
 import useStore from "@/src/store/useStore";
 import Link from "next/link";
 
-const SearchSheet = () => {
+const CarSheet = () => {
   // Cars Store
   const { setCarSelected } = useSearchStore();
 
   // Access to Store Data after Rendering (SSR Behavior)
   const carSelected = useStore(useSearchStore, (state) => state.carSelected);
+
   return (
     <Sheet open={!!carSelected} onOpenChange={() => setCarSelected(null)}>
-      <SheetContent className="flex flex-col justify-center">
+      <SheetContent className="flex flex-col justify-center" side="right">
         <SheetHeader>
           <SheetTitle>Start Your Journey Here!</SheetTitle>
           <SheetDescription>
@@ -44,4 +45,4 @@ const SearchSheet = () => {
   );
 };
 
-export default SearchSheet;
+export default CarSheet;

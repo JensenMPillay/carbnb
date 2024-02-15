@@ -8,7 +8,7 @@ const SearchPageWrapper = (props: Props) => {
   return (
     <APIProvider
       apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
-      libraries={["places", "geocoding", "marker"]}
+      libraries={["places", "geocoding", "marker", "geometry"]}
     >
       <SearchContainer />
     </APIProvider>

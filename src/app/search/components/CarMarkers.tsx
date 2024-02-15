@@ -63,7 +63,7 @@ const CarMarkers = () => {
   const { setCarSelected } = useSearchStore();
 
   // Access to Store Data after Rendering (SSR Behavior)
-  const cars = useStore(useSearchStore, (state) => state.cars);
+  const filteredCars = useStore(useSearchStore, (state) => state.filteredCars);
   const carSelected = useStore(useSearchStore, (state) => state.carSelected);
 
   // Initialize MarkerClusterer when Map Changing
@@ -80,10 +80,10 @@ const CarMarkers = () => {
   useEffect(() => {
     // Clean All Markers
     // !!!Warning : This line re-renders markers infinitely!!!
-    // clusterer.current?.clearMarkers();
+    clusterer.current?.clearMarkers();
     // Add All Markers
     clusterer.current?.addMarkers(Object.values(markers));
-  }, [markers]);
+  }, [markers, filteredCars]);
 
   // Sync Markers
   const setMarkerRef = (marker: Marker | null, key: string) => {
@@ -106,17 +106,12 @@ const CarMarkers = () => {
   if (!map) return;
   return (
     <>
-      {cars &&
-        cars.map((car) => {
+      {filteredCars &&
+        filteredCars.map((car) => {
           const {
             id,
-            category,
             brand,
             model,
-            year,
-            transmission,
-            fuelType,
-            imageUrl,
             pricePerDay,
             location: { latitude, longitude },
           } = car;

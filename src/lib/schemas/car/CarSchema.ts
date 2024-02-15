@@ -32,3 +32,20 @@ export const carSchema = z.object({
 });
 
 export type CarSchemaType = z.infer<typeof carSchema>;
+
+const carFilterBaseSchema = carSchema.pick({
+  category: true,
+  brand: true,
+  year: true,
+  transmission: true,
+  fuelType: true,
+  pricePerDay: true,
+});
+
+export const carFilterSchema = carFilterBaseSchema
+  .extend({
+    radius: z.number().min(1, { message: "Search area is required." }),
+  })
+  .partial();
+
+export type CarFilterSchemaType = z.infer<typeof carFilterSchema>;

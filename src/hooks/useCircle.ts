@@ -12,9 +12,13 @@ export type CircleProps = google.maps.CircleOptions & CircleEventProps;
 
 export type CircleRef = Ref<google.maps.Circle | null>;
 
-const useCircle = (props: CircleProps) => {
-  const { onRadiusChanged, onCenterChanged, radius, center, ...circleOptions } =
-    props;
+const useCircle = ({
+  onRadiusChanged,
+  onCenterChanged,
+  radius,
+  center,
+  ...circleOptions
+}: CircleProps) => {
   // This is here to avoid triggering the useEffect below when the callbacks change (which happen if the user didn't memoize them)
   const callbacks = useRef<Record<string, (e: unknown) => void>>({});
   Object.assign(callbacks.current, {
@@ -69,6 +73,7 @@ const useCircle = (props: CircleProps) => {
     gme.addListener(circle, "center_changed", () => {
       const newCenter = circle.getCenter();
       callbacks.current.onCenterChanged?.(newCenter);
+      if (newCenter) circle.getMap()?.panTo(newCenter);
     });
 
     return () => {
