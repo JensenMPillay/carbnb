@@ -1,12 +1,16 @@
 "use client";
-import { useApiIsLoaded, useMapsLibrary } from "@vis.gl/react-google-maps";
+import {
+  useApiIsLoaded,
+  useMap,
+  useMapsLibrary,
+} from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
 
 type Props = {};
 
 const useMarker = () => {
   // Google Maps Libraries
-  const markerLibrary: google.maps.MarkerLibrary | null =
+  const markerInstance: google.maps.MarkerLibrary | null =
     useMapsLibrary("marker");
 
   // Google Maps Loading State
@@ -14,20 +18,34 @@ const useMarker = () => {
 
   // Instances States
   // Marker Service
-  const [isMarkerLoaded, setIsMarkerLoaded] = useState<boolean>(false);
+  const [markerLibrary, setMarkerLibrary] =
+    useState<google.maps.MarkerLibrary | null>(null);
+
+  // Parent Map
+  const map = useMap();
 
   // Component Loaded => Instance Libraries
   useEffect(() => {
-    if (IsLoaded && markerLibrary) {
-      setIsMarkerLoaded(true);
+    if (IsLoaded && markerInstance) {
+      setMarkerLibrary(markerInstance);
     }
 
     // Instances Clean
     return () => {
-      setIsMarkerLoaded(false);
+      setMarkerLibrary(null);
     };
-  }, [IsLoaded, markerLibrary]);
-  return isMarkerLoaded;
+  }, [IsLoaded, markerInstance]);
+
+  // Verify Map
+  useEffect(() => {
+    if (!map) {
+      if (map === undefined)
+        console.error("Marker has to be inside a Map component.");
+      return;
+    }
+  }, [map]);
+
+  return markerLibrary;
 };
 
 export default useMarker;

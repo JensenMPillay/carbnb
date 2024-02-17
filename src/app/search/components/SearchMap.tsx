@@ -1,6 +1,5 @@
 "use client";
 import { Circle } from "@/src/components/Circle";
-import useMarker from "@/src/hooks/useMarker";
 import { PRIMARY_COLOR } from "@/src/lib/utils";
 import useSearchStore from "@/src/store/useSearchStore";
 import useStore from "@/src/store/useStore";
@@ -9,16 +8,12 @@ import CarMarkers from "./CarMarkers";
 import FiltersSheet from "./FiltersSheet";
 
 const SearchMap = () => {
-  // Marker Library State
-  const markerLoaded = useMarker();
-
   // Access to Store Data after Rendering (SSR Behavior)
   const userLocation = useStore(
     useSearchStore,
     (state) => state.searchValues?.formattedLocation,
   );
 
-  if (!markerLoaded) return;
   return (
     <Map
       mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_ID ?? ""}
