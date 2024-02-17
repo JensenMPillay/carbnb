@@ -58,16 +58,30 @@ const useGeometry = () => {
           year,
           location: { latitude, longitude },
         }) => {
-          if (filters.category && category !== filters.category) return false;
+          if (
+            filters.category &&
+            filters.category.length > 0 &&
+            !filters.category.includes(category)
+          )
+            return false;
 
           if (filters.brand && brand !== filters.brand) return false;
 
           if (filters.year && year < filters.year) return false;
 
-          if (filters.transmission && transmission !== filters.transmission)
+          if (
+            filters.transmission &&
+            filters.transmission.length > 0 &&
+            !filters.transmission.includes(transmission)
+          )
             return false;
 
-          if (filters.fuelType && fuelType !== filters.fuelType) return false;
+          if (
+            filters.fuelType &&
+            filters.fuelType.length > 0 &&
+            !filters.fuelType.includes(fuelType)
+          )
+            return false;
 
           if (filters.pricePerDay && pricePerDay > filters.pricePerDay)
             return false;

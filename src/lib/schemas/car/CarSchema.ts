@@ -42,10 +42,15 @@ const carFilterBaseSchema = carSchema.pick({
   pricePerDay: true,
 });
 
+const carFilterExtendedSchema = z.object({
+  category: z.array(carSchema.shape.category),
+  transmission: z.array(carSchema.shape.transmission),
+  fuelType: z.array(carSchema.shape.fuelType),
+  radius: z.number().min(1, { message: "Search area is required." }),
+});
+
 export const carFilterSchema = carFilterBaseSchema
-  .extend({
-    radius: z.number().min(1, { message: "Search area is required." }),
-  })
+  .merge(carFilterExtendedSchema)
   .partial();
 
 export type CarFilterSchemaType = z.infer<typeof carFilterSchema>;
