@@ -90,10 +90,10 @@ const ComboboxFormField = <
                 />
                 <CommandEmpty>No {fieldName} found.</CommandEmpty>
                 <CommandList>
-                  {items.map((item) => (
+                  {items.map((item, index) => (
                     <CommandItem
                       value={item}
-                      key={item}
+                      key={index}
                       onSelect={() => {
                         form.setValue(
                           fieldName,

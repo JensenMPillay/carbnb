@@ -1,5 +1,6 @@
 "use client";
 import ComboboxFormField from "@/src/components/ComboboxFormField";
+import ToggleGroupFormField from "@/src/components/ToggleGroupFormField";
 import { Button } from "@/src/components/ui/button";
 import { Form } from "@/src/components/ui/form";
 import {
@@ -112,11 +113,11 @@ const FiltersSheet = () => {
             className="space-y-2"
           >
             <div className="grid max-w-fit grid-cols-1 gap-2">
-              <ComboboxFormField
+              <ToggleGroupFormField
                 form={carFilterForm}
                 fieldName="category"
                 items={categories}
-                prismaEnum={Category}
+                type="multiple"
               />
               <ComboboxFormField
                 form={carFilterForm}
@@ -124,17 +125,17 @@ const FiltersSheet = () => {
                 items={brands}
                 prismaEnum={Brand}
               />
-              <ComboboxFormField
+              <ToggleGroupFormField
                 form={carFilterForm}
                 fieldName="transmission"
                 items={transmissions}
-                prismaEnum={Transmission}
+                type="multiple"
               />
-              <ComboboxFormField
+              <ToggleGroupFormField
                 form={carFilterForm}
                 fieldName="fuelType"
                 items={fuelTypes}
-                prismaEnum={FuelType}
+                type="multiple"
               />
             </div>
           </form>

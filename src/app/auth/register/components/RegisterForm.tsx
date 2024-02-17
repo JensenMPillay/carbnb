@@ -1,4 +1,5 @@
 "use client";
+import ToggleGroupFormField from "@/src/components/ToggleGroupFormField";
 import { Button, buttonVariants } from "@/src/components/ui/button";
 import {
   Form,
@@ -11,7 +12,6 @@ import {
 import { Input } from "@/src/components/ui/input";
 import { Separator } from "@/src/components/ui/separator";
 import { Skeleton } from "@/src/components/ui/skeleton";
-import { ToggleGroup, ToggleGroupItem } from "@/src/components/ui/toggle-group";
 import useLoading from "@/src/hooks/useLoading";
 import { REGISTER_USER_MUTATION } from "@/src/lib/graphql/user";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
@@ -31,10 +31,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 type Props = {};
 
 const RegisterForm = (props: Props) => {
-  enum roles {
-    LENDER = "LENDER",
-    RENTER = "RENTER",
-  }
+  const roles = ["RENDER", "LENDER"];
 
   // Session
   const { syncSession } = useSessionStore();
@@ -180,37 +177,11 @@ const RegisterForm = (props: Props) => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={registerForm.control}
-              name="role"
-              render={({ field }) => (
-                <FormItem className="mx-auto my-2 w-full md:my-4 lg:my-6">
-                  <FormLabel>Role</FormLabel>
-                  <FormControl>
-                    <ToggleGroup
-                      type="single"
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex justify-around"
-                    >
-                      {Object.entries(roles).map(([key, value]) => {
-                        return (
-                          <FormControl key={key}>
-                            <ToggleGroupItem
-                              value={value}
-                              aria-label={value}
-                              variant={"outline"}
-                            >
-                              {value}
-                            </ToggleGroupItem>
-                          </FormControl>
-                        );
-                      })}
-                    </ToggleGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+            <ToggleGroupFormField
+              form={registerForm}
+              fieldName="role"
+              items={roles}
+              type="single"
             />
             <Separator orientation="horizontal" className="mx-auto w-full" />
             <div className="flex flex-col items-center justify-center py-2 md:py-3 lg:py-4">
