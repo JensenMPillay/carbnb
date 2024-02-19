@@ -51,8 +51,8 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
           description: location.description,
         },
         date: {
-          from: date.from,
-          to: date.to,
+          from: new Date(date.from),
+          to: new Date(date.to),
         },
       });
     }
@@ -68,7 +68,7 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
         <AddressFormField
           form={searchForm}
           fieldName="location"
-          defaultValue={defaultValues?.location.description}
+          defaultValue={defaultValues?.location}
           classNameItem="group flex w-full lg:w-2/4 flex-col rounded-t-lg px-4 py-2 transition-all duration-300 ease-in-out lg:h-fit lg:rounded-l-full lg:pl-8"
           classNameLabel="text-base uppercase text-primary transition-all duration-300 ease-in-out group-hover:text-foreground md:text-sm lg:text-xs"
           classNameInput="border-none bg-transparent px-0 py-0 outline-none focus-visible:ring-0"

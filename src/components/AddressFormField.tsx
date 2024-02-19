@@ -23,7 +23,7 @@ import { Input } from "./ui/input";
 type AddressFormFieldProps<FormSchemaType extends FieldValues> = {
   form: UseFormReturn<FormSchemaType>;
   fieldName: Path<FormSchemaType>;
-  defaultValue?: string;
+  defaultValue?: { id: string; description: string };
   classNameItem?: string;
   classNameLabel?: string;
   classNameInput?: string;
@@ -51,7 +51,9 @@ const AddressFormField = <FormSchemaType extends FieldValues>({
 
   // Prefill Field
   useEffect(() => {
-    if (defaultValue) setInputValue(defaultValue);
+    if (defaultValue) {
+      setInputValue(defaultValue.description);
+    }
 
     return () => {};
   }, [defaultValue, setInputValue]);
@@ -125,7 +127,9 @@ const AddressFormField = <FormSchemaType extends FieldValues>({
               </div>
             ) : null}
           </Command>
-          <FormMessage />
+          {fieldState.error && (
+            <FormMessage>Please confirm the address</FormMessage>
+          )}
         </FormItem>
       )}
     />

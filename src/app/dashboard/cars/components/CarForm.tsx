@@ -301,7 +301,14 @@ const CarForm = ({
               <AddressFormField
                 form={carForm}
                 fieldName="location"
-                defaultValue={car ? car.location.formatted_address : undefined}
+                defaultValue={
+                  car
+                    ? {
+                        id: car.location.id,
+                        description: car.location.formatted_address,
+                      }
+                    : undefined
+                }
                 classNameLabel="capitalize"
                 classNameInput="flex h-9 w-full rounded-md border-none bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
                 classNameInputWrapper="border"
