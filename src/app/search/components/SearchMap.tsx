@@ -13,6 +13,7 @@ const SearchMap = () => {
     useSearchStore,
     (state) => state.searchValues?.formattedLocation,
   );
+  const filters = useStore(useSearchStore, (state) => state.filters);
 
   return (
     <Map
@@ -25,7 +26,7 @@ const SearchMap = () => {
     >
       <Marker position={userLocation} title={userLocation?.description} />
       <Circle
-        radius={25000}
+        radius={filters?.radius && filters.radius * 1000}
         center={userLocation}
         strokeColor={PRIMARY_COLOR}
         strokeOpacity={1}

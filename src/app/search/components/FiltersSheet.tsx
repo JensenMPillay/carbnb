@@ -1,5 +1,6 @@
 "use client";
 import ComboboxFormField from "@/src/components/ComboboxFormField";
+import RangeInputFormField from "@/src/components/RangeInputFormField";
 import ToggleGroupFormField from "@/src/components/ToggleGroupFormField";
 import { Button } from "@/src/components/ui/button";
 import { Form } from "@/src/components/ui/form";
@@ -46,7 +47,7 @@ const FiltersSheet = () => {
   );
 
   // Store
-  const { setFilteredCars } = useSearchStore();
+  const { setFilters, setFilteredCars } = useSearchStore();
 
   // Access to Store Data after Rendering (SSR Behavior)
   const cars = useStore(useSearchStore, (state) => state.cars);
@@ -60,6 +61,11 @@ const FiltersSheet = () => {
   // Form
   const carFilterForm = useForm<CarFilterSchemaType>({
     resolver: zodResolver(carFilterSchema),
+    defaultValues: {
+      year: 1950,
+      pricePerDay: 2500,
+      radius: 25,
+    },
   });
 
   // onSubmit Callback
@@ -77,15 +83,17 @@ const FiltersSheet = () => {
 
   useEffect(() => {
     if (!cars) return;
-    if (Object.keys(watchForm).length != 0 && location)
+    setFilters(watchForm);
+    if (Object.keys(watchForm).length != 0 && location) {
       setFilteredCars(
         filterCars({ filters: watchForm, cars: cars, location: location }),
       );
-    else {
+    } else {
       setFilteredCars(cars);
     }
+    console.log(watchForm);
     return () => {};
-  }, [watchForm, setFilteredCars, filterCars, cars, location]);
+  }, [watchForm, setFilters, setFilteredCars, filterCars, cars, location]);
 
   return (
     <Sheet>
@@ -98,7 +106,10 @@ const FiltersSheet = () => {
           <MixerVerticalIcon className="size-4" />
         </Button>
       </SheetTrigger>
-      <SheetContent className="flex flex-col justify-between" side="left">
+      <SheetContent
+        className="flex flex-col justify-between overflow-y-auto"
+        side="left"
+      >
         <SheetHeader>
           <SheetTitle>Car Filters</SheetTitle>
           <SheetDescription>
@@ -125,6 +136,13 @@ const FiltersSheet = () => {
                 items={brands}
                 prismaEnum={Brand}
               />
+              <RangeInputFormField
+                form={carFilterForm}
+                fieldName="year"
+                minValue={1950}
+                maxValue={new Date().getFullYear()}
+                step={1}
+              />
               <ToggleGroupFormField
                 form={carFilterForm}
                 fieldName="transmission"
@@ -136,6 +154,22 @@ const FiltersSheet = () => {
                 fieldName="fuelType"
                 items={fuelTypes}
                 type="multiple"
+              />
+              <RangeInputFormField
+                form={carFilterForm}
+                fieldName="pricePerDay"
+                minValue={0}
+                maxValue={2500}
+                step={100}
+                unit="€"
+              />
+              <RangeInputFormField
+                form={carFilterForm}
+                fieldName="radius"
+                minValue={0}
+                maxValue={100}
+                step={5}
+                unit="km"
               />
             </div>
           </form>

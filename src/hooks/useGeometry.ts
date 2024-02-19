@@ -93,7 +93,9 @@ const useGeometry = () => {
             spherical.computeDistanceBetween(location, {
               lat: latitude,
               lng: longitude,
-            }) > filters.radius
+            }) /
+              1000 >
+              filters.radius
           )
             return false;
 

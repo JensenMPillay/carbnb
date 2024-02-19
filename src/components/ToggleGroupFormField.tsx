@@ -27,7 +27,7 @@ const ToggleGroupFormField = <FormSchemaType extends FieldValues>({
       control={form.control}
       name={fieldName}
       render={({ field }) => (
-        <FormItem className="mx-auto my-2 w-full md:my-4 lg:my-6">
+        <FormItem className="flex-1">
           <FormLabel className="capitalize">{fieldName}</FormLabel>
           <FormControl>
             <ToggleGroup
@@ -42,6 +42,7 @@ const ToggleGroupFormField = <FormSchemaType extends FieldValues>({
                   value={item}
                   aria-label={item}
                   variant={"outline"}
+                  size={"sm"}
                 >
                   {item}
                 </ToggleGroupItem>
