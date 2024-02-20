@@ -17,14 +17,17 @@ export default interface PrismaTypes {
             cars: {
                 Shape: Car[];
                 Name: "Car";
+                Nullable: false;
             };
             bookings: {
                 Shape: Booking[];
                 Name: "Booking";
+                Nullable: false;
             };
             sessions: {
                 Shape: Session[];
                 Name: "Session";
+                Nullable: false;
             };
         };
     };
@@ -44,6 +47,7 @@ export default interface PrismaTypes {
             user: {
                 Shape: User;
                 Name: "User";
+                Nullable: false;
             };
         };
     };
@@ -63,14 +67,17 @@ export default interface PrismaTypes {
             User: {
                 Shape: User;
                 Name: "User";
+                Nullable: false;
             };
             Location: {
                 Shape: Location;
                 Name: "Location";
+                Nullable: false;
             };
             bookings: {
                 Shape: Booking[];
                 Name: "Booking";
+                Nullable: false;
             };
         };
     };
@@ -90,10 +97,12 @@ export default interface PrismaTypes {
             User: {
                 Shape: User;
                 Name: "User";
+                Nullable: false;
             };
             Car: {
                 Shape: Car;
                 Name: "Car";
+                Nullable: false;
             };
         };
     };
@@ -113,6 +122,7 @@ export default interface PrismaTypes {
             cars: {
                 Shape: Car[];
                 Name: "Car";
+                Nullable: false;
             };
         };
     };
