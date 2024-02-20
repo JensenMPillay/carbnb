@@ -1,6 +1,7 @@
 "use client";
 import CarCard from "@/src/components/CarCard";
 import { buttonVariants } from "@/src/components/ui/button";
+import { Card } from "@/src/components/ui/card";
 import {
   Sheet,
   SheetClose,
@@ -21,6 +22,10 @@ const CarSheet = () => {
 
   // Access to Store Data after Rendering (SSR Behavior)
   const carSelected = useStore(useSearchStore, (state) => state.carSelected);
+  const formValues = useStore(
+    useSearchStore,
+    (state) => state.searchValues?.formValues,
+  );
 
   return (
     <Sheet open={!!carSelected} onOpenChange={() => setCarSelected(null)}>
@@ -33,6 +38,17 @@ const CarSheet = () => {
           </SheetDescription>
         </SheetHeader>
         {carSelected && <CarCard car={carSelected} />}
+        {formValues && (
+          <Card className="text-xs">
+            <p className="text-center">{formValues.location.description}</p>
+            <p className="flex flex-row justify-around">
+              <span>{formValues.date.from.toDateString()}</span>
+              <span>-</span>
+              <span>{formValues.date.to.toDateString()}</span>
+            </p>
+            <p></p>
+          </Card>
+        )}
         <SheetFooter>
           <SheetClose asChild>
             <Link href="/booking" className={cn(buttonVariants())}>

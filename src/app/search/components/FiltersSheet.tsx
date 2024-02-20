@@ -95,7 +95,6 @@ const FiltersSheet = () => {
     } else {
       setFilteredCars(cars);
     }
-    console.log(watchForm);
     return () => {};
   }, [watchForm, setFilters, setFilteredCars, filterCars, cars, location]);
 
