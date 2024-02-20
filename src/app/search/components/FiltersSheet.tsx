@@ -62,7 +62,11 @@ const FiltersSheet = () => {
   const carFilterForm = useForm<CarFilterSchemaType>({
     resolver: zodResolver(carFilterSchema),
     defaultValues: {
+      category: undefined,
+      brand: undefined,
       year: 1950,
+      transmission: undefined,
+      fuelType: undefined,
       pricePerDay: 2500,
       radius: 25,
     },
@@ -84,7 +88,7 @@ const FiltersSheet = () => {
   useEffect(() => {
     if (!cars) return;
     setFilters(watchForm);
-    if (Object.keys(watchForm).length != 0 && location) {
+    if (location) {
       setFilteredCars(
         filterCars({ filters: watchForm, cars: cars, location: location }),
       );
@@ -174,7 +178,15 @@ const FiltersSheet = () => {
             </div>
           </form>
         </Form>
-        <SheetFooter>
+        <SheetFooter className="justify-between">
+          <Button
+            variant="outline"
+            onClick={() => {
+              carFilterForm.reset(undefined, { keepDefaultValues: true });
+            }}
+          >
+            Clear filters
+          </Button>
           <SheetClose asChild>
             <Button variant="default" type="submit">
               Save changes

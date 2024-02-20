@@ -51,7 +51,7 @@ const RangeInputFormField = <FormSchemaType extends FieldValues>({
                 {...rest}
               />
             </FormControl>
-            <span className="text-xs">{`${maxValue} ${unit ? unit : ""}`}</span>
+            <span className="text-xs">{`${value} ${unit ? unit : ""}`}</span>
           </div>
           <FormMessage />
         </FormItem>
