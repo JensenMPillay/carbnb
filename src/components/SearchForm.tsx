@@ -14,7 +14,14 @@ import useStore from "../store/useStore";
 import AddressFormField from "./AddressFormField";
 import { Button } from "./ui/button";
 import { Calendar } from "./ui/calendar";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Separator } from "./ui/separator";
 
@@ -97,6 +104,11 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
                 >
                   Start
                 </FormLabel>
+                {fieldState.error && (
+                  <FormMessage>
+                    Please enter a date after current date
+                  </FormMessage>
+                )}
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -146,6 +158,11 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
                 >
                   End
                 </FormLabel>
+                {fieldState.error && (
+                  <FormMessage>
+                    Please enter a date after current date
+                  </FormMessage>
+                )}
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
