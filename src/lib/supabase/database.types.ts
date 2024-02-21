@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       _prisma_migrations: {
@@ -44,36 +44,39 @@ export interface Database {
       };
       Booking: {
         Row: {
-          carId: number;
+          carId: string;
           createdAt: string;
           endDate: string;
           id: string;
           paymentStatus: Database["public"]["Enums"]["PaymentStatus"];
           startDate: string;
+          status: Database["public"]["Enums"]["BookingStatus"];
           stripePaymentId: string;
           totalPrice: number;
           updatedAt: string;
           userId: string;
         };
         Insert: {
-          carId: number;
+          carId: string;
           createdAt?: string;
           endDate: string;
           id: string;
           paymentStatus: Database["public"]["Enums"]["PaymentStatus"];
           startDate: string;
+          status: Database["public"]["Enums"]["BookingStatus"];
           stripePaymentId: string;
           totalPrice: number;
           updatedAt: string;
           userId: string;
         };
         Update: {
-          carId?: number;
+          carId?: string;
           createdAt?: string;
           endDate?: string;
           id?: string;
           paymentStatus?: Database["public"]["Enums"]["PaymentStatus"];
           startDate?: string;
+          status?: Database["public"]["Enums"]["BookingStatus"];
           stripePaymentId?: string;
           totalPrice?: number;
           updatedAt?: string;
@@ -99,45 +102,57 @@ export interface Database {
       Car: {
         Row: {
           available: boolean;
+          brand: Database["public"]["Enums"]["Brand"];
           category: Database["public"]["Enums"]["Category"];
           createdAt: string;
           fuelType: Database["public"]["Enums"]["FuelType"];
-          id: number;
+          id: string;
+          imageUrl: string[] | null;
           locationId: string;
           model: string;
           pricePerDay: number;
+          primaryColor: Database["public"]["Enums"]["Color"];
           transmission: Database["public"]["Enums"]["Transmission"];
+          trueColor: string;
           updatedAt: string;
           userId: string;
-          year: number | null;
+          year: number;
         };
         Insert: {
           available: boolean;
+          brand: Database["public"]["Enums"]["Brand"];
           category: Database["public"]["Enums"]["Category"];
           createdAt?: string;
           fuelType: Database["public"]["Enums"]["FuelType"];
-          id?: number;
+          id: string;
+          imageUrl?: string[] | null;
           locationId: string;
           model: string;
           pricePerDay: number;
+          primaryColor?: Database["public"]["Enums"]["Color"];
           transmission: Database["public"]["Enums"]["Transmission"];
+          trueColor: string;
           updatedAt: string;
           userId: string;
-          year?: number | null;
+          year: number;
         };
         Update: {
           available?: boolean;
+          brand?: Database["public"]["Enums"]["Brand"];
           category?: Database["public"]["Enums"]["Category"];
           createdAt?: string;
           fuelType?: Database["public"]["Enums"]["FuelType"];
-          id?: number;
+          id?: string;
+          imageUrl?: string[] | null;
           locationId?: string;
           model?: string;
           pricePerDay?: number;
+          primaryColor?: Database["public"]["Enums"]["Color"];
           transmission?: Database["public"]["Enums"]["Transmission"];
+          trueColor?: string;
           updatedAt?: string;
           userId?: string;
-          year?: number | null;
+          year?: number;
         };
         Relationships: [
           {
@@ -162,9 +177,12 @@ export interface Database {
           city: string;
           country: string;
           createdAt: string;
+          formatted_address: string;
           id: string;
           latitude: number | null;
           longitude: number | null;
+          postalCode: string;
+          state: string;
           updatedAt: string;
         };
         Insert: {
@@ -172,9 +190,12 @@ export interface Database {
           city: string;
           country: string;
           createdAt?: string;
+          formatted_address: string;
           id: string;
           latitude?: number | null;
           longitude?: number | null;
+          postalCode: string;
+          state: string;
           updatedAt: string;
         };
         Update: {
@@ -182,12 +203,53 @@ export interface Database {
           city?: string;
           country?: string;
           createdAt?: string;
+          formatted_address?: string;
           id?: string;
           latitude?: number | null;
           longitude?: number | null;
+          postalCode?: string;
+          state?: string;
           updatedAt?: string;
         };
         Relationships: [];
+      };
+      Session: {
+        Row: {
+          accessToken: string;
+          createdAt: string;
+          expires: string;
+          id: string;
+          sessionToken: string;
+          updatedAt: string;
+          userId: string;
+        };
+        Insert: {
+          accessToken: string;
+          createdAt?: string;
+          expires: string;
+          id: string;
+          sessionToken: string;
+          updatedAt: string;
+          userId: string;
+        };
+        Update: {
+          accessToken?: string;
+          createdAt?: string;
+          expires?: string;
+          id?: string;
+          sessionToken?: string;
+          updatedAt?: string;
+          userId?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "Session_userId_fkey";
+            columns: ["userId"];
+            isOneToOne: false;
+            referencedRelation: "User";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       spatial_ref_sys: {
         Row: {
@@ -210,6 +272,45 @@ export interface Database {
           proj4text?: string | null;
           srid?: number;
           srtext?: string | null;
+        };
+        Relationships: [];
+      };
+      User: {
+        Row: {
+          createdAt: string;
+          email: string;
+          emailVerified: string | null;
+          id: string;
+          image: string | null;
+          name: string | null;
+          phone: string | null;
+          role: Database["public"]["Enums"]["Role"];
+          stripeCustomerId: string | null;
+          updatedAt: string;
+        };
+        Insert: {
+          createdAt?: string;
+          email: string;
+          emailVerified?: string | null;
+          id: string;
+          image?: string | null;
+          name?: string | null;
+          phone?: string | null;
+          role?: Database["public"]["Enums"]["Role"];
+          stripeCustomerId?: string | null;
+          updatedAt: string;
+        };
+        Update: {
+          createdAt?: string;
+          email?: string;
+          emailVerified?: string | null;
+          id?: string;
+          image?: string | null;
+          name?: string | null;
+          phone?: string | null;
+          role?: Database["public"]["Enums"]["Role"];
+          stripeCustomerId?: string | null;
+          updatedAt?: string;
         };
         Relationships: [];
       };
@@ -3490,7 +3591,101 @@ export interface Database {
       };
     };
     Enums: {
+      BookingStatus:
+        | "PENDING"
+        | "ACCEPTED"
+        | "REFUSED"
+        | "IN_PROGRESS"
+        | "COMPLETED"
+        | "CANCELED";
+      Brand:
+        | "ACURA"
+        | "ALFA_ROMEO"
+        | "ALPINE"
+        | "ASTON_MARTIN"
+        | "AUSTIN"
+        | "BYD"
+        | "BENTLEY"
+        | "BUICK"
+        | "BUGATTI"
+        | "BMW"
+        | "CHEVROLET"
+        | "CITROEN"
+        | "DACIA"
+        | "DATSUN"
+        | "DELOREAN"
+        | "FERRARI"
+        | "FIAT"
+        | "FORD"
+        | "GENESIS"
+        | "GMC"
+        | "HONDA"
+        | "HUMMER"
+        | "HYUNDAI"
+        | "HUDSON"
+        | "INFINITI"
+        | "ISUZU"
+        | "IVECO"
+        | "JAGUAR"
+        | "JEEP"
+        | "KIA"
+        | "LADA"
+        | "LAMBORGHINI"
+        | "LAND_ROVER"
+        | "LANCIA"
+        | "LOTUS"
+        | "MASERATI"
+        | "MAYBACH"
+        | "MAZDA"
+        | "MCLAREN"
+        | "MERCEDES_BENZ"
+        | "MERCURY"
+        | "MINI"
+        | "MITSUBISHI"
+        | "NISSAN"
+        | "OPEL"
+        | "PEUGEOT"
+        | "PLYMOUTH"
+        | "PONTIAC"
+        | "PORSCHE"
+        | "RENAULT"
+        | "ROLLS_ROYCE"
+        | "SAAB"
+        | "SATURN"
+        | "SEAT"
+        | "SKODA"
+        | "SMART"
+        | "SUBARU"
+        | "SUZUKI"
+        | "TESLA"
+        | "TOYOTA"
+        | "TRIUMPH"
+        | "VAUXHALL"
+        | "VOLKSWAGEN"
+        | "VOLVO";
       Category: "COMPACT" | "LUXURY" | "SEDAN" | "SUV" | "SPORT";
+      Color:
+        | "AQUA"
+        | "BEIGE"
+        | "BLACK"
+        | "BLUE"
+        | "BROWN"
+        | "FUCHSIA"
+        | "GREEN"
+        | "GREY"
+        | "LIME"
+        | "MAROON"
+        | "NAVY"
+        | "OLIVE"
+        | "ORANGE"
+        | "PINK"
+        | "PURPLE"
+        | "RED"
+        | "SILVER"
+        | "TEAL"
+        | "VIOLET"
+        | "WHITE"
+        | "YELLOW";
       FuelType: "DIESEL" | "ELECTRIC" | "HYBRID" | "PETROL";
       PaymentStatus:
         | "PENDING"
@@ -3498,7 +3693,9 @@ export interface Database {
         | "SUCCEEDED"
         | "FAILED"
         | "CANCELED"
-        | "REFUNDED";
+        | "REFUNDED"
+        | "VALIDATED"
+        | "WAITING";
       Role: "ADMIN" | "LENDER" | "RENTER";
       Transmission: "AUTOMATIC" | "MANUAL";
     };
@@ -3514,7 +3711,7 @@ export interface Database {
       };
     };
   };
-}
+};
 
 export type Tables<
   PublicTableNameOrOptions extends

@@ -211,9 +211,22 @@ model Car {
   @@schema("public")
 }
 
+enum BookingStatus {
+  PENDING
+  ACCEPTED
+  REFUSED 
+  IN_PROGRESS
+  COMPLETED
+  CANCELED
+
+  @@schema("public")
+}
+
 enum PaymentStatus {
   PENDING
   PROCESSING
+  VALIDATED
+  WAITING
   SUCCEEDED
   FAILED
   CANCELED
@@ -227,6 +240,7 @@ model Booking {
   startDate         DateTime    
   endDate           DateTime    
   totalPrice        Float
+  status            BookingStatus            
   paymentStatus     PaymentStatus
   stripePaymentId   String      @unique
   User              User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
