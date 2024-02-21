@@ -31,7 +31,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 type Props = {};
 
 const RegisterForm = (props: Props) => {
-  const roles = ["RENDER", "LENDER"];
+  const roles = ["RENTER", "LENDER"];
 
   // Session
   const { syncSession } = useSessionStore();
