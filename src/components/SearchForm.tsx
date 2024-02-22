@@ -2,6 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { addDays, format } from "date-fns";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -25,11 +26,10 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Separator } from "./ui/separator";
 
-type SearchFormProps = {
-  onSubmit: SubmitHandler<SearchFormSchemaType>;
-};
+const SearchForm = () => {
+  // Router
+  const router = useRouter();
 
-const SearchForm = ({ onSubmit }: SearchFormProps) => {
   // Form
   const searchForm = useForm<SearchFormSchemaType>({
     resolver: zodResolver(searchFormSchema),
@@ -41,6 +41,23 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
       date: { from: new Date(), to: addDays(new Date(), 7) },
     },
   });
+
+  // onSubmit Callback
+  const onSubmit: SubmitHandler<SearchFormSchemaType> = async (data, event) => {
+    event?.preventDefault();
+    try {
+      // Set Search Params
+      const params = new URLSearchParams({
+        locationId: data.location.id,
+        startDate: data.date.from.toDateString(),
+        endDate: data.date.to.toDateString(),
+      });
+      // Redirect
+      router.push(`/search?${params}`);
+    } catch (error) {
+      console.error(`Error : ${error}`);
+    }
+  };
 
   // Access to Store Data after Rendering (SSR Behavior)
   const defaultValues = useStore(
@@ -63,10 +80,7 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
             Math.max(new Date(date.from).getTime(), new Date().getTime()),
           ),
           to: new Date(
-            Math.max(
-              new Date(date.to).getTime(),
-              addDays(new Date(), 7).getTime(),
-            ),
+            Math.max(new Date(date.to).getTime(), new Date().getTime()),
           ),
         },
       });
