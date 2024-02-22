@@ -67,7 +67,7 @@ const useSearchStore = create<SearchStore>()(
       setCars: (cars) => set({ cars: cars }),
       setCarSelected: (car) => set({ carSelected: car }),
       setFilters: (filters) => set({ filters: filters }),
-      setFilteredCars: (cars) => set({ filteredCars: cars }),
+      setFilteredCars: (cars) => set({ filteredCars: cars, carSelected: null }),
     }),
     // For Persisting Global Data State (Local Storage)
     {
