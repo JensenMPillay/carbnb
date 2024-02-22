@@ -286,6 +286,7 @@ export type Database = {
           phone: string | null;
           role: Database["public"]["Enums"]["Role"];
           stripeCustomerId: string | null;
+          stripeVerified: string | null;
           updatedAt: string;
         };
         Insert: {
@@ -298,6 +299,7 @@ export type Database = {
           phone?: string | null;
           role?: Database["public"]["Enums"]["Role"];
           stripeCustomerId?: string | null;
+          stripeVerified?: string | null;
           updatedAt: string;
         };
         Update: {
@@ -310,6 +312,7 @@ export type Database = {
           phone?: string | null;
           role?: Database["public"]["Enums"]["Role"];
           stripeCustomerId?: string | null;
+          stripeVerified?: string | null;
           updatedAt?: string;
         };
         Relationships: [];

@@ -10,7 +10,7 @@ export const metadata = constructMetadata({
   description: "Manage your car rental listings on Carbnb",
 });
 
-function Cars({}: Props) {
+export default async function Cars({}: Props) {
   return (
     <TabsContent value="/dashboard/cars" className="mt-0 flex-1" forceMount>
       <div className="flex h-full w-full flex-col">
@@ -22,5 +22,3 @@ function Cars({}: Props) {
     </TabsContent>
   );
 }
-
-export default Cars;

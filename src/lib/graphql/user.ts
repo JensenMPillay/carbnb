@@ -7,6 +7,8 @@ export const GET_USER_QUERY = gql`
       id
       email
       emailVerified
+      stripeCustomerId
+      stripeVerified
       role
       name
       phone
@@ -56,6 +58,8 @@ export const REGISTER_USER_MUTATION = gql`
       id
       email
       emailVerified
+      stripeCustomerId
+      stripeVerified
       role
       name
       phone
@@ -77,6 +81,8 @@ export const UPDATE_USER_MUTATION = gql`
       id
       email
       emailVerified
+      stripeCustomerId
+      stripeVerified
       role
       name
       phone
@@ -94,6 +100,8 @@ export const DELETE_USER_MUTATION = gql`
       id
       email
       emailVerified
+      stripeCustomerId
+      stripeVerified
       role
       name
       phone

@@ -9,12 +9,10 @@ export const metadata = constructMetadata({
   description: "Manage your bookings on Carbnb",
 });
 
-function Bookings({}: Props) {
+export default async function Bookings({}: Props) {
   return (
     <TabsContent value="/dashboard/bookings" className="mt-0 flex-1" forceMount>
       <UserBookings />
     </TabsContent>
   );
 }
-
-export default Bookings;

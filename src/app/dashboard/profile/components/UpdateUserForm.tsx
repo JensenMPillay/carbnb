@@ -23,13 +23,16 @@ import useSessionStore from "@/src/store/useSessionStore";
 import useStore from "@/src/store/useStore";
 import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-type Props = {};
+type UpdateUserFormProps = {
+  stripeAccLink: string;
+};
 
-const UpdateUserForm = ({}: Props) => {
+const UpdateUserForm = ({ stripeAccLink }: UpdateUserFormProps) => {
   // Session
   const { syncSession } = useSessionStore();
 
@@ -82,10 +85,13 @@ const UpdateUserForm = ({}: Props) => {
 
   // Prefill Form
   useEffect(() => {
+    if (!user) return;
+
+    const { email, user_metadata } = user;
     updateUserForm.reset({
-      email: user?.email ?? "",
-      name: user?.user_metadata?.name ?? "",
-      phone: user?.user_metadata?.phone ?? "",
+      email: email ?? "",
+      name: user_metadata.name ?? "",
+      phone: user_metadata.phone ?? "",
     });
     return () => {};
   }, [user, updateUserForm]);
@@ -200,10 +206,22 @@ const UpdateUserForm = ({}: Props) => {
               )}
             />
             <Separator orientation="horizontal" className="mx-auto w-full" />
-            <div className="flex w-full flex-col items-end justify-end py-2 md:py-3 lg:py-4">
+            <div className="flex w-full flex-col items-center justify-center space-y-1 py-2 sm:flex-row sm:items-end sm:justify-end sm:space-x-2 sm:space-y-0 sm:py-3 lg:py-4">
+              {user?.user_metadata.role === "LENDER" && (
+                <Link
+                  className={buttonVariants({
+                    className: "",
+                    variant: "outline",
+                  })}
+                  href={stripeAccLink}
+                >
+                  Stripe Onboarding
+                </Link>
+              )}
+
               <Button
                 className={buttonVariants({
-                  className: "my-2",
+                  className: "",
                   variant: "default",
                 })}
                 type="submit"

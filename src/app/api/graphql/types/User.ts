@@ -1,6 +1,8 @@
 import prisma from "@/prisma/prisma";
+import { stripe } from "@/src/config/stripe";
 import { Role } from "@prisma/client";
 import { createGraphQLError } from "graphql-yoga";
+import Stripe from "stripe";
 import { builder } from "../builder";
 
 // Role
@@ -14,6 +16,11 @@ builder.prismaObject("User", {
     id: t.exposeID("id"),
     email: t.exposeString("email"),
     emailVerified: t.expose("emailVerified", { type: "Date", nullable: true }),
+    stripeCustomerId: t.exposeString("stripeCustomerId", { nullable: true }),
+    stripeVerified: t.expose("stripeVerified", {
+      type: "Date",
+      nullable: true,
+    }),
     role: t.expose("role", { type: Role }),
     name: t.exposeString("name", { nullable: true }),
     phone: t.exposeString("phone", { nullable: true }),
@@ -74,18 +81,57 @@ builder.mutationField("registerUser", (t) =>
 
       if (dbUser) throw createGraphQLError("User already exists.");
 
+      // Get User Country
+      const country = (await ctx).req?.headers["accept-language"]
+        ?.split("-")[1]
+        .substring(0, 2);
+
+      // Create Stripe Account
+      let stripeAccount: Stripe.Response<Stripe.Account> | undefined;
+
+      if (args.role === "LENDER") {
+        stripeAccount = await stripe.accounts.create({
+          type: "express",
+          country: country ?? "FR",
+          email: args.email,
+          business_type: "individual",
+          business_profile: {
+            name: args.name,
+            support_email: args.email,
+            support_phone: args.phone,
+            product_description: "Lend Car",
+          },
+          capabilities: {
+            card_payments: {
+              requested: true,
+            },
+            transfers: {
+              requested: true,
+            },
+          },
+          metadata: {
+            userId: (await ctx).user?.id ?? "",
+            name: args.name,
+            email: args.email,
+            phone: args.phone,
+          },
+        });
+      }
+
       const userPrisma = await prisma.user.create({
         ...query,
         data: {
           id: (await ctx).user?.id,
           email: args.email,
           emailVerified: new Date(),
+          stripeCustomerId: stripeAccount?.id,
           name: args.name,
           phone: args.phone,
           role: args.role,
         },
       });
 
+      // Sync User Supabase & User Database
       const userSupabaseAdmin = await (
         await ctx
       ).supabase?.auth.admin.updateUserById((await ctx).user?.id!, {
@@ -100,6 +146,7 @@ builder.mutationField("registerUser", (t) =>
           name: args.name,
           phone: args.phone,
           role: args.role,
+          stripeCustomerId: stripeAccount?.id,
         },
       });
 

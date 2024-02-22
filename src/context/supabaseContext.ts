@@ -38,5 +38,5 @@ export async function supabaseContext(
 
   const { user, access_token } = session;
 
-  return { supabase, user, access_token };
+  return { req, supabase, user, access_token };
 }
