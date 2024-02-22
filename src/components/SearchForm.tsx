@@ -57,9 +57,17 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
           id: location.id,
           description: location.description,
         },
+        // Verify Date > Today
         date: {
-          from: new Date(date.from),
-          to: new Date(date.to),
+          from: new Date(
+            Math.max(new Date(date.from).getTime(), new Date().getTime()),
+          ),
+          to: new Date(
+            Math.max(
+              new Date(date.to).getTime(),
+              addDays(new Date(), 7).getTime(),
+            ),
+          ),
         },
       });
     }
