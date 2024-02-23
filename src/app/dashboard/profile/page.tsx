@@ -1,9 +1,9 @@
 import { TabsContent } from "@/src/components/ui/tabs";
+import { stripe } from "@/src/config/stripe";
 import { supabaseServerClient } from "@/src/lib/supabase/supabase-server-client";
-import { constructMetadata } from "@/src/lib/utils";
+import { absoluteUrl, constructMetadata } from "@/src/lib/utils";
 import DeleteUserButton from "./components/DeleteUserButton";
 import UpdateUserForm from "./components/UpdateUserForm";
-import getStripeAccountLink from "./components/getStripeAccountLink";
 
 type Props = {};
 
@@ -26,9 +26,17 @@ export default async function Profile({}: Props) {
     user?.user_metadata.role === "LENDER" &&
     user?.user_metadata.stripeCustomerId
   ) {
-    stripeAccLink = await getStripeAccountLink(
-      user?.user_metadata.stripeCustomerId,
-    );
+    try {
+      const accountLink = await stripe.accountLinks.create({
+        account: user?.user_metadata.stripeCustomerId,
+        refresh_url: absoluteUrl("/dashboard/profile"),
+        return_url: absoluteUrl("/dashboard/profile"),
+        type: "account_onboarding",
+      });
+      stripeAccLink = accountLink.url;
+    } catch (error) {
+      console.error(`Stripe Error : ${error}`);
+    }
   }
 
   return (
