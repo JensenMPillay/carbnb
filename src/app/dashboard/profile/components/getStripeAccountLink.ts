@@ -3,6 +3,7 @@
 import { stripe } from "@/src/config/stripe";
 import { absoluteUrl } from "@/src/lib/utils";
 
+// Get Stripe Account Link for LENDER (Onboarding)
 async function getStripeAccountLink(stripeCustomerId: string) {
   const accountLink = await stripe.accountLinks.create({
     account: stripeCustomerId,
