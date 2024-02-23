@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { addDays, format } from "date-fns";
+import { addDays, format, max } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -76,12 +76,8 @@ const SearchForm = () => {
         },
         // Verify Date > Today
         date: {
-          from: new Date(
-            Math.max(new Date(date.from).getTime(), new Date().getTime()),
-          ),
-          to: new Date(
-            Math.max(new Date(date.to).getTime(), new Date().getTime()),
-          ),
+          from: max([new Date(date.from), new Date()]),
+          to: max([new Date(date.to), new Date()]),
         },
       });
     }
