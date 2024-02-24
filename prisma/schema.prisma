@@ -243,7 +243,7 @@ model Booking {
   totalPrice        Float
   status            BookingStatus            
   paymentStatus     PaymentStatus
-  stripePaymentId   String      @unique
+  stripePaymentId   String?     @unique
   User              User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   userId            String      @db.Uuid
   Car               Car         @relation(fields: [carId], references: [id], onDelete: NoAction, onUpdate: NoAction)

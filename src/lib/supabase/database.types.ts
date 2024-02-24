@@ -51,7 +51,7 @@ export type Database = {
           paymentStatus: Database["public"]["Enums"]["PaymentStatus"];
           startDate: string;
           status: Database["public"]["Enums"]["BookingStatus"];
-          stripePaymentId: string;
+          stripePaymentId: string | null;
           totalPrice: number;
           updatedAt: string;
           userId: string;
@@ -64,7 +64,7 @@ export type Database = {
           paymentStatus: Database["public"]["Enums"]["PaymentStatus"];
           startDate: string;
           status: Database["public"]["Enums"]["BookingStatus"];
-          stripePaymentId: string;
+          stripePaymentId?: string | null;
           totalPrice: number;
           updatedAt: string;
           userId: string;
@@ -77,7 +77,7 @@ export type Database = {
           paymentStatus?: Database["public"]["Enums"]["PaymentStatus"];
           startDate?: string;
           status?: Database["public"]["Enums"]["BookingStatus"];
-          stripePaymentId?: string;
+          stripePaymentId?: string | null;
           totalPrice?: number;
           updatedAt?: string;
           userId?: string;
