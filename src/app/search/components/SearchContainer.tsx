@@ -34,17 +34,22 @@ const SearchContainer = () => {
       startDate: startDate && new Date(startDate),
       endDate: endDate && new Date(endDate),
     },
-    onCompleted: async (data) => {
-      // Set Cars Data
-      setCars(data?.getAvailableCars);
+    onCompleted: (data) => {
+      // setCars(data?.getAvailableCars);
     },
-    onError: async (error) => {
+    onError: (error) => {
       showErrorNotif({
         description: error.message,
       });
       console.error("Query Error : ", error);
     },
   });
+
+  useEffect(() => {
+    // Set Cars Data
+    setCars(data?.getAvailableCars);
+    return () => {};
+  }, [data, setCars]);
 
   useEffect(() => {
     // Prefill Form
