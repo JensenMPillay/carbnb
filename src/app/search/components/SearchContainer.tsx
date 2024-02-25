@@ -27,12 +27,24 @@ const SearchContainer = () => {
 
   // Access to Store Data after Rendering (SSR Behavior)
   const cars = useStore(useSearchStore, (state) => state.cars);
+  const date = useStore(
+    useSearchStore,
+    (state) => state.searchValues?.formValues.date,
+  );
 
   // Get Query
   const { loading, error, data } = useQuery(GET_AVAILABLE_CARS_QUERY, {
     variables: {
-      startDate: startDate && new Date(startDate),
-      endDate: endDate && new Date(endDate),
+      startDate: startDate
+        ? new Date(startDate)
+        : date
+          ? new Date(date.from)
+          : new Date(),
+      endDate: endDate
+        ? new Date(endDate)
+        : date
+          ? new Date(date.to)
+          : new Date(),
     },
     onCompleted: (data) => {
       // setCars(data?.getAvailableCars);
@@ -43,6 +55,8 @@ const SearchContainer = () => {
       });
       console.error("Query Error : ", error);
     },
+    pollInterval: 5000,
+    ssr: false,
   });
 
   useEffect(() => {
@@ -70,18 +84,12 @@ const SearchContainer = () => {
     return () => {};
   }, [locationId, startDate, endDate, getFormattedLocation, setSearchValues]);
 
-  if (loading)
-    return (
-      <div className="flex flex-1 flex-col items-center space-y-4 p-2 md:p-3 lg:p-4 xl:p-5">
-        <SearchForm />
-        <Skeleton className="h-[75dvh] w-full" />
-      </div>
-    );
-
   return (
     <div className="flex flex-1 flex-col items-center space-y-4 p-2 md:p-3 lg:p-4 xl:p-5">
       <SearchForm />
-      {error || !cars || cars?.length <= 0 ? (
+      {loading ? (
+        <Skeleton className="h-[75dvh] w-full" />
+      ) : error || !cars || cars?.length <= 0 ? (
         <p>No cars available. Please adjust your dates.</p>
       ) : (
         <>
