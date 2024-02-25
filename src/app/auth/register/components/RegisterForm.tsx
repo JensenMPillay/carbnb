@@ -24,7 +24,7 @@ import useStore from "@/src/store/useStore";
 import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -45,6 +45,10 @@ const RegisterForm = (props: Props) => {
   // Router
   const router = useRouter();
 
+  // Origin
+  const searchParams = useSearchParams();
+  const origin = searchParams.get("origin");
+
   // Loading Hook
   const { isLoading } = useLoading();
 
@@ -61,8 +65,7 @@ const RegisterForm = (props: Props) => {
         description: "You'll be redirected shortly!",
       });
       await syncSession();
-      router.refresh();
-      router.replace("/dashboard");
+      router.push(`/api/auth/callback${origin ? "?origin=" + origin : ""}`);
     },
     onError: async (error) => {
       showErrorNotif({
@@ -100,7 +103,6 @@ const RegisterForm = (props: Props) => {
     });
     return () => {};
   }, [user, registerForm]);
-
   return (
     <>
       {isLoading ? (
@@ -183,7 +185,10 @@ const RegisterForm = (props: Props) => {
               items={roles}
               type="single"
             />
-            <Separator orientation="horizontal" className="mx-auto w-full" />
+            <Separator
+              orientation="horizontal"
+              className="mx-auto mt-2 w-full"
+            />
             <div className="flex flex-col items-center justify-center py-2 md:py-3 lg:py-4">
               <p className="mx-auto my-4 text-center text-sm text-muted-foreground">
                 By clicking below, you agree to our{" "}

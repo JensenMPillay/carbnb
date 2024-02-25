@@ -81,41 +81,43 @@ builder.mutationField("registerUser", (t) =>
 
       if (dbUser) throw createGraphQLError("User already exists.");
 
-      // Get User Country
-      const country = (await ctx).req?.headers["accept-language"]
-        ?.split("-")[1]
-        .substring(0, 2);
-
       // Create Stripe Account
       let stripeAccount: Stripe.Response<Stripe.Account> | undefined;
 
       if (args.role === "LENDER") {
-        stripeAccount = await stripe.accounts.create({
-          type: "express",
-          country: country ?? "FR",
-          email: args.email,
-          business_type: "individual",
-          business_profile: {
-            name: args.name,
-            support_email: args.email,
-            support_phone: args.phone,
-            product_description: "Lend Car",
-          },
-          capabilities: {
-            card_payments: {
-              requested: true,
-            },
-            transfers: {
-              requested: true,
-            },
-          },
-          metadata: {
-            userId: (await ctx).user?.id ?? "",
-            name: args.name,
+        try {
+          stripeAccount = await stripe.accounts.create({
+            type: "express",
+            country: "FR",
             email: args.email,
-            phone: args.phone,
-          },
-        });
+            business_type: "individual",
+            business_profile: {
+              name: args.name,
+              support_email: args.email,
+              support_phone: args.phone,
+              product_description: "Lend Car",
+            },
+            capabilities: {
+              card_payments: {
+                requested: true,
+              },
+              transfers: {
+                requested: true,
+              },
+            },
+            metadata: {
+              userId: (await ctx).user?.id ?? "",
+              name: args.name,
+              email: args.email,
+              phone: args.phone,
+            },
+          });
+        } catch (error) {
+          console.error(error);
+          throw createGraphQLError(
+            "An error occurred while creating the user stripe account",
+          );
+        }
       }
 
       const userPrisma = await prisma.user.create({

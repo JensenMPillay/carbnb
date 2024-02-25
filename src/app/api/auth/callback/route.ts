@@ -10,7 +10,6 @@ export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
   const origin = requestUrl.searchParams.get("origin");
-  const from = requestUrl.searchParams.get("from");
 
   // Supabase Client
   const cookieStore = cookies();
@@ -33,33 +32,51 @@ export async function GET(request: NextRequest) {
     },
   );
 
-  if (code) {
-    await supabaseApiServerClient.auth.exchangeCodeForSession(code);
-  }
+  // Mail Verification
+  if (code) await supabaseApiServerClient.auth.exchangeCodeForSession(code);
 
-  if (from === "sign") {
-    const {
-      data: { session },
-      error,
-    } = await supabaseApiServerClient.auth.getSession();
+  const {
+    data: { session },
+    error,
+  } = await supabaseApiServerClient.auth.getSession();
 
-    const user = session!.user!;
+  // No Session
+  if (!session)
+    return NextResponse.redirect(
+      origin
+        ? `${requestUrl.origin}/auth/sign?origin=${origin}`
+        : `${requestUrl.origin}/auth/sign`,
+    );
 
-    const dbUser = await prisma.user.findUnique({
-      where: {
-        id: user.id!,
+  const user = session.user;
+
+  // Database Verification
+  const dbUser = await prisma.user.findUnique({
+    where: {
+      id: user.id!,
+    },
+  });
+
+  // Registration
+  if (!dbUser)
+    return NextResponse.redirect(
+      origin
+        ? `${requestUrl.origin}/auth/register?origin=${origin}`
+        : `${requestUrl.origin}/auth/register`,
+    );
+
+  const isRegistered = user.user_metadata.isRegistered;
+
+  // Update MetaData
+  if (!isRegistered)
+    await supabaseApiServerClient.auth.updateUser({
+      data: {
+        isRegistered: true,
       },
     });
 
-    if (dbUser) {
-      return NextResponse.redirect(
-        origin ? `${requestUrl.origin}/${origin}` : requestUrl.origin,
-      );
-    } else {
-      return NextResponse.redirect(`${requestUrl.origin}/auth/register`);
-    }
-  }
-
-  // URL to redirect to after sign in process completes
-  return NextResponse.redirect(requestUrl.origin);
+  // Redirection
+  return NextResponse.redirect(
+    origin ? `${requestUrl.origin}/${origin}` : requestUrl.origin,
+  );
 }

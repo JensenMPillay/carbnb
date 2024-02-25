@@ -40,10 +40,7 @@ const SignForm = (props: Props) => {
           description: "You'll be redirected shortly!",
         });
         await syncSession();
-        router.refresh();
-        router.push(
-          `/api/auth/callback?from=sign${origin ? "&origin=" + origin : ""}`,
-        );
+        router.push(`/api/auth/callback${origin ? "?origin=" + origin : ""}`);
       }
     });
     return () => {

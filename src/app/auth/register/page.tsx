@@ -24,7 +24,8 @@ export default async function Register({}: Props) {
 
   const user = session?.user;
 
-  if (!user || user.user_metadata.name) return redirect("/");
+  if (!user) return redirect("/auth/sign");
+  if (user.user_metadata.isRegistered) return redirect("/");
 
   return (
     <>

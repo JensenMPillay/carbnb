@@ -15,7 +15,8 @@ export default async function Dashboard() {
 
   const user = session?.user;
 
-  if (!user || !user.user_metadata.name) return redirect("/");
+  if (!user || !user.user_metadata.isRegistered)
+    return redirect("/auth/sign?origin=dashboard");
 
   return redirect("/dashboard/profile");
 }
