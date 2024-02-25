@@ -9,6 +9,7 @@ export const GET_BOOKING_QUERY = gql`
       endDate
       totalPrice
       status
+      paymentStatus
       stripePaymentId
       user {
         id
@@ -66,6 +67,7 @@ export const INIT_BOOKING_MUTATION = gql`
       endDate
       totalPrice
       status
+      paymentStatus
       stripePaymentId
       user {
         id
@@ -122,6 +124,7 @@ export const UPDATE_BOOKING_MUTATION = gql`
       endDate
       totalPrice
       status
+      paymentStatus
       stripePaymentId
       user {
         id
@@ -178,6 +181,7 @@ export const DELETE_BOOKING_MUTATION = gql`
       endDate
       totalPrice
       status
+      paymentStatus
       stripePaymentId
       user {
         id

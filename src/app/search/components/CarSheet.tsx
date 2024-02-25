@@ -1,17 +1,10 @@
 "use client";
+import BookingInfoCard from "@/src/components/BookingInfoCard";
 import CarCard from "@/src/components/CarCard";
-import { Button } from "@/src/components/ui/button";
-import { Card } from "@/src/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/src/components/ui/dialog";
+import { Button, buttonVariants } from "@/src/components/ui/button";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -21,29 +14,36 @@ import {
 import { INIT_BOOKING_MUTATION } from "@/src/lib/graphql/booking";
 import { GET_AVAILABLE_CARS_QUERY } from "@/src/lib/graphql/car";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
+import { cn } from "@/src/lib/utils";
 import useSearchStore from "@/src/store/useSearchStore";
+import useSessionStore from "@/src/store/useSessionStore";
 import useStore from "@/src/store/useStore";
 import { useMutation } from "@apollo/client";
-import { format } from "date-fns";
-import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const CarSheet = () => {
-  const [open, setOpen] = useState<boolean>(false);
+  // Router
+  const router = useRouter();
 
   // Cars Store
-  const { setCarSelected, setCars } = useSearchStore();
+  const { setCarSelected } = useSearchStore();
 
   // Access to Store Data after Rendering (SSR Behavior)
+  const session = useStore(useSessionStore, (state) => state.session);
   const carSelected = useStore(useSearchStore, (state) => state.carSelected);
   const formValues = useStore(
     useSearchStore,
     (state) => state.searchValues?.formValues,
   );
 
+  const user = session?.user;
+
   // Mutation
   const [initBooking] = useMutation(INIT_BOOKING_MUTATION, {
     onCompleted: (data) => {
-      setOpen(true);
+      setCarSelected(null);
+      router.push(`/booking/${data.initBooking.id}`);
     },
     onError: (error) => {
       showErrorNotif({
@@ -87,41 +87,33 @@ const CarSheet = () => {
           </SheetDescription>
         </SheetHeader>
         {carSelected && <CarCard car={carSelected} />}
-        {formValues && (
-          <Card className="text-xs">
-            <p className="text-center">
-              {carSelected?.location.formatted_address}
-            </p>
-            <p className="flex flex-row justify-around">
-              <span>{format(formValues.date.from, "PPP")}</span>
-              <span>-</span>
-              <span>{format(formValues.date.to, "PPP")}</span>
-            </p>
-            <p></p>
-          </Card>
+        {carSelected && formValues && (
+          <BookingInfoCard
+            address={carSelected.location.formatted_address}
+            startDate={formValues.date.from}
+            endDate={formValues.date.to}
+          />
         )}
         <SheetFooter>
-          <Button
-            size="default"
-            variant="default"
-            onClick={(event) => onSubmit(event)}
-          >
-            Book
-          </Button>
+          {!user || !user.user_metadata.isRegistered ? (
+            <SheetClose asChild>
+              <Link
+                className={cn(buttonVariants({ variant: "link" }))}
+                href="/auth/sign?origin=search"
+              >
+                Sign in to continue
+              </Link>
+            </SheetClose>
+          ) : (
+            <Button
+              size="default"
+              variant="default"
+              onClick={(event) => onSubmit(event)}
+            >
+              Book
+            </Button>
+          )}
         </SheetFooter>
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent className="">
-            <DialogHeader>
-              <DialogTitle>Checkout</DialogTitle>
-              <DialogDescription>
-                Choose What Works Best for You!
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <Button type="submit">Pay</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
       </SheetContent>
     </Sheet>
   );

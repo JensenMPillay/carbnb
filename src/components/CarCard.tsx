@@ -40,12 +40,7 @@ const CarCard = ({
   children,
 }: PropsWithChildren<CarCardProps>) => {
   return (
-    <Card
-      className={cn(
-        "overflow-hidden border-transparent bg-transparent",
-        className,
-      )}
-    >
+    <Card className={cn("overflow-hidden bg-transparent", className)}>
       <CardHeader className="flex flex-col items-start justify-between space-y-0 p-1 md:p-2 lg:p-3">
         <CardTitle className="space-x-2 truncate text-xl normal-case">
           <span className="font-semibold capitalize">

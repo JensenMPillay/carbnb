@@ -31,6 +31,33 @@ builder.prismaObject("Booking", {
   }),
 });
 
+// GET Route
+builder.queryField("getBooking", (t) =>
+  t.prismaField({
+    type: "Booking",
+    args: {
+      id: t.arg.string({ required: true }),
+    },
+    resolve: async (query, _parent, args, ctx) => {
+      if (!(await ctx).user)
+        throw createGraphQLError(
+          "You have to be logged in to perform this action.",
+        );
+
+      const dbBooking = await prisma.booking.findUnique({
+        ...query,
+        where: {
+          id: args.id,
+        },
+      });
+
+      if (!dbBooking) throw createGraphQLError("Booking does not exist.");
+
+      return dbBooking;
+    },
+  }),
+);
+
 // POST Route
 builder.mutationField("initBooking", (t) =>
   t.prismaField({
