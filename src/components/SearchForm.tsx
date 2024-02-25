@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { addDays, format, max } from "date-fns";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -30,6 +30,9 @@ const SearchForm = () => {
   // Router
   const router = useRouter();
 
+  // Pathname
+  const pathname = usePathname();
+
   // Form
   const searchForm = useForm<SearchFormSchemaType>({
     resolver: zodResolver(searchFormSchema),
@@ -53,7 +56,7 @@ const SearchForm = () => {
         endDate: data.date.to.toDateString(),
       });
       // Redirect
-      router.push(`/search?${params}`);
+      router.push(`/search?${params}`, { scroll: pathname != "/search" });
     } catch (error) {
       console.error(`Error : ${error}`);
     }
