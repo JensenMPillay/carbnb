@@ -39,49 +39,54 @@ export async function POST(request: Request) {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET || "",
+      process.env.STRIPE_ACCOUNT_WEBHOOK_SECRET || "",
     );
   } catch (err) {
     return new Response(
-      `Webhook Error: ${err instanceof Error ? err.message : "Unknown Error"}`,
+      `Webhook Error: ${err instanceof Error ? err.message : "Webhook signature verification failed."}`,
       { status: 400 },
     );
   }
 
-  //   Session Stripe
-  const session = event.data.object as Stripe.Checkout.Session;
+  // Handle the event
+  switch (event.type) {
+    // Lender Stripe Account Updated
+    case "account.updated":
+      console.log(event.data.object);
+      const stripeAccount = event.data.object;
+      if (!stripeAccount || !stripeAccount.metadata) break;
+      try {
+        // Update User & Create Stripe Data
+        await prisma.user.update({
+          where: {
+            id: stripeAccount.metadata.userId,
+          },
+          data: {
+            stripeVerified: new Date(),
+          },
+        });
 
-  //   No User
-  if (!session?.metadata?.userId) {
-    return new Response(null, {
-      status: 200,
-    });
+        // Update Supabase Session
+        await supabaseApiServerClient.auth.updateUser({
+          data: {
+            stripeVerified: new Date(),
+          },
+        });
+      } catch (error) {
+        console.error(
+          error instanceof Error ? error.message : "Update user failed.",
+        );
+        return new Response(
+          `Webhook Error: ${error instanceof Error ? error.message : "Webhook signature verification failed."}`,
+          { status: 400 },
+        );
+      }
+      break;
+    default:
+      // Unexpected event type
+      console.error(`Unhandled event type ${event.type}.`);
   }
 
-  //  Lender Account Updated
-  if (event.type === "account.updated") {
-    // Retrieve Stripe Subscription Data
-    const subscription = await stripe.subscriptions.retrieve(
-      session.subscription as string,
-    );
-
-    // Update User & Create Stripe Data
-    await prisma.user.update({
-      where: {
-        id: session.metadata.userId,
-      },
-      data: {
-        stripeVerified: new Date(),
-      },
-    });
-
-    // Update Supabase Session
-    await supabaseApiServerClient.auth.updateUser({
-      data: {
-        stripeVerified: new Date(),
-      },
-    });
-  }
-
+  // Response
   return new Response(null, { status: 200 });
 }
