@@ -62,11 +62,11 @@ const FiltersSheet = () => {
   const carFilterForm = useForm<CarFilterSchemaType>({
     resolver: zodResolver(carFilterSchema),
     defaultValues: {
-      category: undefined,
+      category: [],
       brand: undefined,
       year: 1950,
-      transmission: undefined,
-      fuelType: undefined,
+      transmission: [],
+      fuelType: [],
       pricePerDay: 2500,
       radius: 25,
     },
