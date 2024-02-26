@@ -4,7 +4,7 @@ import { Database } from "./database.types";
 
 const cookieStore = cookies();
 
-export const supabaseServerClient = createServerClient<Database>(
+const supabaseServerClient = createServerClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   {
@@ -15,3 +15,5 @@ export const supabaseServerClient = createServerClient<Database>(
     },
   },
 );
+
+export default supabaseServerClient;
