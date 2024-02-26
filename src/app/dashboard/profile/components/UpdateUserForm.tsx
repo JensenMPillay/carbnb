@@ -18,21 +18,17 @@ import {
   UpdateUserSchemaType,
   updateUserSchema,
 } from "@/src/lib/schemas/user/UpdateUserSchema";
+import getAccountLink from "@/src/lib/stripe/get-account-link";
 import { cn } from "@/src/lib/utils";
 import useSessionStore from "@/src/store/useSessionStore";
 import useStore from "@/src/store/useStore";
 import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-type UpdateUserFormProps = {
-  stripeAccLink: string;
-};
-
-const UpdateUserForm = ({ stripeAccLink }: UpdateUserFormProps) => {
+const UpdateUserForm = () => {
   // Session
   const { syncSession } = useSessionStore();
 
@@ -83,6 +79,11 @@ const UpdateUserForm = ({ stripeAccLink }: UpdateUserFormProps) => {
     }
   };
 
+  const createAccountLink = async (stripeCustomerId: string) => {
+    const accountLinkURL = await getAccountLink(stripeCustomerId);
+    return (window.location.href = accountLinkURL);
+  };
+
   // Prefill Form
   useEffect(() => {
     if (!user) return;
@@ -109,6 +110,23 @@ const UpdateUserForm = ({ stripeAccLink }: UpdateUserFormProps) => {
         </div>
       ) : (
         <Form {...updateUserForm}>
+          {user?.user_metadata.role === "LENDER" &&
+          user?.user_metadata.stripeCustomerId &&
+          !user?.user_metadata.stripeVerified ? (
+            <Button
+              className={buttonVariants({
+                className:
+                  "my-2 w-fit self-center bg-indigo-600 text-white hover:bg-indigo-500",
+                variant: null,
+                size: "default",
+              })}
+              onClick={() =>
+                createAccountLink(user?.user_metadata.stripeCustomerId)
+              }
+            >
+              Stripe Onboarding
+            </Button>
+          ) : null}
           <form
             onSubmit={updateUserForm.handleSubmit(onSubmit)}
             className="space-4 mx-auto w-3/4"
@@ -207,18 +225,6 @@ const UpdateUserForm = ({ stripeAccLink }: UpdateUserFormProps) => {
             />
             <Separator orientation="horizontal" className="mx-auto w-full" />
             <div className="flex w-full flex-col items-center justify-center space-y-1 py-2 sm:flex-row sm:items-end sm:justify-end sm:space-x-2 sm:space-y-0 sm:py-3 lg:py-4">
-              {user?.user_metadata.role === "LENDER" && (
-                <Link
-                  className={buttonVariants({
-                    className: "",
-                    variant: "outline",
-                  })}
-                  href={stripeAccLink}
-                >
-                  Stripe Onboarding
-                </Link>
-              )}
-
               <Button
                 className={buttonVariants({
                   className: "",
