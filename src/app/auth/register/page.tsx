@@ -9,7 +9,7 @@ import getSupabaseServerClient from "@/src/lib/supabase/get-supabase-server-clie
 import { constructMetadata } from "@/src/lib/utils";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import RegisterForm from "./components/RegisterForm";
+import RegisterFormWrapper from "./components/RegisterFormWrapper";
 
 type Props = {};
 
@@ -43,7 +43,7 @@ export default async function Register({}: Props) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <RegisterForm />
+        <RegisterFormWrapper />
       </CardContent>
     </>
   );

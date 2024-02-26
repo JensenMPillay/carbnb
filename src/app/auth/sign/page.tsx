@@ -5,7 +5,7 @@ import {
   CardTitle,
 } from "@/src/components/ui/card";
 import { constructMetadata } from "@/src/lib/utils";
-import SignForm from "./components/SignForm";
+import SignFormWrapper from "./components/SignFormWrapper";
 
 export const metadata = constructMetadata({
   title: "Carbnb | Sign",
@@ -22,7 +22,7 @@ export default function Sign() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <SignForm />
+        <SignFormWrapper />
       </CardContent>
     </>
   );
