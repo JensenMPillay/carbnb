@@ -1,7 +1,8 @@
 import { TabsContent } from "@/src/components/ui/tabs";
 import { stripe } from "@/src/config/stripe";
-import supabaseServerClient from "@/src/lib/supabase/supabase-server-client";
+import getSupabaseServerClient from "@/src/lib/supabase/get-supabase-server-client";
 import { absoluteUrl, constructMetadata } from "@/src/lib/utils";
+import { cookies } from "next/headers";
 import DeleteUserButton from "./components/DeleteUserButton";
 import UpdateUserForm from "./components/UpdateUserForm";
 
@@ -13,6 +14,11 @@ export const metadata = constructMetadata({
 });
 
 export default async function Profile({}: Props) {
+  // Supabase Client
+  const cookieStore = cookies();
+
+  const supabaseServerClient = getSupabaseServerClient(cookieStore);
+
   const {
     data: { session },
     error,

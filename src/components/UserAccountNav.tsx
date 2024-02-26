@@ -4,7 +4,7 @@ import { User } from "@supabase/supabase-js";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { supabaseBrowserClient } from "../lib/supabase/supabase-browser-client";
+import supabaseBrowserClient from "../lib/supabase/supabase-browser-client";
 import useSessionStore from "../store/useSessionStore";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Button } from "./ui/button";

@@ -4,8 +4,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/src/components/ui/card";
-import supabaseServerClient from "@/src/lib/supabase/supabase-server-client";
+
+import getSupabaseServerClient from "@/src/lib/supabase/get-supabase-server-client";
 import { constructMetadata } from "@/src/lib/utils";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import RegisterForm from "./components/RegisterForm";
 
@@ -17,6 +19,11 @@ export const metadata = constructMetadata({
 });
 
 export default async function Register({}: Props) {
+  // Supabase Client
+  const cookieStore = cookies();
+
+  const supabaseServerClient = getSupabaseServerClient(cookieStore);
+
   const {
     data: { session },
     error,

@@ -1,5 +1,6 @@
-import supabaseServerClient from "@/src/lib/supabase/supabase-server-client";
+import getSupabaseServerClient from "@/src/lib/supabase/get-supabase-server-client";
 import { constructMetadata } from "@/src/lib/utils";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const metadata = constructMetadata({
@@ -8,6 +9,11 @@ export const metadata = constructMetadata({
 });
 
 export default async function Dashboard() {
+  // Supabase Client
+  const cookieStore = cookies();
+
+  const supabaseServerClient = getSupabaseServerClient(cookieStore);
+
   const {
     data: { session },
     error,

@@ -1,7 +1,7 @@
 import { Session } from "@supabase/supabase-js";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { supabaseBrowserClient } from "../lib/supabase/supabase-browser-client";
+import supabaseBrowserClient from "../lib/supabase/supabase-browser-client";
 
 type SessionStore = {
   session: Session | null;

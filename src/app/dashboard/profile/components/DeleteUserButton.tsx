@@ -13,7 +13,7 @@ import {
 import { Button, buttonVariants } from "@/src/components/ui/button";
 import { DELETE_USER_MUTATION } from "@/src/lib/graphql/user";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
-import { supabaseBrowserClient } from "@/src/lib/supabase/supabase-browser-client";
+import supabaseBrowserClient from "@/src/lib/supabase/supabase-browser-client";
 import useSessionStore from "@/src/store/useSessionStore";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";

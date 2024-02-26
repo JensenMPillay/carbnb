@@ -4,7 +4,7 @@ import { Skeleton } from "@/src/components/ui/skeleton";
 import useLoading from "@/src/hooks/useLoading";
 import { customTheme } from "@/src/lib/auth-ui/customTheme";
 import { showNotif } from "@/src/lib/notifications/toasters";
-import { supabaseBrowserClient } from "@/src/lib/supabase/supabase-browser-client";
+import supabaseBrowserClient from "@/src/lib/supabase/supabase-browser-client";
 import useSessionStore from "@/src/store/useSessionStore";
 import { Auth } from "@supabase/auth-ui-react";
 import { useTheme } from "next-themes";
