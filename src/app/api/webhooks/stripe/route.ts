@@ -1,10 +1,34 @@
 import prisma from "@/prisma/prisma";
 import { stripe } from "@/src/config/stripe";
-import { supabaseServerClient } from "@/src/lib/supabase/supabase-server-client";
-import { headers } from "next/headers";
+import { Database } from "@/src/lib/supabase/database.types";
+import { createServerClient } from "@supabase/ssr";
+import { cookies, headers } from "next/headers";
+
+import type { CookieOptions } from "@supabase/ssr";
 import type Stripe from "stripe";
 
 export async function POST(request: Request) {
+  // Supabase Client
+  const cookieStore = cookies();
+
+  const supabaseApiServerClient = createServerClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value;
+        },
+        set(name: string, value: string, options: CookieOptions) {
+          cookieStore.set({ name, value, ...options });
+        },
+        remove(name: string, options: CookieOptions) {
+          cookieStore.set({ name, value: "", ...options });
+        },
+      },
+    },
+  );
+
   const body = await request.text();
   const signature = headers().get("Stripe-Signature") ?? "";
 
@@ -52,7 +76,7 @@ export async function POST(request: Request) {
     });
 
     // Update Supabase Session
-    await supabaseServerClient.auth.updateUser({
+    await supabaseApiServerClient.auth.updateUser({
       data: {
         stripeVerified: new Date(),
       },
