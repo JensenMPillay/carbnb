@@ -1,6 +1,6 @@
 import { TabsContent } from "@/src/components/ui/tabs";
 import { stripe } from "@/src/config/stripe";
-import { supabaseServerClient } from "@/src/lib/supabase/supabase-server-client";
+import supabaseServerClient from "@/src/lib/supabase/supabase-server-client";
 import { absoluteUrl, constructMetadata } from "@/src/lib/utils";
 import DeleteUserButton from "./components/DeleteUserButton";
 import UpdateUserForm from "./components/UpdateUserForm";

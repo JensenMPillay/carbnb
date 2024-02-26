@@ -4,7 +4,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/src/components/ui/card";
-import { supabaseServerClient } from "@/src/lib/supabase/supabase-server-client";
+import supabaseServerClient from "@/src/lib/supabase/supabase-server-client";
 import { constructMetadata } from "@/src/lib/utils";
 import { redirect } from "next/navigation";
 import RegisterForm from "./components/RegisterForm";
