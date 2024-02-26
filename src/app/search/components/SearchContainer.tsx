@@ -89,7 +89,7 @@ const SearchContainer = () => {
       <SearchForm />
       {loading ? (
         <Skeleton className="h-[75dvh] w-full" />
-      ) : error || !cars || cars?.length <= 0 ? (
+      ) : error || !cars || cars.length <= 0 ? (
         <p>No cars available. Please adjust your dates.</p>
       ) : (
         <>

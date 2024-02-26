@@ -81,9 +81,9 @@ const AddCarButton = () => {
       <DialogTrigger asChild>
         <Button
           className={buttonVariants({
-            className: "w-3/4",
+            className: "w-1/2",
             variant: "default",
-            size: "icon",
+            size: "default",
           })}
           type="button"
         >

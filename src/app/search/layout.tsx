@@ -22,7 +22,7 @@ export default function SearchLayout({
     // Main
     <main className="flex min-h-[calc(100vh-9rem)] flex-row">
       <section className="min-h-fit w-full flex-1 px-8 md:px-10 lg:px-12">
-        <Card className="min-h-fit flex-1 py-4">
+        <Card className="min-h-fit flex-1 bg-card/75 py-4">
           <CardHeader className="flex w-full p-2 md:p-3 lg:p-4">
             <CardTitle className="text-xl font-bold">
               Discover Your Ideal Car

@@ -63,12 +63,15 @@ const AddressFormField = <FormSchemaType extends FieldValues>({
       control={form.control}
       name={fieldName}
       render={({ field: { value, onChange, ...rest }, fieldState }) => (
-        <FormItem className={cn("flex-1 bg-inherit", classNameItem)}>
+        <FormItem className={cn("flex-1", classNameItem)}>
           <FormLabel className={cn("capitalize", classNameLabel)}>
             Address
           </FormLabel>
           <Command
-            className={cn("overflow-visible rounded-md", classNameInputWrapper)}
+            className={cn(
+              "overflow-visible rounded-md bg-transparent",
+              classNameInputWrapper,
+            )}
           >
             <div
               className={cn(
@@ -94,7 +97,7 @@ const AddressFormField = <FormSchemaType extends FieldValues>({
                 <CommandList className="absolute left-0 top-0 max-h-[25vh]">
                   {suggestions.map((suggestion) => (
                     <CommandItem
-                      className="z-10 bg-card"
+                      className="z-10 bg-card/75"
                       value={suggestion.description}
                       key={suggestion.place_id}
                       onSelect={() => {

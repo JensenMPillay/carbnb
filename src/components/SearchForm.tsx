@@ -91,7 +91,7 @@ const SearchForm = () => {
     <Form {...searchForm}>
       <form
         onSubmit={searchForm.handleSubmit(onSubmit)}
-        className="z-10 flex max-h-fit w-3/4 min-w-fit flex-col items-center justify-center rounded-lg bg-card text-lg shadow-md backdrop-blur-sm md:text-base lg:w-full lg:flex-row lg:items-center lg:rounded-full lg:text-sm"
+        className="z-10 flex max-h-fit w-3/4 min-w-fit flex-col items-center justify-center rounded-lg bg-card/75 text-lg shadow-md backdrop-blur-sm md:text-base lg:w-full lg:flex-row lg:items-center lg:rounded-full lg:text-sm"
       >
         <AddressFormField
           form={searchForm}
@@ -105,7 +105,7 @@ const SearchForm = () => {
         />
         <Separator
           orientation="vertical"
-          className="hidden h-3/4 lg:inline-block"
+          className="hidden h-12 lg:inline-block"
         />
         <Separator
           orientation="horizontal"
@@ -164,7 +164,7 @@ const SearchForm = () => {
               </FormItem>
               <Separator
                 orientation="vertical"
-                className="hidden h-3/4 lg:inline-block"
+                className="hidden h-12 lg:inline-block"
               />
               <Separator
                 orientation="horizontal"

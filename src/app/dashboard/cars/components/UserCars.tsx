@@ -38,6 +38,10 @@ const UserCars = (props: Props) => {
           <Skeleton className="h-[50dvh] w-full" />
           <Skeleton className="h-[50dvh] w-full" />
         </>
+      ) : error || !data.getUser.cars || data.getUser.cars.length <= 0 ? (
+        <p className="col-span-1 md:col-span-2 lg:col-span-3 ">
+          {"Your car collection is empty. Let's add a car to start hosting!"}
+        </p>
       ) : (
         data &&
         data.getUser.cars.map((car: CarQuery) => (

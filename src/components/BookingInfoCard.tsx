@@ -13,7 +13,7 @@ const BookingInfoCard = ({
   endDate,
 }: BookingInfoCardProps) => {
   return (
-    <Card className="mt-2 text-xs md:p-3 md:text-sm lg:p-4 lg:text-base">
+    <Card className="mt-2 bg-card/75 text-xs md:p-3 md:text-sm lg:p-4 lg:text-base">
       <p className="truncate text-center">{address}</p>
       <p className="flex flex-row justify-around">
         <span>{format(startDate, "yyyy-MM-dd")}</span>

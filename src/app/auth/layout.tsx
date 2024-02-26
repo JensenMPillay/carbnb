@@ -14,7 +14,9 @@ export default function AuthLayout({
         <RandomSVGComponent className="w-full" />
       </aside>
       <section className="min-h-fit flex-1 px-8 md:px-10 lg:px-12">
-        <Card className="min-h-fit py-4 md:py-8 lg:py-12">{children}</Card>
+        <Card className="min-h-fit bg-card/75 py-4 md:py-8 lg:py-12">
+          {children}
+        </Card>
       </section>
     </main>
   );

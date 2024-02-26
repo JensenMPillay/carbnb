@@ -155,7 +155,7 @@ const CarForm = ({
   }, [car, carForm]);
 
   return (
-    <Card className="">
+    <Card className="bg-card/75">
       <Form {...carForm}>
         <form id="carForm" onSubmit={carForm.handleSubmit(onSubmit)}>
           <CardContent className="flex flex-col space-y-2 p-4 md:p-5 lg:p-6">

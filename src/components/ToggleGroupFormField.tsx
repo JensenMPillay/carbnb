@@ -26,36 +26,33 @@ const ToggleGroupFormField = <FormSchemaType extends FieldValues>({
     <FormField
       control={form.control}
       name={fieldName}
-      render={({ field }) => {
-        console.log(field.value);
-        return (
-          <FormItem className="flex-1">
-            <FormLabel className="capitalize">{fieldName}</FormLabel>
-            <FormControl>
-              <ToggleGroup
-                type={type}
-                onValueChange={field.onChange}
-                value={field.value}
-                className="flex flex-wrap justify-start gap-2"
-              >
-                {items.map((item, index) => (
-                  <ToggleGroupItem
-                    key={index}
-                    value={item}
-                    data-state={field.value.includes(item) ? "on" : "off"}
-                    aria-label={item}
-                    variant={"outline"}
-                    size={"sm"}
-                  >
-                    {item}
-                  </ToggleGroupItem>
-                ))}
-              </ToggleGroup>
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        );
-      }}
+      render={({ field }) => (
+        <FormItem className="flex-1">
+          <FormLabel className="capitalize">{fieldName}</FormLabel>
+          <FormControl>
+            <ToggleGroup
+              type={type}
+              onValueChange={field.onChange}
+              value={field.value}
+              className="flex flex-wrap justify-start gap-2"
+            >
+              {items.map((item, index) => (
+                <ToggleGroupItem
+                  key={index}
+                  value={item}
+                  data-state={field.value.includes(item) ? "on" : "off"}
+                  aria-label={item}
+                  variant={"outline"}
+                  size={"sm"}
+                >
+                  {item}
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
     />
   );
 };

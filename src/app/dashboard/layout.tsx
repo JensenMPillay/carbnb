@@ -20,7 +20,7 @@ export default function DashboardLayout({
     // Main
     <main className="flex min-h-[calc(100vh-9rem)] flex-row">
       <section className="min-h-fit w-full flex-1 px-8 md:px-10 lg:px-12">
-        <Card className="min-h-fit flex-1 py-4">
+        <Card className="min-h-fit flex-1 bg-card/75 py-4">
           <Tabs
             className="flex h-full w-full flex-col"
             value={pathname}
