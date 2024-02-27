@@ -13,7 +13,7 @@ import { cn } from "../lib/utils";
 import useSearchStore from "../store/useSearchStore";
 import useStore from "../store/useStore";
 import AddressFormField from "./AddressFormField";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { Calendar } from "./ui/calendar";
 import {
   Form,
@@ -219,14 +219,15 @@ const SearchForm = () => {
             </>
           )}
         />
-        <div className="group flex min-w-fit flex-col items-center justify-center rounded-b-lg px-4 py-2 lg:h-fit lg:rounded-r-full">
-          <Button
-            type="submit"
-            className="max-w-fit cursor-pointer rounded-full bg-primary p-4 text-accent transition-all duration-300 ease-in-out group-hover:scale-125 group-hover:bg-accent group-hover:text-accent-foreground md:p-3 lg:right-3 lg:top-1/2 lg:p-2"
-          >
-            <MagnifyingGlassIcon className="size-5" />
-          </Button>
-        </div>
+        <Button
+          type="submit"
+          className={cn(
+            buttonVariants({ variant: "default", size: "icon" }),
+            "my-2 size-12 rounded-full lg:mx-2 lg:my-0",
+          )}
+        >
+          <MagnifyingGlassIcon className="absolute size-6" />
+        </Button>
       </form>
     </Form>
   );

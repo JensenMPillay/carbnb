@@ -52,6 +52,7 @@ const BookingContainer = (props: Props) => {
                 address={data.getBooking.car.location.formatted_address}
                 startDate={data.getBooking.startDate}
                 endDate={data.getBooking.endDate}
+                size="lg"
               />
             </div>
           </>

@@ -180,6 +180,7 @@ const FiltersSheet = () => {
         <SheetFooter className="justify-between">
           <Button
             variant="outline"
+            className="my-1"
             onClick={() => {
               carFilterForm.reset(undefined, { keepDefaultValues: true });
             }}
@@ -187,7 +188,7 @@ const FiltersSheet = () => {
             Clear filters
           </Button>
           <SheetClose asChild>
-            <Button variant="default" type="submit">
+            <Button variant="default" className="my-1" type="submit">
               Save changes
             </Button>
           </SheetClose>

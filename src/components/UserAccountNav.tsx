@@ -5,9 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import supabaseBrowserClient from "../lib/supabase/supabase-browser-client";
+import { cn } from "../lib/utils";
 import useSessionStore from "../store/useSessionStore";
 import { Avatar, AvatarFallback } from "./ui/avatar";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,10 +30,15 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="overflow-visible">
-        <Button className="group aspect-square size-8 rounded-full border bg-accent transition-all duration-300 ease-in-out hover:bg-accent">
-          <Avatar className="relative size-8 bg-background transition-all duration-300 ease-in-out group-hover:bg-accent">
+        <Button
+          className={cn(
+            buttonVariants({ variant: "default", size: "icon" }),
+            "rounded-full border border-input hover:bg-accent hover:text-accent-foreground",
+          )}
+        >
+          <Avatar className="relative size-6 bg-inherit">
             {user.user_metadata.image ? (
-              <div className="relative aspect-square h-full w-full">
+              <div className="relative h-full w-full">
                 <Image
                   fill
                   src={user.user_metadata.image}
@@ -41,9 +47,9 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
                 />
               </div>
             ) : (
-              <AvatarFallback className="size-8 bg-background transition-all duration-300 ease-in-out group-hover:bg-accent">
-                <span className="sr-only">Avatar</span>
+              <AvatarFallback className="size-6 bg-inherit">
                 <PersonIcon className="size-5 text-foreground" />
+                <span className="sr-only">Avatar</span>
               </AvatarFallback>
             )}
           </Avatar>
