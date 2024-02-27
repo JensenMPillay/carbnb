@@ -71,7 +71,7 @@ export async function POST(request: Request) {
           stripeAccount.metadata.userId,
           {
             user_metadata: {
-              stripeVerified: new Date().toDateString(),
+              stripeVerified: new Date(),
             },
           },
         );

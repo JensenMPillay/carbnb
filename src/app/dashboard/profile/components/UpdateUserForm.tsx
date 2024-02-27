@@ -84,6 +84,11 @@ const UpdateUserForm = () => {
     return (window.location.href = accountLinkURL);
   };
 
+  // Sync Session after Stripe Registration
+  useEffect(() => {
+    syncSession();
+  }, [syncSession]);
+
   // Prefill Form
   useEffect(() => {
     if (!user) return;
