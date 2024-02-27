@@ -13,7 +13,7 @@ export async function POST(request: Request) {
 
   const supabaseApiServerClient = createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.SUPABASE_ADMIN_KEY!,
     {
       cookies: {
         get(name: string) {
@@ -67,11 +67,14 @@ export async function POST(request: Request) {
         });
 
         // Update Supabase Session
-        await supabaseApiServerClient.auth.updateUser({
-          data: {
-            stripeVerified: new Date(),
+        await supabaseApiServerClient.auth.admin.updateUserById(
+          stripeAccount.metadata.userId,
+          {
+            user_metadata: {
+              stripeVerified: new Date().toDateString(),
+            },
           },
-        });
+        );
       } catch (error) {
         console.error(
           error instanceof Error ? error.message : "Update user failed.",
