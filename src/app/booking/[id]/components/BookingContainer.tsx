@@ -1,6 +1,7 @@
 "use client";
 import BookingInfoCard from "@/src/components/BookingInfoCard";
 import CarCard from "@/src/components/CarCard";
+import { SVGDeal } from "@/src/components/VectorImages";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import { GET_BOOKING_QUERY } from "@/src/lib/graphql/booking";
 import { showErrorNotif } from "@/src/lib/notifications/toasters";
@@ -43,7 +44,8 @@ const BookingContainer = (props: Props) => {
       ) : (
         data && (
           <>
-            <div className="my-4 w-full md:my-0 md:w-1/2">
+            <div className="my-4 w-full space-y-2 md:my-0 md:w-1/2">
+              <SVGDeal className="mx-auto hidden md:block md:h-1/2 md:w-1/2" />
               <CheckoutWrapper booking={data.getBooking} />
             </div>
             <div className="w-full md:w-1/2">

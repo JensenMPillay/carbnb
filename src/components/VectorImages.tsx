@@ -1,6 +1,6 @@
 type SVGProps = React.SVGAttributes<SVGElement>;
 
-export const BgDeal = ({ className, ...rest }: SVGProps) => (
+export const SVGDeal = ({ className, ...rest }: SVGProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -911,7 +911,7 @@ export const BgDeal = ({ className, ...rest }: SVGProps) => (
   </svg>
 );
 
-export const BgGoodbye = ({ className, ...rest }: SVGProps) => (
+export const SVGGoodbye = ({ className, ...rest }: SVGProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     x="0"
@@ -2443,7 +2443,7 @@ export const BgGoodbye = ({ className, ...rest }: SVGProps) => (
   </svg>
 );
 
-export const BgSearch = ({ className, ...rest }: SVGProps) => (
+export const SVGSearch = ({ className, ...rest }: SVGProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     x="0"
@@ -3024,7 +3024,7 @@ export const BgSearch = ({ className, ...rest }: SVGProps) => (
   </svg>
 );
 
-export const BgValidation = ({ className, ...rest }: SVGProps) => (
+export const SVGValidation = ({ className, ...rest }: SVGProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     x="0"
@@ -4345,11 +4345,11 @@ export const BgValidation = ({ className, ...rest }: SVGProps) => (
   </svg>
 );
 
-const BgArray = [BgDeal, BgGoodbye, BgSearch, BgValidation];
+const SVGArray = [SVGDeal, SVGGoodbye, SVGSearch, SVGValidation];
 
 export const RandomSVGComponent = ({ className, ...rest }: SVGProps) => {
-  const randomId = Math.floor(Math.random() * BgArray.length);
-  const SVGComponent = BgArray[randomId];
+  const randomId = Math.floor(Math.random() * SVGArray.length);
+  const SVGComponent = SVGArray[randomId];
 
   return <SVGComponent className={className} {...rest} />;
 };
