@@ -28,7 +28,7 @@ const Logo = ({ className, color }: LogoProps) => {
       )
     ) : (
       // Theme Case
-      <Image src={logoSrc} alt="logo" className={className} />
+      <Image src={logoSrc} alt="logo" className={className} priority />
     )
   );
 };

@@ -3,7 +3,7 @@ import { Circle } from "@/src/components/Circle";
 import { PRIMARY_COLOR } from "@/src/lib/utils";
 import useSearchStore from "@/src/store/useSearchStore";
 import useStore from "@/src/store/useStore";
-import { Map, Marker } from "@vis.gl/react-google-maps";
+import { AdvancedMarker, Map } from "@vis.gl/react-google-maps";
 import CarMarkers from "./CarMarkers";
 import FiltersSheet from "./FiltersSheet";
 
@@ -24,7 +24,10 @@ const SearchMap = () => {
       gestureHandling={"greedy"}
       disableDefaultUI={true}
     >
-      <Marker position={userLocation} title={userLocation?.description} />
+      <AdvancedMarker
+        position={userLocation}
+        title={userLocation?.description}
+      />
       <Circle
         radius={radius && radius * 1000}
         center={userLocation}
