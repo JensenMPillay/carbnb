@@ -114,8 +114,9 @@ export const bookingColumns: ColumnDef<BookingQuery>[] = [
     id: "actions",
     enableColumnFilter: false,
     cell: ({ row }) => {
-      const booking = row.original;
-      return <BookingTableActionButtons bookingId={booking.id} />;
+      const { id, status } = row.original;
+      if (status != "WAITING") return;
+      return <BookingTableActionButtons bookingId={id} />;
     },
   },
 ];

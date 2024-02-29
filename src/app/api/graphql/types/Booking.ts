@@ -86,6 +86,9 @@ builder.queryField("getLenderBookings", (t) =>
           carId: {
             in: lenderCarIds,
           },
+          status: {
+            not: "PENDING",
+          },
         },
       });
 
