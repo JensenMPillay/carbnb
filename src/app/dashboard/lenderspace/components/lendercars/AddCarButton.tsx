@@ -13,14 +13,18 @@ import {
 import { Loader } from "@/src/components/ui/loader";
 import { REGISTER_CAR_MUTATION } from "@/src/lib/graphql/car";
 import { REGISTER_LOCATION_MUTATION } from "@/src/lib/graphql/location";
-import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
+import {
+  showErrorNotif,
+  showNotif,
+  showWarningNotif,
+} from "@/src/lib/notifications/toasters";
 import { CarSchemaType } from "@/src/lib/schemas/car/CarSchema";
 import { cn } from "@/src/lib/utils";
 import { useMutation } from "@apollo/client";
 import { Location } from "@prisma/client";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { APIProvider } from "@vis.gl/react-google-maps";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CarForm from "./CarForm";
 
 type CallbackActionProps = {
@@ -28,7 +32,7 @@ type CallbackActionProps = {
   locationData: Location | undefined;
 };
 
-const AddCarButton = () => {
+const AddCarButton = ({ disabled }: { disabled: boolean }) => {
   // Open State
   const [open, setOpen] = useState<boolean>(false);
 
@@ -78,6 +82,14 @@ const AddCarButton = () => {
     setOpen(false);
   };
 
+  useEffect(() => {
+    if (disabled)
+      showWarningNotif({
+        description:
+          "Complete the Stripe onboarding process on your profile before adding cars.",
+      });
+  }, [disabled]);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -88,8 +100,9 @@ const AddCarButton = () => {
             size: "default",
           })}
           type="button"
+          disabled={disabled}
         >
-          <PlusIcon className="size-4" />
+          <PlusIcon className="size-6" />
         </Button>
       </DialogTrigger>
       <DialogContent className="">

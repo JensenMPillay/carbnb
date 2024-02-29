@@ -101,7 +101,7 @@ const LenderContent = (props: Props) => {
             )}
           </div>
           <div className="mb-1 mt-auto w-full space-y-1 text-center text-xl">
-            <AddCarButton />
+            <AddCarButton disabled={!user?.user_metadata.stripeVerified} />
           </div>
         </div>
       </TabsContent>

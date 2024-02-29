@@ -34,3 +34,18 @@ export const showErrorNotif = ({
     },
   });
 };
+
+export const showWarningNotif = ({
+  title = "Caution !",
+  description,
+}: showNotifProps) => {
+  return toast.warning(title, {
+    description: description,
+    action: {
+      label: "Undo",
+      onClick: () => {
+        return true;
+      },
+    },
+  });
+};
