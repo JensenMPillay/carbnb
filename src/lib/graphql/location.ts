@@ -26,10 +26,6 @@ export const GET_LOCATION_QUERY = gql`
         available
         user {
           id
-          email
-          name
-          phone
-          role
         }
       }
     }

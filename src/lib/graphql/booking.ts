@@ -13,10 +13,6 @@ export const GET_BOOKING_QUERY = gql`
       stripePaymentId
       user {
         id
-        email
-        name
-        phone
-        role
       }
       car {
         id
@@ -33,10 +29,6 @@ export const GET_BOOKING_QUERY = gql`
         available
         user {
           id
-          email
-          name
-          phone
-          role
         }
         location {
           id
@@ -71,10 +63,6 @@ export const GET_LENDER_BOOKINGS_QUERY = gql`
       stripePaymentId
       user {
         id
-        email
-        name
-        phone
-        role
       }
       car {
         id
@@ -91,10 +79,6 @@ export const GET_LENDER_BOOKINGS_QUERY = gql`
         available
         user {
           id
-          email
-          name
-          phone
-          role
         }
         location {
           id
@@ -129,10 +113,6 @@ export const INIT_BOOKING_MUTATION = gql`
       stripePaymentId
       user {
         id
-        email
-        name
-        phone
-        role
       }
       car {
         id
@@ -149,10 +129,6 @@ export const INIT_BOOKING_MUTATION = gql`
         available
         user {
           id
-          email
-          name
-          phone
-          role
         }
         location {
           id
@@ -186,10 +162,6 @@ export const UPDATE_BOOKING_MUTATION = gql`
       stripePaymentId
       user {
         id
-        email
-        name
-        phone
-        role
       }
       car {
         id
@@ -206,10 +178,6 @@ export const UPDATE_BOOKING_MUTATION = gql`
         available
         user {
           id
-          email
-          name
-          phone
-          role
         }
         location {
           id
@@ -244,10 +212,6 @@ export const DELETE_BOOKING_MUTATION = gql`
       stripePaymentId
       user {
         id
-        email
-        name
-        phone
-        role
       }
       car {
         id
@@ -264,10 +228,6 @@ export const DELETE_BOOKING_MUTATION = gql`
         available
         user {
           id
-          email
-          name
-          phone
-          role
         }
         location {
           id

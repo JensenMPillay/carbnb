@@ -18,10 +18,6 @@ export const GET_CAR_QUERY = gql`
       available
       user {
         id
-        email
-        name
-        phone
-        role
       }
       location {
         id
@@ -58,10 +54,6 @@ export const GET_AVAILABLE_CARS_QUERY = gql`
       available
       user {
         id
-        email
-        name
-        phone
-        role
       }
       location {
         id
@@ -98,10 +90,6 @@ export const GET_LENDER_CARS_QUERY = gql`
       available
       user {
         id
-        email
-        name
-        phone
-        role
       }
       location {
         id
@@ -162,10 +150,6 @@ export const REGISTER_CAR_MUTATION = gql`
       available
       user {
         id
-        email
-        name
-        phone
-        role
       }
       location {
         id
@@ -229,10 +213,6 @@ export const UPDATE_CAR_MUTATION = gql`
       available
       user {
         id
-        email
-        name
-        phone
-        role
       }
       location {
         id
@@ -269,10 +249,6 @@ export const DELETE_CAR_MUTATION = gql`
       available
       user {
         id
-        email
-        name
-        phone
-        role
       }
       location {
         id

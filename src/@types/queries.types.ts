@@ -1,11 +1,11 @@
 import { Booking, Car, Location, User } from "@prisma/client";
 
 export type CarQuery = Car & {
-  user: User;
+  user: Pick<User, "id">;
   location: Location;
 };
 
 export type BookingQuery = Booking & {
-  user: User;
+  user: Pick<User, "id">;
   car: CarQuery;
 };
