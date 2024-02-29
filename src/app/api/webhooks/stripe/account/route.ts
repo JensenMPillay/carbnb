@@ -52,14 +52,17 @@ export async function POST(request: Request) {
   switch (event.type) {
     // Lender Stripe Account Updated
     case "account.updated":
-      console.log(event.data.object);
-      const stripeAccount = event.data.object;
-      if (!stripeAccount || !stripeAccount.metadata) break;
+      const accountUpdated = event.data.object;
+      if (!accountUpdated.metadata || !accountUpdated.details_submitted)
+        return new Response(
+          `Webhook Error: "No metadata or details are submitted to update user."`,
+          { status: 400 },
+        );
       try {
         // Update User & Create Stripe Data
         await prisma.user.update({
           where: {
-            id: stripeAccount.metadata.userId,
+            id: accountUpdated.metadata.userId,
           },
           data: {
             stripeVerified: new Date(),
@@ -68,7 +71,7 @@ export async function POST(request: Request) {
 
         // Update Supabase Session
         await supabaseApiServerClient.auth.admin.updateUserById(
-          stripeAccount.metadata.userId,
+          accountUpdated.metadata.userId,
           {
             user_metadata: {
               stripeVerified: new Date(),
@@ -80,14 +83,18 @@ export async function POST(request: Request) {
           error instanceof Error ? error.message : "Update user failed.",
         );
         return new Response(
-          `Webhook Error: ${error instanceof Error ? error.message : "Webhook signature verification failed."}`,
-          { status: 400 },
+          `Webhook Error: ${error instanceof Error ? error.message : "Update user failed."}`,
+          { status: 500 },
         );
       }
       break;
     default:
       // Unexpected event type
       console.error(`Unhandled event type ${event.type}.`);
+      return new Response(
+        `Webhook Error: Unhandled event type ${event.type}.`,
+        { status: 400 },
+      );
   }
 
   // Response

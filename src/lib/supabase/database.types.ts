@@ -3600,7 +3600,8 @@ export type Database = {
         | "REFUSED"
         | "IN_PROGRESS"
         | "COMPLETED"
-        | "CANCELED";
+        | "CANCELED"
+        | "WAITING";
       Brand:
         | "ACURA"
         | "ALFA_ROMEO"

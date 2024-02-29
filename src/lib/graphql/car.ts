@@ -80,6 +80,46 @@ export const GET_AVAILABLE_CARS_QUERY = gql`
   }
 `;
 
+// GET_LENDER_CARS_QUERY
+export const GET_LENDER_CARS_QUERY = gql`
+  query GetLenderCars {
+    getLenderCars {
+      id
+      category
+      brand
+      model
+      year
+      primaryColor
+      trueColor
+      transmission
+      fuelType
+      imageUrl
+      pricePerDay
+      available
+      user {
+        id
+        email
+        name
+        phone
+        role
+      }
+      location {
+        id
+        latitude
+        longitude
+        address
+        city
+        postalCode
+        state
+        country
+        formatted_address
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 // REGISTER_CAR_MUTATION
 export const REGISTER_CAR_MUTATION = gql`
   mutation RegisterCar(

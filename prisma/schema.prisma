@@ -214,6 +214,7 @@ model Car {
 
 enum BookingStatus {
   PENDING
+  WAITING
   ACCEPTED
   REFUSED 
   IN_PROGRESS

@@ -149,6 +149,28 @@ builder.queryField("getAvailableCars", (t) =>
   }),
 );
 
+// GET Route
+builder.queryField("getLenderCars", (t) =>
+  t.prismaField({
+    type: ["Car"],
+    resolve: async (query, _parent, args, ctx) => {
+      if (!(await ctx).user)
+        throw createGraphQLError(
+          "You have to be logged in to perform this action.",
+        );
+
+      const dbCars = await prisma.car.findMany({
+        ...query,
+        where: {
+          userId: (await ctx).user?.id,
+        },
+      });
+
+      return dbCars;
+    },
+  }),
+);
+
 // POST Route
 builder.mutationField("registerCar", (t) =>
   t.prismaField({
