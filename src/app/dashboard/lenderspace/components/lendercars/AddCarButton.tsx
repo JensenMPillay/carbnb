@@ -123,7 +123,7 @@ const AddCarButton = () => {
             disabled={loadingLocation || loadingCar}
           >
             {loadingLocation || loadingCar ? (
-              <Loader className="size-6  text-foreground" />
+              <Loader className="size-6   text-inherit" />
             ) : (
               "Save Changes"
             )}

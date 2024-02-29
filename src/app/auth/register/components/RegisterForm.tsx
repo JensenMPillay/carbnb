@@ -213,7 +213,7 @@ const RegisterForm = (props: Props) => {
                 disabled={loading}
               >
                 {loading ? (
-                  <Loader className="size-6  text-foreground" />
+                  <Loader className="size-6   text-inherit" />
                 ) : (
                   "Register"
                 )}

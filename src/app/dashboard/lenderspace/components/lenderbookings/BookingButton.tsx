@@ -53,9 +53,9 @@ const BookingButton = ({
       disabled={loading}
     >
       {loading ? (
-        <Loader className="size-6  text-foreground text-foreground" />
+        <Loader className="size-6 text-inherit" />
       ) : (
-        <>{icon({ className: "size-6 text-foreground" })}</>
+        <>{icon({ className: "size-6 text-inherit" })}</>
       )}
     </Button>
   );
