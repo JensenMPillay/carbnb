@@ -32,7 +32,10 @@ export async function POST(request: Request) {
         break;
       case "payment_intent.amount_capturable_updated":
         const paymentIntentAmountCapturableUpdated = event.data.object;
-        if (paymentIntentAmountCapturableUpdated.status != "requires_capture")
+        if (
+          paymentIntentAmountCapturableUpdated.status != "requires_capture" ||
+          !paymentIntentAmountCapturableUpdated.metadata?.bookingId
+        )
           return;
         // Update Booking
         await prisma.booking.update({
@@ -48,7 +51,11 @@ export async function POST(request: Request) {
         break;
       case "payment_intent.succeeded":
         const paymentIntentSucceeded = event.data.object;
-        if (paymentIntentSucceeded.status != "succeeded") return;
+        if (
+          paymentIntentSucceeded.status != "succeeded" ||
+          !paymentIntentSucceeded.metadata?.bookingId
+        )
+          return;
         // Update Booking
         await prisma.booking.update({
           where: {
@@ -61,7 +68,11 @@ export async function POST(request: Request) {
         break;
       case "payment_intent.canceled":
         const paymentIntentCanceled = event.data.object;
-        if (paymentIntentCanceled.status != "canceled") return;
+        if (
+          paymentIntentCanceled.status != "canceled" ||
+          !paymentIntentCanceled.metadata?.bookingId
+        )
+          return;
         // Update Booking
         await prisma.booking.update({
           where: {
@@ -74,7 +85,11 @@ export async function POST(request: Request) {
         break;
       case "charge.captured":
         const chargeCaptured = event.data.object;
-        if (chargeCaptured.status != "succeeded") return;
+        if (
+          chargeCaptured.status != "succeeded" ||
+          !chargeCaptured.metadata?.bookingId
+        )
+          return;
         // Update Booking
         await prisma.booking.update({
           where: {
@@ -87,7 +102,11 @@ export async function POST(request: Request) {
         break;
       case "charge.succeeded":
         const chargeSucceeded = event.data.object;
-        if (chargeSucceeded.status != "succeeded") return;
+        if (
+          chargeSucceeded.status != "succeeded" ||
+          !chargeSucceeded.metadata?.bookingId
+        )
+          return;
         // Update Booking
         await prisma.booking.update({
           where: {
@@ -100,7 +119,11 @@ export async function POST(request: Request) {
         break;
       case "charge.failed":
         const chargeFailed = event.data.object;
-        if (chargeFailed.status != "failed") return;
+        if (
+          chargeFailed.status != "failed" ||
+          !chargeFailed.metadata?.bookingId
+        )
+          return;
         // Update Booking
         await prisma.booking.update({
           where: {
@@ -113,7 +136,11 @@ export async function POST(request: Request) {
         break;
       case "charge.expired":
         const chargeExpired = event.data.object;
-        if (chargeExpired.status != "failed") return;
+        if (
+          chargeExpired.status != "failed" ||
+          !chargeExpired.metadata?.bookingId
+        )
+          return;
         // Update Booking
         await prisma.booking.update({
           where: {
@@ -131,7 +158,7 @@ export async function POST(request: Request) {
         const chargeRefundUpdated = event.data.object;
         if (
           chargeRefundUpdated.status != "succeeded" ||
-          !chargeRefundUpdated.metadata
+          !chargeRefundUpdated.metadata?.bookingId
         )
           return;
         // Update Booking
@@ -146,7 +173,11 @@ export async function POST(request: Request) {
         break;
       case "charge.refunded":
         const chargeRefunded = event.data.object;
-        if (chargeRefunded.status != "succeeded") return;
+        if (
+          chargeRefunded.status != "succeeded" ||
+          !chargeRefunded.metadata?.bookingId
+        )
+          return;
         // Update Booking
         await prisma.booking.update({
           where: {
@@ -159,7 +190,10 @@ export async function POST(request: Request) {
         break;
       case "refund.updated":
         const refundUpdated = event.data.object;
-        if (refundUpdated.status != "succeeded" || !refundUpdated.metadata)
+        if (
+          refundUpdated.status != "succeeded" ||
+          !refundUpdated.metadata?.bookingId
+        )
           return;
         // Update Booking
         await prisma.booking.update({
