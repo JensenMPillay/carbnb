@@ -22,22 +22,19 @@ import {
 import getAccountLink from "@/src/lib/stripe/get-account-link";
 import { cn } from "@/src/lib/utils";
 import useSessionStore from "@/src/store/useSessionStore";
-import useStore from "@/src/store/useStore";
 import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-const UpdateUserForm = () => {
+const UpdateUserForm = ({ user }: { user: User }) => {
+  // User
+  const { email, phone, user_metadata } = user;
+
   // Session
   const { syncSession } = useSessionStore();
-
-  // Access to Store Data after Rendering (SSR Behavior)
-  const session = useStore(useSessionStore, (state) => state.session);
-
-  // User
-  const user = session?.user;
 
   // Router
   const router = useRouter();
@@ -92,16 +89,13 @@ const UpdateUserForm = () => {
 
   // Prefill Form
   useEffect(() => {
-    if (!user) return;
-
-    const { email, user_metadata } = user;
     updateUserForm.reset({
       email: email ?? "",
       name: user_metadata.name ?? "",
       phone: user_metadata.phone ?? "",
     });
     return () => {};
-  }, [user, updateUserForm]);
+  }, [email, user_metadata, updateUserForm]);
 
   return (
     <>
@@ -116,9 +110,9 @@ const UpdateUserForm = () => {
         </div>
       ) : (
         <Form {...updateUserForm}>
-          {user?.user_metadata.role === "LENDER" &&
-          user?.user_metadata.stripeCustomerId &&
-          !user?.user_metadata.stripeVerified ? (
+          {user_metadata.role === "LENDER" &&
+          user_metadata.stripeCustomerId &&
+          !user_metadata.stripeVerified ? (
             <Button
               className={buttonVariants({
                 className:

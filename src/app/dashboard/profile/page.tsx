@@ -25,10 +25,11 @@ export default async function Profile({}: Props) {
 
   const user = session?.user;
 
+  if (!user) return;
   return (
     <TabsContent value="/dashboard/profile" className="mt-0 flex-1" forceMount>
       <div className="flex h-full w-full flex-col">
-        <UpdateUserForm />
+        <UpdateUserForm user={user} />
         <div className="mb-1 mt-auto w-full space-y-1 text-center">
           <DeleteUserButton />
         </div>
