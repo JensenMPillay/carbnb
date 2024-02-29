@@ -34,15 +34,21 @@ export default function DashboardLayout({
             </CardHeader>
             <Separator orientation="horizontal" />
             <CardContent className="flex flex-1 flex-col p-0">
-              <TabsList className="flex h-fit w-full rounded-none">
-                <TabsTrigger value="/dashboard/profile" className="flex-1">
+              <TabsList className="flex h-fit w-full justify-evenly rounded-none">
+                <TabsTrigger value="/dashboard/profile" className="capitalize">
                   Profile
                 </TabsTrigger>
-                <TabsTrigger value="/dashboard/cars" className="flex-1">
-                  Cars
+                <TabsTrigger
+                  value="/dashboard/renterspace"
+                  className="capitalize"
+                >
+                  Renter Space
                 </TabsTrigger>
-                <TabsTrigger value="/dashboard/bookings" className="flex-1">
-                  Bookings
+                <TabsTrigger
+                  value="/dashboard/lenderspace"
+                  className="capitalize"
+                >
+                  Lender Space
                 </TabsTrigger>
               </TabsList>
               {children}
