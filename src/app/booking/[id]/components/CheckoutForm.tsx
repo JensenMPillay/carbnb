@@ -50,7 +50,7 @@ const CheckoutForm = ({ booking }: CheckoutFormProps) => {
     showNotif({
       description: "Your Payment has been done successfully",
     });
-    router.push("/dashboard/booking");
+    router.push("/dashboard/renterspace");
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {

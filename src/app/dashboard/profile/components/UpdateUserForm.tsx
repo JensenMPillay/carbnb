@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
+import { Loader } from "@/src/components/ui/loader";
 import { Separator } from "@/src/components/ui/separator";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import useLoading from "@/src/hooks/useLoading";
@@ -51,7 +52,7 @@ const UpdateUserForm = () => {
   });
 
   // Update Mutation
-  const [updateUser] = useMutation(UPDATE_USER_MUTATION, {
+  const [updateUser, { loading }] = useMutation(UPDATE_USER_MUTATION, {
     onCompleted: async (data) => {
       showNotif({
         description: "User Info has been updated successfully!",
@@ -236,8 +237,13 @@ const UpdateUserForm = () => {
                   variant: "default",
                 })}
                 type="submit"
+                disabled={loading}
               >
-                Save Changes
+                {loading ? (
+                  <Loader className="size-6  text-foreground" />
+                ) : (
+                  "Save Changes"
+                )}
               </Button>
             </div>
           </form>

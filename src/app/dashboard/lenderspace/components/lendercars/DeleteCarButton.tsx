@@ -12,6 +12,7 @@ import {
   AlertDialogTrigger,
 } from "@/src/components/ui/alert-dialog";
 import { Button } from "@/src/components/ui/button";
+import { Loader } from "@/src/components/ui/loader";
 import { DELETE_CAR_MUTATION } from "@/src/lib/graphql/car";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
 import { useMutation } from "@apollo/client";
@@ -27,7 +28,7 @@ const DeleteCarButton = ({ car }: CarProps) => {
   const [open, setOpen] = useState<boolean>(false);
 
   // Mutation
-  const [deleteCar] = useMutation(DELETE_CAR_MUTATION, {
+  const [deleteCar, { loading }] = useMutation(DELETE_CAR_MUTATION, {
     errorPolicy: "all",
     onCompleted: async (data) => {
       showNotif({
@@ -61,7 +62,7 @@ const DeleteCarButton = ({ car }: CarProps) => {
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button variant="destructive" size="icon">
-          <TrashIcon className="h-4 w-4" />
+          <TrashIcon className="size-4" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -76,8 +77,13 @@ const DeleteCarButton = ({ car }: CarProps) => {
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={(event: MouseEvent<HTMLButtonElement>) => onClick(event)}
+            disabled={loading}
           >
-            Continue
+            {loading ? (
+              <Loader className="size-6  text-foreground" />
+            ) : (
+              "Continue"
+            )}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

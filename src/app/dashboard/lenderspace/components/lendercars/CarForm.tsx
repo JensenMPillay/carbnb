@@ -18,7 +18,6 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import useGeocoder from "@/src/hooks/useGeocoder";
-import { showNotif } from "@/src/lib/notifications/toasters";
 import { CarSchemaType, carSchema } from "@/src/lib/schemas/car/CarSchema";
 import { cn, getCarModels, getCarTrueColors } from "@/src/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -99,9 +98,6 @@ const CarForm = ({
   // onSubmit Callback
   const onSubmit: SubmitHandler<CarSchemaType> = async (data, event) => {
     event?.preventDefault();
-    showNotif({
-      description: "Submitting your request, please wait...",
-    });
     try {
       const location = await getLocation(data.location.id);
       await callbackAction({ carData: data, locationData: location });

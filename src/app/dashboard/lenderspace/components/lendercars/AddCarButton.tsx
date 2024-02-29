@@ -1,5 +1,4 @@
 "use client";
-import { CarQuery } from "@/src/@types/queries.types";
 import { Button, buttonVariants } from "@/src/components/ui/button";
 import {
   Dialog,
@@ -11,88 +10,91 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/src/components/ui/dialog";
-import { UPDATE_CAR_MUTATION } from "@/src/lib/graphql/car";
+import { Loader } from "@/src/components/ui/loader";
+import { REGISTER_CAR_MUTATION } from "@/src/lib/graphql/car";
 import { REGISTER_LOCATION_MUTATION } from "@/src/lib/graphql/location";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
 import { CarSchemaType } from "@/src/lib/schemas/car/CarSchema";
 import { cn } from "@/src/lib/utils";
 import { useMutation } from "@apollo/client";
 import { Location } from "@prisma/client";
-import { UpdateIcon } from "@radix-ui/react-icons";
+import { PlusIcon } from "@radix-ui/react-icons";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { useState } from "react";
 import CarForm from "./CarForm";
-
-type CarProps = {
-  car?: CarQuery;
-};
 
 type CallbackActionProps = {
   carData: CarSchemaType;
   locationData: Location | undefined;
 };
 
-const UpdateCarButton = ({ car }: CarProps) => {
+const AddCarButton = () => {
   // Open State
   const [open, setOpen] = useState<boolean>(false);
 
   // Mutation
-  const [registerLocation] = useMutation(REGISTER_LOCATION_MUTATION, {
-    // onCompleted: async (data) => {
-    //   showNotif({
-    //     description: "Your car is added successfully",
-    //   });
-    // },
-    onError: async (error) => {
-      showErrorNotif({
-        description: error.message,
-      });
-      console.error("Mutation Error : ", error);
+  const [registerLocation, { loading: loadingLocation }] = useMutation(
+    REGISTER_LOCATION_MUTATION,
+    {
+      onError: async (error) => {
+        showErrorNotif({
+          description: error.message,
+        });
+        console.error("Mutation Error : ", error);
+      },
     },
-  });
+  );
 
   // Mutation
-  const [updateCar] = useMutation(UPDATE_CAR_MUTATION, {
-    onCompleted: async (data) => {
-      showNotif({
-        description: "Your car is updated successfully",
-      });
+  const [registerCar, { loading: loadingCar }] = useMutation(
+    REGISTER_CAR_MUTATION,
+    {
+      onCompleted: async (data) => {
+        showNotif({
+          description: "Your car is added successfully",
+        });
+      },
+      onError: async (error) => {
+        showErrorNotif({
+          description: error.message,
+        });
+        console.error("Mutation Error : ", error);
+      },
+      refetchQueries: "active",
     },
-    onError: async (error) => {
-      showErrorNotif({
-        description: error.message,
-      });
-      console.error("Mutation Error : ", error);
-    },
-    refetchQueries: "active",
-  });
+  );
 
   // Callback Action
-  const updateCarCallback = async ({
+  const addCarCallback = async ({
     carData,
     locationData,
   }: CallbackActionProps) => {
-    if (car) {
-      await registerLocation({
-        variables: locationData,
-      });
-      await updateCar({
-        variables: { ...carData, id: car.id },
-      });
-    }
+    await registerLocation({
+      variables: locationData,
+    });
+    await registerCar({
+      variables: carData,
+    });
     setOpen(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon">
-          <UpdateIcon className="size-4" />
+        <Button
+          className={buttonVariants({
+            className: "w-1/2",
+            variant: "default",
+            size: "default",
+          })}
+          type="button"
+        >
+          <PlusIcon className="size-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="">
         <DialogHeader>
-          <DialogTitle>Update Your Car</DialogTitle>
+          <DialogTitle>Add Your Car</DialogTitle>
           <DialogDescription>
             List your car for rental in just a few simple steps.
           </DialogDescription>
@@ -101,7 +103,7 @@ const UpdateCarButton = ({ car }: CarProps) => {
           apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
           libraries={["places", "geocoding"]}
         >
-          <CarForm car={car} callbackAction={updateCarCallback} />
+          <CarForm callbackAction={addCarCallback} />
         </APIProvider>
         <DialogFooter>
           <DialogClose
@@ -118,8 +120,13 @@ const UpdateCarButton = ({ car }: CarProps) => {
             variant="default"
             form="carForm"
             size="default"
+            disabled={loadingLocation || loadingCar}
           >
-            Save Changes
+            {loadingLocation || loadingCar ? (
+              <Loader className="size-6  text-foreground" />
+            ) : (
+              "Save Changes"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -127,4 +134,4 @@ const UpdateCarButton = ({ car }: CarProps) => {
   );
 };
 
-export default UpdateCarButton;
+export default AddCarButton;

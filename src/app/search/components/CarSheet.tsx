@@ -2,6 +2,7 @@
 import BookingInfoCard from "@/src/components/BookingInfoCard";
 import CarCard from "@/src/components/CarCard";
 import { Button, buttonVariants } from "@/src/components/ui/button";
+import { Loader } from "@/src/components/ui/loader";
 import {
   Sheet,
   SheetClose,
@@ -13,7 +14,7 @@ import {
 } from "@/src/components/ui/sheet";
 import { INIT_BOOKING_MUTATION } from "@/src/lib/graphql/booking";
 import { GET_AVAILABLE_CARS_QUERY } from "@/src/lib/graphql/car";
-import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
+import { showErrorNotif } from "@/src/lib/notifications/toasters";
 import { cn } from "@/src/lib/utils";
 import useSearchStore from "@/src/store/useSearchStore";
 import useSessionStore from "@/src/store/useSessionStore";
@@ -40,7 +41,7 @@ const CarSheet = () => {
   const user = session?.user;
 
   // Mutation
-  const [initBooking] = useMutation(INIT_BOOKING_MUTATION, {
+  const [initBooking, { loading }] = useMutation(INIT_BOOKING_MUTATION, {
     onCompleted: (data) => {
       setCarSelected(null);
       router.push(`/booking/${data.initBooking.id}`);
@@ -60,9 +61,6 @@ const CarSheet = () => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     event?.preventDefault();
-    showNotif({
-      description: "Submitting your request, please wait...",
-    });
     try {
       await initBooking({
         variables: {
@@ -109,8 +107,13 @@ const CarSheet = () => {
               size="default"
               variant="default"
               onClick={(event) => onSubmit(event)}
+              disabled={loading}
             >
-              Book
+              {loading ? (
+                <Loader className="size-6  text-foreground" />
+              ) : (
+                "Book"
+              )}
             </Button>
           )}
         </SheetFooter>

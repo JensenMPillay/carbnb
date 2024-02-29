@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
+import { Loader } from "@/src/components/ui/loader";
 import { Separator } from "@/src/components/ui/separator";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import useLoading from "@/src/hooks/useLoading";
@@ -59,7 +60,7 @@ const RegisterForm = (props: Props) => {
   });
 
   // Mutation
-  const [registerUser] = useMutation(REGISTER_USER_MUTATION, {
+  const [registerUser, { loading }] = useMutation(REGISTER_USER_MUTATION, {
     onCompleted: async (data) => {
       showNotif({
         description: "You'll be redirected shortly!",
@@ -81,9 +82,6 @@ const RegisterForm = (props: Props) => {
     event,
   ) => {
     event?.preventDefault();
-    showNotif({
-      description: "Submitting your request, please wait...",
-    });
     try {
       await registerUser({
         variables: data,
@@ -212,8 +210,13 @@ const RegisterForm = (props: Props) => {
                   variant: "default",
                 })}
                 type="submit"
+                disabled={loading}
               >
-                Register
+                {loading ? (
+                  <Loader className="size-6  text-foreground" />
+                ) : (
+                  "Register"
+                )}
               </Button>
             </div>
           </form>

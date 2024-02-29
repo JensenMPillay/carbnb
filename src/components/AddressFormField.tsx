@@ -120,7 +120,7 @@ const AddressFormField = <FormSchemaType extends FieldValues>({
                       {suggestion.description}
                       <CheckIcon
                         className={cn(
-                          "ml-auto h-4 w-4",
+                          "ml-auto size-4",
                           suggestion === value ? "opacity-100" : "opacity-0",
                         )}
                       />
