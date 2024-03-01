@@ -79,11 +79,7 @@ const DeleteCarButton = ({ car }: CarProps) => {
             onClick={(event: MouseEvent<HTMLButtonElement>) => onClick(event)}
             disabled={loading}
           >
-            {loading ? (
-              <Loader className="size-6   text-inherit" />
-            ) : (
-              "Continue"
-            )}
+            {loading ? <Loader className="size-6 text-inherit" /> : "Continue"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

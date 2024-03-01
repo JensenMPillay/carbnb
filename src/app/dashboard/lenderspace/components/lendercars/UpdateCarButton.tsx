@@ -123,7 +123,7 @@ const UpdateCarButton = ({ car }: CarProps) => {
             disabled={loadingLocation || loadingCar}
           >
             {loadingLocation || loadingCar ? (
-              <Loader className="size-6   text-inherit" />
+              <Loader className="size-6 text-inherit" />
             ) : (
               "Save Changes"
             )}

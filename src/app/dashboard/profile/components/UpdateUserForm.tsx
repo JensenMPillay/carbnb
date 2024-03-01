@@ -234,7 +234,7 @@ const UpdateUserForm = ({ user }: { user: User }) => {
                 disabled={loading}
               >
                 {loading ? (
-                  <Loader className="size-6   text-inherit" />
+                  <Loader className="size-6 text-inherit" />
                 ) : (
                   "Save Changes"
                 )}

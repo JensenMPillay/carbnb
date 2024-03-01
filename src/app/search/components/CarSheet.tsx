@@ -109,7 +109,7 @@ const CarSheet = () => {
               onClick={(event) => onSubmit(event)}
               disabled={loading}
             >
-              {loading ? <Loader className="size-6   text-inherit" /> : "Book"}
+              {loading ? <Loader className="size-6 text-inherit" /> : "Book"}
             </Button>
           )}
         </SheetFooter>
