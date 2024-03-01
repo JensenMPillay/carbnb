@@ -98,6 +98,79 @@ export function hslToHex(hsl: string): string {
   return `#${f(0)}${f(8)}${f(4)}`;
 }
 
+// Create SVG Icon for Clusterer
+export const createSVGClustererIcon = (
+  color: "#ff0000" | typeof PRIMARY_COLOR,
+  count: number,
+): SVGSVGElement => {
+  const svgIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svgIcon.setAttribute("fill", color);
+  svgIcon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+  svgIcon.setAttribute("viewBox", "0 0 240 240");
+  svgIcon.setAttribute("width", "50");
+  svgIcon.setAttribute("height", "50");
+  svgIcon.setAttribute("transform", "translate(0 25)");
+
+  // Création des cercles
+  const circle1 = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "circle",
+  );
+  circle1.setAttribute("cx", "120");
+  circle1.setAttribute("cy", "120");
+  circle1.setAttribute("opacity", ".6");
+  circle1.setAttribute("r", "70");
+
+  const circle2 = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "circle",
+  );
+  circle2.setAttribute("cx", "120");
+  circle2.setAttribute("cy", "120");
+  circle2.setAttribute("opacity", ".3");
+  circle2.setAttribute("r", "90");
+
+  const circle3 = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "circle",
+  );
+  circle3.setAttribute("cx", "120");
+  circle3.setAttribute("cy", "120");
+  circle3.setAttribute("opacity", ".2");
+  circle3.setAttribute("r", "110");
+
+  const circle4 = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "circle",
+  );
+  circle4.setAttribute("cx", "120");
+  circle4.setAttribute("cy", "120");
+  circle4.setAttribute("opacity", ".1");
+  circle4.setAttribute("r", "130");
+
+  // Création du texte
+  const textElement = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "text",
+  );
+  textElement.setAttribute("x", "50%");
+  textElement.setAttribute("y", "50%");
+  textElement.setAttribute("style", "fill:#fff");
+  textElement.setAttribute("text-anchor", "middle");
+  textElement.setAttribute("font-size", "50");
+  textElement.setAttribute("dominant-baseline", "middle");
+  textElement.setAttribute("font-family", "roboto,arial,sans-serif");
+  textElement.textContent = count.toString();
+
+  // Ajout des éléments créés à l'élément SVG
+  svgIcon.appendChild(circle1);
+  svgIcon.appendChild(circle2);
+  svgIcon.appendChild(circle3);
+  svgIcon.appendChild(circle4);
+  svgIcon.appendChild(textElement);
+  return svgIcon;
+};
+
 // Car Model Utils
 function generateCarModelsSearchUrl({
   brand,
