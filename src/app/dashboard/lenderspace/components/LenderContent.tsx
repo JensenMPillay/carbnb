@@ -67,9 +67,9 @@ const LenderContent = (props: Props) => {
             />
           )}
           {errorBookings && (
-            <p className="text-center text-xl">
-              An error occurred while retrieving bookings. Please try again
-              later.
+            <p className="text-center text-xl font-semibold">
+              An error occurred while retrieving bookings. <br />
+              Please try again later.
             </p>
           )}
         </div>
@@ -85,9 +85,9 @@ const LenderContent = (props: Props) => {
               </>
             )}
             {dataCars && !dataCars.getLenderCars.length && (
-              <p className="col-span-1 text-center text-xl  md:col-span-2 lg:col-span-3">
-                Your car collection is empty. Let&pos;s add a car to start
-                hosting!
+              <p className="col-span-1 text-center text-xl font-semibold md:col-span-2 lg:col-span-3">
+                Your car collection is empty. <br />
+                Add a car to start hosting!
               </p>
             )}
             {dataCars &&
@@ -95,8 +95,9 @@ const LenderContent = (props: Props) => {
                 <LenderCarCard key={car.id} car={car} />
               ))}
             {errorCars && (
-              <p className="col-span-1 text-center text-xl  md:col-span-2 lg:col-span-3">
-                An error occurred while retrieving cars. Please try again later.
+              <p className="col-span-1 text-center text-xl font-semibold md:col-span-2 lg:col-span-3">
+                An error occurred while retrieving cars. <br />
+                Please try again later.
               </p>
             )}
           </div>

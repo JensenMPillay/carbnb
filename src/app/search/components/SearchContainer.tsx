@@ -90,7 +90,10 @@ const SearchContainer = () => {
       {loading ? (
         <Skeleton className="h-[75dvh] w-full" />
       ) : error || !cars || cars.length <= 0 ? (
-        <p>No cars available. Please adjust your dates.</p>
+        <p className="text-center text-xl font-semibold">
+          No cars available. <br />
+          Please adjust your dates.
+        </p>
       ) : (
         <>
           <SearchMap />

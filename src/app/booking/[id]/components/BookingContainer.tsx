@@ -37,9 +37,9 @@ const BookingContainer = (props: Props) => {
           <Skeleton className="h-[50dvh] w-full md:w-1/2" />
         </>
       ) : error || data.getBooking.paymentStatus != "PENDING" ? (
-        <p>
-          Apologies, it seems there is an issue with this booking. Please try
-          making another booking.
+        <p className="text-center text-xl font-semibold">
+          Apologies, it seems there is an issue with this booking. <br />
+          Please try making another booking.
         </p>
       ) : (
         data && (
