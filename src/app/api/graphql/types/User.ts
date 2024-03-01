@@ -95,6 +95,7 @@ builder.mutationField("registerUser", (t) =>
               name: args.name,
               support_email: args.email,
               support_phone: args.phone,
+              mcc: "5712",
               product_description: "Lend Car",
             },
             capabilities: {
@@ -171,6 +172,7 @@ builder.mutationField("updateUser", (t) =>
       password: t.arg.string({ required: false }),
       name: t.arg.string({ required: false }),
       phone: t.arg.string({ required: false }),
+      role: t.arg({ type: Role, required: false }),
     },
     resolve: async (query, _parent, args, ctx) => {
       if (!(await ctx).user)
@@ -187,6 +189,46 @@ builder.mutationField("updateUser", (t) =>
 
       if (!dbUser) throw createGraphQLError("User does not exist.");
 
+      // Create Stripe Account
+      let stripeAccount: Stripe.Response<Stripe.Account> | undefined;
+
+      if (args.role === "LENDER" && !dbUser.stripeCustomerId) {
+        try {
+          stripeAccount = await stripe.accounts.create({
+            type: "express",
+            country: "FR",
+            email: dbUser.email,
+            business_type: "individual",
+            business_profile: {
+              name: dbUser.name ?? "",
+              support_email: dbUser.email,
+              support_phone: dbUser.phone ?? "",
+              mcc: "5712",
+              product_description: "Lend Car",
+            },
+            capabilities: {
+              card_payments: {
+                requested: true,
+              },
+              transfers: {
+                requested: true,
+              },
+            },
+            metadata: {
+              userId: (await ctx).user?.id ?? "",
+              name: dbUser.name ?? "",
+              email: dbUser.email,
+              phone: dbUser.phone ?? "",
+            },
+          });
+        } catch (error) {
+          console.error(error);
+          throw createGraphQLError(
+            "An error occurred while creating the user stripe account",
+          );
+        }
+      }
+
       const userPrisma = await prisma.user.update({
         ...query,
         where: {
@@ -194,8 +236,10 @@ builder.mutationField("updateUser", (t) =>
         },
         data: {
           email: args.email ?? undefined,
+          stripeCustomerId: stripeAccount?.id,
           name: args.name ?? undefined,
           phone: args.phone ?? undefined,
+          role: args.role ?? undefined,
         },
       });
 
@@ -209,7 +253,12 @@ builder.mutationField("updateUser", (t) =>
       const userSupabase = await (
         await ctx
       ).supabase?.auth.updateUser({
-        data: { name: args.name ?? undefined, phone: args.phone ?? undefined },
+        data: {
+          name: args.name ?? undefined,
+          phone: args.phone ?? undefined,
+          role: args.role ?? undefined,
+          stripeCustomerId: stripeAccount?.id,
+        },
       });
 
       if (!userPrisma || userSupabaseAdmin?.error || userSupabase?.error)

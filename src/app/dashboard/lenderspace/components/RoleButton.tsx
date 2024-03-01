@@ -23,6 +23,7 @@ const RoleButton = ({ role }: { role: Role }) => {
         description: "User Info has been updated successfully!",
       });
       await syncSession();
+      router.refresh();
       router.push("/dashboard");
     },
     onError: async (error) => {
@@ -47,7 +48,7 @@ const RoleButton = ({ role }: { role: Role }) => {
   };
 
   return (
-    <Button size="lg" onClick={onClickHandler}>
+    <Button size="lg" className="mx-auto my-4 flex" onClick={onClickHandler}>
       {loading ? <Loader className="size-6 text-inherit" /> : "Become a Lender"}
     </Button>
   );

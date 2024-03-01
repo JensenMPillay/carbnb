@@ -49,8 +49,15 @@ export const UPDATE_USER_MUTATION = gql`
     $password: String
     $name: String
     $phone: String
+    $role: Role
   ) {
-    updateUser(email: $email, password: $password, name: $name, phone: $phone) {
+    updateUser(
+      email: $email
+      password: $password
+      name: $name
+      phone: $phone
+      role: $role
+    ) {
       id
       email
       emailVerified

@@ -1,4 +1,3 @@
-import { Button } from "@/src/components/ui/button";
 import {
   Tabs,
   TabsContent,
@@ -9,6 +8,7 @@ import getSupabaseServerClient from "@/src/lib/supabase/get-supabase-server-clie
 import { constructMetadata } from "@/src/lib/utils";
 import { cookies } from "next/headers";
 import LenderContent from "./components/LenderContent";
+import RoleButton from "./components/RoleButton";
 
 type Props = {};
 
@@ -39,7 +39,7 @@ export default async function LenderSpace({}: Props) {
       forceMount
     >
       {user.user_metadata.role != "LENDER" ? (
-        <Button>Become a Lender</Button>
+        <RoleButton role="LENDER" />
       ) : (
         <Tabs defaultValue="bookings" className="flex-1">
           <TabsList className="flex h-fit w-full justify-evenly rounded-none">
