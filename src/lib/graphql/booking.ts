@@ -13,6 +13,9 @@ export const GET_BOOKING_QUERY = gql`
       stripePaymentId
       user {
         id
+        email
+        phone
+        name
       }
       car {
         id

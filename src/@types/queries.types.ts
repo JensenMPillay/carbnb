@@ -6,6 +6,6 @@ export type CarQuery = Car & {
 };
 
 export type BookingQuery = Booking & {
-  user: Pick<User, "id">;
+  user: Pick<User, "id" | "email" | "phone" | "name">;
   car: CarQuery;
 };
