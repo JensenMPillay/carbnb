@@ -18,6 +18,10 @@ export const metadata = constructMetadata({
     "Manage your car rental listings and received reservations on Carbnb.",
 });
 
+export const dynamic = "force-dynamic";
+
+export const revalidate = 0;
+
 export default async function LenderSpace({}: Props) {
   // Supabase Client
   const cookieStore = cookies();

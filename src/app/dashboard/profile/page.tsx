@@ -12,6 +12,10 @@ export const metadata = constructMetadata({
   description: "Manage your account settings on Carbnb",
 });
 
+export const dynamic = "force-dynamic";
+
+export const revalidate = 0;
+
 export default async function Profile({}: Props) {
   // Supabase Client
   const cookieStore = cookies();
