@@ -66,6 +66,62 @@ export const GET_LENDER_BOOKINGS_QUERY = gql`
       stripePaymentId
       user {
         id
+        email
+        phone
+        name
+      }
+      car {
+        id
+        category
+        brand
+        model
+        year
+        primaryColor
+        trueColor
+        transmission
+        fuelType
+        imageUrl
+        pricePerDay
+        available
+        user {
+          id
+        }
+        location {
+          id
+          latitude
+          longitude
+          address
+          city
+          postalCode
+          state
+          country
+          formatted_address
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+// GET_RENTER_BOOKINGS_QUERY
+export const GET_RENTER_BOOKINGS_QUERY = gql`
+  query GetRenterBookings {
+    getRenterBookings {
+      id
+      startDate
+      endDate
+      totalPrice
+      status
+      paymentStatus
+      stripePaymentId
+      user {
+        id
+        email
+        phone
+        name
       }
       car {
         id
@@ -116,6 +172,9 @@ export const INIT_BOOKING_MUTATION = gql`
       stripePaymentId
       user {
         id
+        email
+        phone
+        name
       }
       car {
         id
@@ -165,6 +224,9 @@ export const UPDATE_BOOKING_MUTATION = gql`
       stripePaymentId
       user {
         id
+        email
+        phone
+        name
       }
       car {
         id
@@ -202,10 +264,10 @@ export const UPDATE_BOOKING_MUTATION = gql`
   }
 `;
 
-// DELETE_BOOKING_MUTATION
-export const DELETE_BOOKING_MUTATION = gql`
-  mutation DeleteBooking($id: String!) {
-    deleteBooking(id: $id) {
+// CANCEL_BOOKING_MUTATION
+export const CANCEL_BOOKING_MUTATION = gql`
+  mutation CancelBooking($id: String!) {
+    cancelBooking(id: $id) {
       id
       startDate
       endDate
@@ -215,6 +277,9 @@ export const DELETE_BOOKING_MUTATION = gql`
       stripePaymentId
       user {
         id
+        email
+        phone
+        name
       }
       car {
         id

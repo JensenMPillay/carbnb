@@ -21,7 +21,7 @@ export const BookingStatuses: Record<BookingStatus, StatusProps> = {
   [BookingStatus.PENDING]: {
     label: BookingStatus.PENDING,
     icon: (props) => <CircleIcon {...props} />,
-    tooltip: "This booking is pending approval from the owner.",
+    tooltip: "This booking is pending finalization.",
     variant: "outline",
   },
   [BookingStatus.WAITING]: {

@@ -1,5 +1,4 @@
 "use client";
-import { CarQuery } from "@/src/@types/queries.types";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,13 +16,9 @@ import { DELETE_CAR_MUTATION } from "@/src/lib/graphql/car";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
 import { useMutation } from "@apollo/client";
 import { TrashIcon } from "@radix-ui/react-icons";
-import { MouseEvent, useState } from "react";
+import { useState } from "react";
 
-type CarProps = {
-  car?: CarQuery;
-};
-
-const DeleteCarButton = ({ car }: CarProps) => {
+const DeleteCarButton = ({ carId }: { carId: string }) => {
   // Open State
   const [open, setOpen] = useState<boolean>(false);
 
@@ -45,12 +40,11 @@ const DeleteCarButton = ({ car }: CarProps) => {
   });
 
   // Delete Callback
-  const onClick = async (event: MouseEvent<HTMLButtonElement>) => {
-    event?.preventDefault();
+  const onClickHandler = async () => {
     try {
-      if (car) {
+      if (carId) {
         await deleteCar({
-          variables: { id: car.id },
+          variables: { id: carId },
         });
       }
       setOpen(false);
@@ -75,10 +69,7 @@ const DeleteCarButton = ({ car }: CarProps) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={(event: MouseEvent<HTMLButtonElement>) => onClick(event)}
-            disabled={loading}
-          >
+          <AlertDialogAction onClick={onClickHandler} disabled={loading}>
             {loading ? <Loader className="size-6 text-inherit" /> : "Continue"}
           </AlertDialogAction>
         </AlertDialogFooter>

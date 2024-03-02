@@ -46,7 +46,7 @@ const LenderCarCard = ({ car }: CarProps) => {
     <CarCard car={car}>
       <div className="space-x-2">
         <UpdateCarButton car={car} />
-        <DeleteCarButton car={car} />
+        <DeleteCarButton carId={car.id} />
       </div>
       <div className="flex items-center space-x-2">
         <Switch

@@ -97,6 +97,28 @@ builder.queryField("getLenderBookings", (t) =>
   }),
 );
 
+// GET Route
+builder.queryField("getRenterBookings", (t) =>
+  t.prismaField({
+    type: ["Booking"],
+    resolve: async (query, _parent, args, ctx) => {
+      if (!(await ctx).user)
+        throw createGraphQLError(
+          "You have to be logged in to perform this action.",
+        );
+
+      const dbBookings = await prisma.booking.findMany({
+        ...query,
+        where: {
+          userId: (await ctx).user?.id,
+        },
+      });
+
+      return dbBookings;
+    },
+  }),
+);
+
 // POST Route
 builder.mutationField("initBooking", (t) =>
   t.prismaField({

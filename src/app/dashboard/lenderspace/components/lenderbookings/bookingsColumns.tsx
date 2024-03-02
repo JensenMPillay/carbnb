@@ -90,7 +90,7 @@ export const bookingColumns: ColumnDef<BookingQuery>[] = [
     },
     enableColumnFilter: true,
     cell: ({ row }) => {
-      return <BookingStatusBadge value={row.getValue("status")} />;
+      return <BookingStatusBadge status={row.getValue("status")} />;
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
