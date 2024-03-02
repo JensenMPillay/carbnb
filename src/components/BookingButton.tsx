@@ -1,11 +1,8 @@
 import { BookingStatuses } from "@/src/components/BookingStatuses";
 import { Button } from "@/src/components/ui/button";
 import { Loader } from "@/src/components/ui/loader";
-import {
-  GET_LENDER_BOOKINGS_QUERY,
-  UPDATE_BOOKING_MUTATION,
-} from "@/src/lib/graphql/booking";
-import { showErrorNotif } from "@/src/lib/notifications/toasters";
+import { UPDATE_BOOKING_MUTATION } from "@/src/lib/graphql/booking";
+import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
 import { useMutation } from "@apollo/client";
 
 const BookingButton = ({
@@ -13,13 +10,15 @@ const BookingButton = ({
   action,
 }: {
   bookingId: string;
-  action: "ACCEPTED" | "REFUSED";
+  action: "ACCEPTED" | "REFUSED" | "CANCELED";
 }) => {
   const { icon, variant } = BookingStatuses[action];
   // Mutation
   const [updateBooking, { loading }] = useMutation(UPDATE_BOOKING_MUTATION, {
     onCompleted: (data) => {
-      console.log(data);
+      showNotif({
+        description: `This booking has been successfully "${action}"`,
+      });
     },
     onError: (error) => {
       showErrorNotif({
@@ -28,7 +27,7 @@ const BookingButton = ({
       console.error("Mutation Error : ", error);
     },
     // Update Cars on Map
-    refetchQueries: [GET_LENDER_BOOKINGS_QUERY],
+    refetchQueries: "active",
   });
 
   // onClick Callback

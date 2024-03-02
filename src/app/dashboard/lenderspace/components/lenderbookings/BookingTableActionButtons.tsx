@@ -1,4 +1,4 @@
-import BookingButton from "./BookingButton";
+import BookingButton from "@/src/components/BookingButton";
 
 type Props = {};
 

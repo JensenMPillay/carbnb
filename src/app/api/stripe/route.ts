@@ -104,6 +104,12 @@ export async function POST(request: NextRequest, response: NextResponse) {
       payment_method: paymentMethodId ?? undefined,
       return_url: absoluteUrl("/dashboard"),
       use_stripe_sdk: true,
+      expand: ["latest_charge"],
+      payment_method_options: {
+        card: {
+          request_extended_authorization: "if_available",
+        },
+      },
       mandate_data: {
         customer_acceptance: {
           type: "online",

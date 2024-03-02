@@ -208,11 +208,13 @@ builder.mutationField("updateBooking", (t) =>
           "An error occurred while updating the booking. Please try again later.",
         );
 
+      const { id, stripePaymentId, status, paymentStatus } = bookingPrisma;
+
       switch (args.status) {
         case "ACCEPTED":
           // Capture Payment
           try {
-            await stripe.paymentIntents.capture(bookingPrisma.stripePaymentId);
+            await stripe.paymentIntents.capture(stripePaymentId);
           } catch (error) {
             throw createGraphQLError(
               error instanceof Error
@@ -224,7 +226,31 @@ builder.mutationField("updateBooking", (t) =>
         case "REFUSED":
           // Cancel Payment
           try {
-            await stripe.paymentIntents.cancel(bookingPrisma.stripePaymentId);
+            await stripe.paymentIntents.cancel(stripePaymentId);
+          } catch (error) {
+            throw createGraphQLError(
+              error instanceof Error
+                ? error.message
+                : "An Error occured during update payment intent.",
+            );
+          }
+          break;
+        case "CANCELED":
+          // Cancel Or Refund Payment
+          try {
+            if (status === "WAITING" && paymentStatus === "VALIDATED") {
+              await stripe.paymentIntents.cancel(stripePaymentId);
+              break;
+            }
+            if (status === "ACCEPTED" && paymentStatus === "SUCCEEDED") {
+              await stripe.refunds.create({
+                payment_intent: stripePaymentId,
+                metadata: {
+                  bookingId: id,
+                },
+              });
+              break;
+            }
           } catch (error) {
             throw createGraphQLError(
               error instanceof Error

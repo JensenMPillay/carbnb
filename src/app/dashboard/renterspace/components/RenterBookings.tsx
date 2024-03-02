@@ -6,8 +6,8 @@ import { Skeleton } from "@/src/components/ui/skeleton";
 import { GET_RENTER_BOOKINGS_QUERY } from "@/src/lib/graphql/booking";
 import { showErrorNotif } from "@/src/lib/notifications/toasters";
 import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
+import BookingButton from "../../../../components/BookingButton";
 import BookingStatusBadge from "../../lenderspace/components/lenderbookings/BookingStatusBadge";
-import CancelBookingButton from "./CancelBookingButton";
 
 type Props = {};
 
@@ -40,7 +40,7 @@ const RenterBookings = (props: Props) => {
           data.getRenterBookings.map((booking: BookingQuery) => (
             <div key={booking.id}>
               <CarCard car={booking.car}>
-                <CancelBookingButton bookingId={booking.id} />
+                <BookingButton bookingId={booking.id} action="CANCELED" />
                 <BookingStatusBadge status={booking.status} />
               </CarCard>
               <BookingInfoCard
