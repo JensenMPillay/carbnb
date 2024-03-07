@@ -5,16 +5,16 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/src/components/ui/tooltip";
-import { PersonIcon } from "@radix-ui/react-icons";
+import { MoonIcon, PersonIcon, SunIcon } from "@radix-ui/react-icons";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import useSessionStore from "../store/useSessionStore";
 import useStore from "../store/useStore";
 import Logo from "./Logo";
-import { ModeToggle } from "./ModeToggle";
 import UserAccountNav from "./UserAccountNav";
-import { buttonVariants } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 
 type Props = {};
 
@@ -22,6 +22,10 @@ const Navbar = (props: Props) => {
   const [origin, setOrigin] = useState<string>("");
   // Get Real Pathname
   const pathname = usePathname();
+
+  // Theme
+  const { theme, setTheme } = useTheme();
+
   useEffect(() => {
     let origin = pathname.slice(1);
     if (origin.includes("/")) origin = "";
@@ -49,7 +53,24 @@ const Navbar = (props: Props) => {
       </TooltipProvider>
 
       <div className="flex flex-row items-center space-x-2">
-        <ModeToggle />
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              >
+                <SunIcon className="size-5 rotate-0 scale-100 text-foreground dark:-rotate-90 dark:scale-0" />
+                <MoonIcon className="absolute size-5 rotate-90 scale-0 text-foreground dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>Toggle theme</span>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         {!session || !session.user.user_metadata.isRegistered ? (
           <TooltipProvider>
             <Tooltip>
