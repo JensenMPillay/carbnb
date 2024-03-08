@@ -1,5 +1,6 @@
 "use client";
 import { Circle } from "@/src/components/Circle";
+import useMarker from "@/src/hooks/useMarker";
 import useSearchStore from "@/src/store/useSearchStore";
 import useStore from "@/src/store/useStore";
 import { AdvancedMarker, Map } from "@vis.gl/react-google-maps";
@@ -7,6 +8,9 @@ import CarMarkers from "./CarMarkers";
 import FiltersSheet from "./FiltersSheet";
 
 const SearchMap = () => {
+  // Marker Library
+  const markerLibrary = useMarker();
+
   // Access to Store Data after Rendering (SSR Behavior)
   const userLocation = useStore(
     useSearchStore,
@@ -14,6 +18,7 @@ const SearchMap = () => {
   );
   const radius = useStore(useSearchStore, (state) => state.filters?.radius);
 
+  if (!markerLibrary) return;
   return (
     <Map
       mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_ID ?? ""}
