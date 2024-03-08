@@ -1,31 +1,32 @@
+import { colors } from "@/src/lib/utils";
 import { Theme } from "@supabase/auth-ui-shared";
 
-export const customTheme: Theme = {
+const customTheme: Theme = {
   default: {
     colors: {
-      brand: "hsl(var(--primary))",
-      brandAccent: "hsl(var(--ring))",
-      brandButtonText: "hsl(var(--primary-foreground))",
-      defaultButtonBackground: "hsl(var(--primary))",
-      defaultButtonBackgroundHover: "hsl(var(--ring))",
-      defaultButtonBorder: "hsl(var(--border))",
-      defaultButtonText: "hsl(var(--primary-foreground))",
-      dividerBackground: "hsl(var(--muted))",
+      brand: colors.primary.DEFAULT,
+      brandAccent: colors.ring,
+      brandButtonText: colors.primary.foreground,
+      defaultButtonBackground: colors.primary.DEFAULT,
+      defaultButtonBackgroundHover: colors.ring,
+      defaultButtonBorder: colors.border,
+      defaultButtonText: colors.primary.foreground,
+      dividerBackground: colors.muted.DEFAULT,
       inputBackground: "",
-      inputBorder: "hsl(var(--border))",
-      inputBorderHover: "hsl(var(--ring))",
-      inputBorderFocus: "hsl(var(--ring))",
-      inputText: "hsl(var(--foreground))",
-      inputLabelText: "hsl(var(--foreground))",
-      inputPlaceholder: "hsl(var(--muted-foreground))",
+      inputBorder: colors.border,
+      inputBorderHover: colors.ring,
+      inputBorderFocus: colors.ring,
+      inputText: colors.foreground,
+      inputLabelText: colors.foreground,
+      inputPlaceholder: colors.muted.foreground,
       messageText: "#2b805a",
       messageBackground: "#e7fcf1",
       messageBorder: "#d0f3e1",
       messageTextDanger: "#ff6369",
       messageBackgroundDanger: "#fff8f8",
       messageBorderDanger: "#822025",
-      anchorTextColor: "hsl(var(--foreground))",
-      anchorTextHoverColor: "hsl(var(--primary))",
+      anchorTextColor: colors.foreground,
+      anchorTextHoverColor: colors.primary.DEFAULT,
     },
     space: {
       spaceSmall: "4px",
@@ -77,3 +78,5 @@ export const customTheme: Theme = {
     },
   },
 };
+
+export default customTheme;

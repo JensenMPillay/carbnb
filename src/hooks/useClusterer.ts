@@ -1,4 +1,4 @@
-import { PRIMARY_COLOR, createSVGClustererIcon } from "@/src/lib/utils";
+import { colors, createSVGClustererIcon } from "@/src/lib/utils";
 import type { Cluster, ClusterStats } from "@googlemaps/markerclusterer";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import { useMap } from "@vis.gl/react-google-maps";
@@ -17,8 +17,8 @@ const useClusterer = () => {
         // Adjust Color by Count markers
         const color =
           count > Math.max(10, stats.clusters.markers.mean)
-            ? "#ff0000"
-            : PRIMARY_COLOR;
+            ? colors.destructive.DEFAULT
+            : colors.primary.DEFAULT;
 
         //  Title
         const title = `${count} available cars`;

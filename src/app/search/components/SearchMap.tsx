@@ -1,6 +1,5 @@
 "use client";
 import { Circle } from "@/src/components/Circle";
-import { PRIMARY_COLOR } from "@/src/lib/utils";
 import useSearchStore from "@/src/store/useSearchStore";
 import useStore from "@/src/store/useStore";
 import { AdvancedMarker, Map } from "@vis.gl/react-google-maps";
@@ -31,10 +30,10 @@ const SearchMap = () => {
       <Circle
         radius={radius && radius * 1000}
         center={userLocation}
-        strokeColor={PRIMARY_COLOR}
+        strokeColor={"#4cc2ae"}
         strokeOpacity={1}
         strokeWeight={3}
-        fillColor={PRIMARY_COLOR}
+        fillColor={"#4cc2ae"}
         fillOpacity={0.3}
         clickable={false}
         draggable={false}

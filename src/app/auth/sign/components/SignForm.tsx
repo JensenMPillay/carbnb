@@ -1,7 +1,7 @@
 "use client";
 import { Separator } from "@/src/components/ui/separator";
 import { Skeleton } from "@/src/components/ui/skeleton";
-import { customTheme } from "@/src/config/auth-ui/customTheme";
+import customTheme from "@/src/config/auth-ui/customTheme";
 import useLoading from "@/src/hooks/useLoading";
 import { showNotif } from "@/src/lib/notifications/toasters";
 import supabaseBrowserClient from "@/src/lib/supabase/supabase-browser-client";

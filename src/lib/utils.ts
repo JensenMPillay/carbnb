@@ -1,16 +1,25 @@
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-
+import tailwindConfig from "@/tailwind.config";
 import { Color, type Car } from "@prisma/client";
-import type { Metadata } from "next";
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+import resolveConfig from "tailwindcss/resolveConfig";
 import {
   ColorsMap,
   PaintCombinations,
   resultODModel,
 } from "../@types/imaginstudio";
 
-// primary Color (Map...)
-export const PRIMARY_COLOR = "#4cc2ae";
+import type { ClassValue } from "clsx";
+import type { Metadata } from "next";
+import type { Config } from "tailwindcss";
+import type { DefaultColors } from "tailwindcss/types/generated/colors";
+
+// Theme Colors
+export const { colors } =
+  // Reset colors theme type with extended colors
+  resolveConfig(tailwindConfig).theme as unknown as Config["theme"] & {
+    colors: DefaultColors & typeof tailwindConfig.theme.extend.colors;
+  };
 
 // Classname Util
 export function cn(...inputs: ClassValue[]) {
@@ -100,7 +109,7 @@ export function hslToHex(hsl: string): string {
 
 // Create SVG Icon for Clusterer
 export const createSVGClustererIcon = (
-  color: "#ff0000" | typeof PRIMARY_COLOR,
+  color: string,
   count: number,
 ): SVGSVGElement => {
   const svgIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
