@@ -84,6 +84,17 @@ export const bookingColumns: ColumnDef<BookingQuery>[] = [
     },
   },
   {
+    id: "address",
+    accessorFn: (row) => `${row.car.location.formatted_address}`,
+    header: ({ column }) => {
+      return <TableHeader column={column} title="address" position="left" />;
+    },
+    enableColumnFilter: false,
+    cell: ({ row }) => {
+      return <div className="text-left">{row.getValue("address")}</div>;
+    },
+  },
+  {
     accessorKey: "status",
     header: ({ column }) => {
       return <TableHeader column={column} title="status" position="center" />;
