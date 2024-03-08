@@ -29,22 +29,10 @@ import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 
 const FiltersSheet = () => {
   // Enums
-  const brands = useMemo(
-    () => Object.keys(Brand) as Array<keyof typeof Brand>,
-    [],
-  );
-  const categories = useMemo(
-    () => Object.keys(Category) as Array<keyof typeof Category>,
-    [],
-  );
-  const transmissions = useMemo(
-    () => Object.keys(Transmission) as Array<keyof typeof Transmission>,
-    [],
-  );
-  const fuelTypes = useMemo(
-    () => Object.keys(FuelType) as Array<keyof typeof FuelType>,
-    [],
-  );
+  const brands = useMemo(() => Object.keys(Brand), []);
+  const categories = useMemo(() => Object.keys(Category), []);
+  const transmissions = useMemo(() => Object.keys(Transmission), []);
+  const fuelTypes = useMemo(() => Object.keys(FuelType), []);
 
   // Store
   const { setFilters, setFilteredCars } = useSearchStore();
@@ -137,7 +125,6 @@ const FiltersSheet = () => {
                 form={carFilterForm}
                 fieldName="brand"
                 items={brands}
-                prismaEnum={Brand}
               />
               <RangeInputFormField
                 form={carFilterForm}

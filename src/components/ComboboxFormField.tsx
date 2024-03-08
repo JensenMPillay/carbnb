@@ -24,33 +24,21 @@ import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { FieldValues, Path, PathValue, UseFormReturn } from "react-hook-form";
 
-type PrismaEnum<T> = {
-  [key: string]: string;
-};
-
-type ComboboxFormFieldProps<
-  FormSchemaType extends FieldValues,
-  T extends PrismaEnum<T>,
-> = {
+type ComboboxFormFieldProps<FormSchemaType extends FieldValues> = {
   form: UseFormReturn<FormSchemaType>;
   fieldName: Path<FormSchemaType>;
-  prismaEnum?: PrismaEnum<T>;
   items: Array<string>;
   updateItems?: () => Promise<void>;
   resetFields?: () => void;
 };
 
-const ComboboxFormField = <
-  FormSchemaType extends FieldValues,
-  T extends PrismaEnum<T>,
->({
+const ComboboxFormField = <FormSchemaType extends FieldValues>({
   form,
   fieldName,
-  prismaEnum,
   items,
   updateItems,
   resetFields,
-}: ComboboxFormFieldProps<FormSchemaType, T>) => {
+}: ComboboxFormFieldProps<FormSchemaType>) => {
   const [open, setOpen] = useState(false);
   return (
     <FormField
@@ -73,11 +61,8 @@ const ComboboxFormField = <
                     updateItems && updateItems();
                   }}
                 >
-                  {field.value && prismaEnum
-                    ? items
-                        .find((key) => prismaEnum[key] === field.value)
-                        ?.replace("_", " ") ?? `Select ${fieldName}`
-                    : field.value?.replace("_", " ") ?? `Select ${fieldName}`}
+                  {(field.value && field.value?.replace("_", " ")) ??
+                    `Select ${fieldName}`}
                   <CaretSortIcon className="ml-2 size-4 shrink-0 opacity-50" />
                 </Button>
               </FormControl>

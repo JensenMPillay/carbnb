@@ -54,13 +54,11 @@ const CarForm = ({
   const [trueColors, setTrueColors] = useState<string[]>([]);
 
   // Enums
-  const brands = Object.keys(Brand) as Array<keyof typeof Brand>;
-  const categories = Object.keys(Category) as Array<keyof typeof Category>;
-  const primaryColors = Object.keys(Color) as Array<keyof typeof Color>;
-  const transmissions = Object.keys(Transmission) as Array<
-    keyof typeof Transmission
-  >;
-  const fuelTypes = Object.keys(FuelType) as Array<keyof typeof FuelType>;
+  const brands = Object.keys(Brand);
+  const categories = Object.keys(Category);
+  const primaryColors = Object.keys(Color);
+  const transmissions = Object.keys(Transmission);
+  const fuelTypes = Object.keys(FuelType);
 
   // Watched Fields
   const watchedFields: Path<CarSchemaType>[] = [
@@ -160,7 +158,6 @@ const CarForm = ({
                 form={carForm}
                 fieldName="brand"
                 items={brands}
-                prismaEnum={Brand}
                 resetFields={() => {
                   carForm.resetField("model");
                   carForm.resetField("trueColor");
@@ -200,7 +197,6 @@ const CarForm = ({
                 form={carForm}
                 fieldName="category"
                 items={categories}
-                prismaEnum={Category}
               />
               <ComboboxFormField
                 form={carForm}
@@ -212,7 +208,6 @@ const CarForm = ({
                 form={carForm}
                 fieldName="primaryColor"
                 items={primaryColors}
-                prismaEnum={Color}
                 resetFields={() => {
                   carForm.resetField("trueColor");
                 }}
@@ -240,7 +235,6 @@ const CarForm = ({
                   form={carForm}
                   fieldName="transmission"
                   items={transmissions}
-                  prismaEnum={Transmission}
                 />
               </div>
               <div className="block space-y-1">
@@ -251,7 +245,6 @@ const CarForm = ({
                   form={carForm}
                   fieldName="fuelType"
                   items={fuelTypes}
-                  prismaEnum={FuelType}
                 />
               </div>
               <div className="block space-y-1">
