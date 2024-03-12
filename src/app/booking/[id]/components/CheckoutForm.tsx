@@ -38,7 +38,7 @@ const CheckoutForm = ({ booking }: CheckoutFormProps) => {
   const handleError = (error: StripeError) => {
     setLoading(false);
     showErrorNotif({
-      description: error.message ?? "",
+      description: error.message ?? error.code ?? error.type ?? "",
     });
     console.error("Mutation Error : ", error);
   };
