@@ -40,7 +40,9 @@ const RenterBookings = (props: Props) => {
           data.getRenterBookings.map((booking: BookingQuery) => (
             <div key={booking.id}>
               <CarCard car={booking.car}>
-                <BookingButton bookingId={booking.id} action="CANCELED" />
+                {["WAITING", "ACCEPTED"].includes(booking.status) && (
+                  <BookingButton bookingId={booking.id} action="CANCELED" />
+                )}
                 <BookingStatusBadge status={booking.status} />
               </CarCard>
               <BookingInfoCard
