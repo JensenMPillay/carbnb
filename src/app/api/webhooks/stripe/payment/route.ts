@@ -36,7 +36,8 @@ export async function POST(request: Request) {
           paymentIntentAmountCapturableUpdated.status != "requires_capture" ||
           !paymentIntentAmountCapturableUpdated.metadata?.bookingId
         )
-          return;
+          throw new Error("No metadata submitted");
+
         // Update Booking
         await prisma.booking.update({
           where: {
@@ -51,100 +52,83 @@ export async function POST(request: Request) {
         break;
       case "payment_intent.succeeded":
         const paymentIntentSucceeded = event.data.object;
-        if (
-          paymentIntentSucceeded.status != "succeeded" ||
-          !paymentIntentSucceeded.metadata?.bookingId
-        )
-          return;
-        // Update Booking
-        await prisma.booking.update({
-          where: {
-            id: paymentIntentSucceeded.metadata.bookingId,
-          },
-          data: {
-            paymentStatus: "SUCCEEDED",
-          },
-        });
+        if (paymentIntentSucceeded.status === "succeeded")
+          // Update Booking
+          await prisma.booking.update({
+            where: {
+              stripePaymentId: paymentIntentSucceeded.id,
+            },
+            data: {
+              paymentStatus: "SUCCEEDED",
+            },
+          });
         break;
       case "payment_intent.canceled":
         const paymentIntentCanceled = event.data.object;
-        if (
-          paymentIntentCanceled.status != "canceled" ||
-          !paymentIntentCanceled.metadata?.bookingId
-        )
-          return;
-        // Update Booking
-        await prisma.booking.update({
-          where: {
-            id: paymentIntentCanceled.metadata.bookingId,
-          },
-          data: {
-            paymentStatus: "CANCELED",
-          },
-        });
+        if (paymentIntentCanceled.status === "canceled")
+          // Update Booking
+          await prisma.booking.update({
+            where: {
+              stripePaymentId: paymentIntentCanceled.id,
+            },
+            data: {
+              paymentStatus: "CANCELED",
+            },
+          });
         break;
       case "charge.captured":
         const chargeCaptured = event.data.object;
         if (
-          chargeCaptured.status != "succeeded" ||
-          !chargeCaptured.metadata?.bookingId
+          chargeCaptured.status === "succeeded" &&
+          chargeCaptured.payment_intent
         )
-          return;
-        // Update Booking
-        await prisma.booking.update({
-          where: {
-            id: chargeCaptured.metadata.bookingId,
-          },
-          data: {
-            paymentStatus: "SUCCEEDED",
-          },
-        });
+          // Update Booking
+          await prisma.booking.update({
+            where: {
+              stripePaymentId: chargeCaptured.payment_intent.toString(),
+            },
+            data: {
+              paymentStatus: "SUCCEEDED",
+            },
+          });
         break;
       case "charge.succeeded":
         const chargeSucceeded = event.data.object;
         if (
-          chargeSucceeded.status != "succeeded" ||
-          !chargeSucceeded.metadata?.bookingId
+          chargeSucceeded.status === "succeeded" &&
+          chargeSucceeded.payment_intent
         )
-          return;
-        // Update Booking
-        await prisma.booking.update({
-          where: {
-            id: chargeSucceeded.metadata.bookingId,
-          },
-          data: {
-            paymentStatus: "SUCCEEDED",
-          },
-        });
+          // Update Booking
+          await prisma.booking.update({
+            where: {
+              stripePaymentId: chargeSucceeded.payment_intent.toString(),
+            },
+            data: {
+              paymentStatus: "SUCCEEDED",
+            },
+          });
         break;
       case "charge.failed":
         const chargeFailed = event.data.object;
-        if (
-          chargeFailed.status != "failed" ||
-          !chargeFailed.metadata?.bookingId
-        )
-          return;
-        // Update Booking
-        await prisma.booking.update({
-          where: {
-            id: chargeFailed.metadata.bookingId,
-          },
-          data: {
-            paymentStatus: "FAILED",
-          },
-        });
+        if (chargeFailed.status === "failed" && chargeFailed.payment_intent)
+          // Update Booking
+          await prisma.booking.update({
+            where: {
+              stripePaymentId: chargeFailed.payment_intent.toString(),
+            },
+            data: {
+              paymentStatus: "FAILED",
+            },
+          });
         break;
       case "charge.expired":
         const chargeExpired = event.data.object;
-        if (
-          chargeExpired.status != "failed" ||
-          !chargeExpired.metadata?.bookingId
-        )
-          return;
+        if (chargeExpired.status != "failed" || !chargeExpired.payment_intent)
+          break;
         // Update Booking
         await prisma.booking.update({
           where: {
-            id: chargeExpired.metadata.bookingId,
+            stripePaymentId: chargeExpired.payment_intent.toString(),
           },
           data: {
             paymentStatus: "CANCELED",
@@ -157,53 +141,50 @@ export async function POST(request: Request) {
       case "charge.refund.updated":
         const chargeRefundUpdated = event.data.object;
         if (
-          chargeRefundUpdated.status != "succeeded" ||
-          !chargeRefundUpdated.metadata?.bookingId
+          chargeRefundUpdated.status === "succeeded" &&
+          chargeRefundUpdated.payment_intent
         )
-          return;
-        // Update Booking
-        await prisma.booking.update({
-          where: {
-            id: chargeRefundUpdated.metadata.bookingId,
-          },
-          data: {
-            paymentStatus: "REFUNDED",
-          },
-        });
+          // Update Booking
+          await prisma.booking.update({
+            where: {
+              stripePaymentId: chargeRefundUpdated.payment_intent.toString(),
+            },
+            data: {
+              paymentStatus: "REFUNDED",
+            },
+          });
         break;
       case "charge.refunded":
         const chargeRefunded = event.data.object;
         if (
-          chargeRefunded.status != "succeeded" ||
-          !chargeRefunded.metadata?.bookingId
+          chargeRefunded.status === "succeeded" &&
+          chargeRefunded.payment_intent
         )
-          return;
-        // Update Booking
-        await prisma.booking.update({
-          where: {
-            id: chargeRefunded.metadata.bookingId,
-          },
-          data: {
-            paymentStatus: "REFUNDED",
-          },
-        });
+          // Update Booking
+          await prisma.booking.update({
+            where: {
+              stripePaymentId: chargeRefunded.payment_intent.toString(),
+            },
+            data: {
+              paymentStatus: "REFUNDED",
+            },
+          });
         break;
       case "refund.updated":
         const refundUpdated = event.data.object;
         if (
-          refundUpdated.status != "succeeded" ||
-          !refundUpdated.metadata?.bookingId
+          refundUpdated.status === "succeeded" &&
+          refundUpdated.payment_intent
         )
-          return;
-        // Update Booking
-        await prisma.booking.update({
-          where: {
-            id: refundUpdated.metadata.bookingId,
-          },
-          data: {
-            paymentStatus: "REFUNDED",
-          },
-        });
+          // Update Booking
+          await prisma.booking.update({
+            where: {
+              stripePaymentId: refundUpdated.payment_intent.toString(),
+            },
+            data: {
+              paymentStatus: "REFUNDED",
+            },
+          });
         break;
       default:
         console.log(`Unhandled event type ${event.type}`);
