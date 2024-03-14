@@ -2,11 +2,13 @@
 import { BookingQuery } from "@/src/@types/queries.types";
 import BookingInfoCard from "@/src/components/BookingInfoCard";
 import CarCard from "@/src/components/CarCard";
+import { buttonVariants } from "@/src/components/ui/button";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import { GET_RENTER_BOOKINGS_QUERY } from "@/src/lib/graphql/booking";
 import { showErrorNotif } from "@/src/lib/notifications/toasters";
 import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
-import BookingButton from "../../../../components/BookingButton";
+import Link from "next/link";
+import BookingActionButton from "../../../../components/BookingActionButton";
 import BookingStatusBadge from "../../lenderspace/components/lenderbookings/BookingStatusBadge";
 
 type Props = {};
@@ -40,10 +42,30 @@ const RenterBookings = (props: Props) => {
           data.getRenterBookings.map((booking: BookingQuery) => (
             <div key={booking.id}>
               <CarCard car={booking.car}>
-                {["WAITING", "ACCEPTED"].includes(booking.status) && (
-                  <BookingButton bookingId={booking.id} action="CANCELED" />
-                )}
                 <BookingStatusBadge status={booking.status} />
+                {booking.status === "PENDING" && (
+                  <Link
+                    href={`/booking/${booking.id}`}
+                    className={buttonVariants({
+                      size: "default",
+                      variant: "default",
+                    })}
+                  >
+                    BOOK
+                  </Link>
+                )}
+                {["WAITING", "ACCEPTED"].includes(booking.status) && (
+                  <BookingActionButton
+                    bookingId={booking.id}
+                    action="CANCELED"
+                  />
+                )}
+                {booking.status === "PENDING" && (
+                  <BookingActionButton
+                    bookingId={booking.id}
+                    action="DELETED"
+                  />
+                )}
               </CarCard>
               <BookingInfoCard
                 address={booking.car.location.formatted_address}

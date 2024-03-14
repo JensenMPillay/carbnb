@@ -264,10 +264,10 @@ export const UPDATE_BOOKING_MUTATION = gql`
   }
 `;
 
-// CANCEL_BOOKING_MUTATION
-export const CANCEL_BOOKING_MUTATION = gql`
-  mutation CancelBooking($id: String!) {
-    cancelBooking(id: $id) {
+// DELETE_BOOKING_MUTATION
+export const DELETE_BOOKING_MUTATION = gql`
+  mutation DeleteBooking($id: String!) {
+    deleteBooking(id: $id) {
       id
       startDate
       endDate

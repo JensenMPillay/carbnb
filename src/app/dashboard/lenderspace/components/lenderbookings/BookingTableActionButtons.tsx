@@ -1,12 +1,12 @@
-import BookingButton from "@/src/components/BookingButton";
+import BookingActionButton from "@/src/components/BookingActionButton";
 
 type Props = {};
 
 const BookingTableActionButtons = ({ bookingId }: { bookingId: string }) => {
   return (
     <div className="flex flex-row justify-end space-x-2">
-      <BookingButton bookingId={bookingId} action="ACCEPTED" />
-      <BookingButton bookingId={bookingId} action="REFUSED" />
+      <BookingActionButton bookingId={bookingId} action="ACCEPTED" />
+      <BookingActionButton bookingId={bookingId} action="REFUSED" />
     </div>
   );
 };

@@ -267,3 +267,32 @@ builder.mutationField("updateBooking", (t) =>
     },
   }),
 );
+
+// POST Route
+builder.mutationField("deleteBooking", (t) =>
+  t.prismaField({
+    type: "Booking",
+    args: {
+      id: t.arg.string({ required: true }),
+    },
+    resolve: async (query, _parent, args, ctx) => {
+      if (!(await ctx).user)
+        throw createGraphQLError(
+          "You have to be logged in to perform this action.",
+        );
+      const bookingPrisma = await prisma.booking.delete({
+        ...query,
+        where: {
+          id: args.id,
+        },
+      });
+
+      if (!bookingPrisma)
+        throw createGraphQLError(
+          "An error occurred while deleting the booking. Please try again later.",
+        );
+
+      return bookingPrisma;
+    },
+  }),
+);
