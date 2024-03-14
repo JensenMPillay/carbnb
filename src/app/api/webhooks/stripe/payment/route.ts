@@ -95,16 +95,25 @@ export async function POST(request: Request) {
       case "charge.succeeded":
         const chargeSucceeded = event.data.object;
         if (
-          chargeSucceeded.status === "succeeded" &&
-          chargeSucceeded.payment_intent
+          chargeSucceeded.status != "succeeded" ||
+          !chargeSucceeded.payment_intent
         )
+          break;
+        // Find Booking "CANCELED"
+        const canceledBooking = await prisma.booking.findUnique({
+          where: {
+            stripePaymentId: chargeSucceeded.payment_intent.toString(),
+          },
+        });
+
+        if (canceledBooking?.status === "CANCELED")
           // Update Booking
           await prisma.booking.update({
             where: {
               stripePaymentId: chargeSucceeded.payment_intent.toString(),
             },
             data: {
-              paymentStatus: "SUCCEEDED",
+              paymentStatus: "REFUNDED",
             },
           });
         break;
