@@ -39,7 +39,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="bg-gradient-animation min-h-screen w-full bg-300">
+            <div className="bg-gradient min-h-screen w-full">
               <Navbar />
               {children}
               <Footer />

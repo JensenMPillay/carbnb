@@ -4,18 +4,7 @@
 
 @layer base {
   :root {
-    --gradient: linear-gradient(
-      to left top,
-      #4cc2ae,
-      #67d1b2,
-      #83e1c8,
-      #a0f0de,
-      #bdfff3,
-      #a0f0de,
-      #83e1c8,
-      #67d1b2,
-      #4cc2ae
-    );
+    --gradient: radial-gradient(#bdfff3, #a0f0de, #83e1c8, #67d1b2, #4cc2ae);
 
     --background: 150 100% 98%;
     --foreground: 240 10% 3.9%;
@@ -40,19 +29,7 @@
   }
 
   .dark {
-    /* CSS: .bg-gradient { background: var(--gradient) } */
-    --gradient: linear-gradient(
-      to left top,
-      #071714,
-      #17342f,
-      #23544c,
-      #30776a,
-      #3d9b8b,
-      #30776a,
-      #23544c,
-      #17342f,
-      #071714
-    );
+    --gradient: radial-gradient(#3d9b8b, #30776a, #23544c, #17342f, #071714);
 
     --background: 170 31.849999999999998% 4.24%;
     --foreground: 170 4.9% 97.65%;
@@ -86,7 +63,11 @@
     --radius: 0.5rem;
   }
 
-  .bg-gradient-animation {
+  /* Background Animation  */
+  .bg-gradient {
+    background: var(--gradient);
+  }
+  /* .bg-gradient-animation {
     background-image: var(--gradient);
     animation: bg-animation 20s infinite;
   }
@@ -101,7 +82,7 @@
     100% {
       background-position: left;
     }
-  }
+  } */
 
   *::-webkit-scrollbar {
     /* -webkit-appearance: none; */
