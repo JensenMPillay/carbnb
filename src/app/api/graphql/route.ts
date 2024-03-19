@@ -1,7 +1,7 @@
-import { supabaseContext } from "@/src/context/supabaseContext";
 import { createYoga } from "graphql-yoga";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
+import { supabaseContext } from "./context";
 import { schema } from "./schema";
 
 // Router

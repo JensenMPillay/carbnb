@@ -1,10 +1,10 @@
 import PrismaTypes from "@/prisma/pothos-types";
 import prisma from "@/prisma/prisma";
-import { supabaseContext } from "@/src/context/supabaseContext";
 import SchemaBuilder from "@pothos/core";
 import PrismaPlugin from "@pothos/plugin-prisma";
 import RelayPlugin from "@pothos/plugin-relay";
 import { DateTimeResolver } from "graphql-scalars";
+import { supabaseContext } from "./context";
 
 // Sync Builder to Prisma
 export const builder = new SchemaBuilder<{
