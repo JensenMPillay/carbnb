@@ -28,7 +28,7 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.d.ts",
-    "jest.config.js"
+    "jest.config.ts"
   ],
   "exclude": ["node_modules"]
 }
