@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
  * @param {function} store - The store function provided by Zustand.
  * @param {function} callback - The callback function to extract desired state from the store.
  * @returns {F | undefined} The extracted state from the store, or undefined if not available.
+ * @example
+ * const session = useStore(useSessionStore, (state) => state.session);
  */
 const useStore = <T, F>(
   store: (callback: (state: T) => unknown) => unknown,

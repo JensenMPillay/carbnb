@@ -8,6 +8,20 @@ interface UsePrefillFormProps<T extends FieldValues> {
   entity?: Partial<T> | null;
 }
 
+/**
+ * Custom hook to prefill a form with entity data.
+ * @template T - Field values type.
+ * @param {object} props - Props object.
+ * @param {UseFormReturn<T>} props.form - Form with Schema<T>.
+ * @param {Partial<T> | null | undefined} props.entity - Entity with Partial<T>.
+ * @example
+ * const form = useForm<SchemaType>({
+ *  resolver: zodResolver(schema),
+ *  defaultValues: { name: "Eve", age: 25 }
+ * });
+ * const entity = { name: "John", age: 30 };
+ * usePrefillForm({ form, entity });
+ */
 export function usePrefillForm<T extends FieldValues>({
   form,
   entity,

@@ -7,6 +7,15 @@ export type FormattedLocation = {
   description: string;
 } & google.maps.LatLngLiteral;
 
+/**
+ * Custom hook for accessing geocoding functionality from the Google Maps Geocoding Library.
+ * This hook provides functions to obtain location details and formatted addresses from a place ID.
+ * @returns {object} - An object containing geocoding-related functions.
+ * @property {function} getLocation - A function to retrieve location details (latitude, longitude, address, city, postal code, state, country) based on a place ID.
+ * @property {function} getFormattedLocation - A function to retrieve a formatted location (description, latitude, longitude) based on a place ID.
+ * @example
+ * const { getLocation, getFormattedLocation } = useGeocoder();
+ */
 const useGeocoder = () => {
   // Google Maps Libraries
   const geocodingLibrary: google.maps.GeocodingLibrary | null =
@@ -60,7 +69,16 @@ const useGeocoder = () => {
     return component?.long_name || "";
   }
 
-  // Callback Handle Geocoding => Location
+  /**
+   * Retrieves location details based on a place ID.
+   * @param {string | null} placeId - The place ID of the location.
+   * @returns {Promise<Location | undefined>} - A promise that resolves to the location details or undefined if no location is found.
+   * @example
+   * const { getLocation } = useGeocoder();
+   * const placeId = "your-place-id";
+   * const location = await getLocation(placeId)
+   * // Output: { id: 'your-place-id', latitude: 123.456, longitude: 78.910, address: '123 Street, City', city: 'City', postalCode: '12345', state: 'State', country: 'Country', formatted_address: '123 Street, City, State, Country', createdAt: Date, updatedAt: Date }
+   */
   const getLocation = useCallback(
     async (placeId: string | null) => {
       // Get Response Results
@@ -113,7 +131,16 @@ const useGeocoder = () => {
     [getGeocodeResponse],
   );
 
-  // Callbacks Handle Geocoding => Formatted_Address
+  /**
+   * Retrieves a formatted location description based on a place ID.
+   * @param {string | null} placeId - The place ID of the location.
+   * @returns {Promise<FormattedLocation | undefined>} - A promise that resolves to the formatted location or undefined if no location is found.
+   * @example
+   * const { getFormattedLocation } = useGeocoder();
+   * const placeId = "your-place-id";
+   * const location = await getLocation(placeId)
+   * // Output: { description: '123 Street, City, State, Country', lat: 123.456, lng: 78.910 }
+   */
   const getFormattedLocation = useCallback(
     async (placeId: string | null) => {
       // Get Response Results

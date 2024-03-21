@@ -12,6 +12,34 @@ export type CircleProps = google.maps.CircleOptions & CircleEventProps;
 
 export type CircleRef = Ref<google.maps.Circle | null>;
 
+/**
+ * Custom hook for managing a Google Maps circle overlay.
+ * @param {CircleProps} props - Properties for configuring the circle.
+ * @param {function} props.onRadiusChanged - Callback function triggered when the circle radius changes.
+ * @param {function} props.onCenterChanged - Callback function triggered when the circle center changes.
+ * @param {number | undefined | null} props.radius - The radius of the circle.
+ * @param {google.maps.LatLngLiteral | undefined} props.center - The center position of the circle.
+ * @param {google.maps.CircleOptions} props.circleOptions - Additional options for configuring the circle.
+ * @returns {google.maps.Circle | null} - The Google Maps Circle object or null if not available.
+ * @example
+ * const { circleRef } = useCircle({
+ *   radius: 1000,
+ *   center: { lat: 37.7749, lng: -122.4194 },
+ *   circleOptions: {
+ *     fillColor: "#FF0000",
+ *     strokeColor: "#FF0000",
+ *     strokeOpacity: 0.8,
+ *     strokeWeight: 2,
+ *     draggable: true,
+ *   },
+ *   onRadiusChanged: (newRadius) => {
+ *     console.log("Radius changed:", newRadius);
+ *   },
+ *   onCenterChanged: (newCenter) => {
+ *     console.log("Center changed:", newCenter);
+ *   }
+ * });
+ */
 const useCircle = ({
   onRadiusChanged,
   onCenterChanged,
@@ -27,12 +55,12 @@ const useCircle = ({
   });
 
   const circle = useRef(new google.maps.Circle()).current;
-  // update circleOptions (note the dependencies aren't properly checked
+  // Update circleOptions (note the dependencies aren't properly checked
   // here, we just assume that setOptions is smart enough to not waste a
   // lot of time updating values that didn't change)
   circle.setOptions(circleOptions);
 
-  //   Sync Center & Radius w/ Props
+  // Sync Center & Radius w/ Props
   useEffect(() => {
     if (!center) return;
     if (!latLngEquals(center, circle.getCenter())) circle.setCenter(center);
@@ -45,7 +73,7 @@ const useCircle = ({
 
   const map = useMap();
 
-  // set Map Context
+  // Set Map Context
   useEffect(() => {
     if (!map) {
       if (map === undefined)
@@ -60,7 +88,7 @@ const useCircle = ({
     };
   }, [map, circle]);
 
-  // attach and re-attach event-handlers when any of the properties change
+  // Attach and re-attach event-handlers when any of the properties change
   useEffect(() => {
     if (!circle) return;
 

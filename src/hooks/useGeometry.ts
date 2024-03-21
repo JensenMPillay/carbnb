@@ -5,8 +5,12 @@ import { CarQuery } from "../@types/queries.types";
 import { CarFilterSchemaType } from "../lib/schemas/car/CarSchema";
 import { FormattedLocation } from "./useGeocoder";
 
-type Props = {};
-
+/**
+ * Custom hook for filtering cars based on various criteria using the Google Maps Geometry library.
+ * @returns {object} - Object containing the filterCars function.
+ * @example
+ * const { filterCars } = useGeometry();
+ */
 const useGeometry = () => {
   // Google Maps Libraries
   const geometryLibrary: google.maps.GeometryLibrary | null =
@@ -31,6 +35,17 @@ const useGeometry = () => {
     };
   }, [IsLoaded, geometryLibrary]);
 
+  /**
+   * Filters cars based on various criteria.
+   * @param {object} options - Object containing the filters, cars, and location to filter by.
+   * @param {CarFilterSchemaType} options.filters - Filters to apply to the cars.
+   * @param {CarQuery[]} options.cars - List of cars to filter.
+   * @param {FormattedLocation} options.location - Formatted location to use for distance filtering.
+   * @returns {CarQuery[] | null} - Filtered list of cars or null if the Geometry library is not available.
+   * @example
+   * const { filterCars } = useGeometry();
+   * const filteredCars = filterCars({ filters, cars, location });
+   */
   const filterCars = useCallback(
     ({
       filters,

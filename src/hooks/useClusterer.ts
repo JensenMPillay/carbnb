@@ -5,6 +5,14 @@ import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import { useMap } from "@vis.gl/react-google-maps";
 import { useEffect, useMemo, useRef } from "react";
 
+/**
+ * Custom hook for managing a Google Maps marker clusterer.
+ * @returns {MarkerClusterer | null} - The Google Maps MarkerClusterer object or null if not available.
+ * @example
+ * const clusterer = useClusterer();
+ * clusterer.addMarker(marker);
+ * clusterer.cleanMarkers();
+ */
 const useClusterer = () => {
   // Parent Map
   const map = useMap();

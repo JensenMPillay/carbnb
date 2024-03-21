@@ -6,8 +6,12 @@ import {
 } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
 
-type Props = {};
-
+/**
+ * Custom hook to manage marker instance.
+ * @returns {google.maps.MarkerLibrary | null} - Marker instance or null if not loaded.
+ * @example
+ * const markerLibrary = useMarker();
+ */
 const useMarker = () => {
   // Google Maps Libraries
   const markerInstance: google.maps.MarkerLibrary | null =
