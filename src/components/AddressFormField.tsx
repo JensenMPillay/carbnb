@@ -12,11 +12,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/src/components/ui/form";
+import useAutocomplete from "@/src/hooks/useAutocomplete";
 import { cn } from "@/src/lib/utils";
 import { CheckIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { useEffect } from "react";
 import { FieldValues, Path, PathValue, UseFormReturn } from "react-hook-form";
-import useAutocomplete from "../hooks/useAutocomplete";
 import { Input } from "./ui/input";
 
 // TO DO : Verify fieldName Object type {id, description}

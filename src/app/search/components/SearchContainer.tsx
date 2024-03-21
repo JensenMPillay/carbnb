@@ -2,10 +2,10 @@
 import SearchForm from "@/src/components/SearchForm";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import useGeocoder from "@/src/hooks/useGeocoder";
+import useStore from "@/src/hooks/useStore";
 import { GET_AVAILABLE_CARS_QUERY } from "@/src/lib/graphql/car";
 import { showErrorNotif } from "@/src/lib/notifications/toasters";
 import useSearchStore from "@/src/store/useSearchStore";
-import useStore from "@/src/store/useStore";
 import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";

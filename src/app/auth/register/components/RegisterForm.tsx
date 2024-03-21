@@ -14,6 +14,7 @@ import { Loader } from "@/src/components/ui/loader";
 import { Separator } from "@/src/components/ui/separator";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import useLoading from "@/src/hooks/useLoading";
+import useStore from "@/src/hooks/useStore";
 import { REGISTER_USER_MUTATION } from "@/src/lib/graphql/user";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
 import {
@@ -21,7 +22,6 @@ import {
   registerUserSchema,
 } from "@/src/lib/schemas/user/RegisterUserSchema";
 import useSessionStore from "@/src/store/useSessionStore";
-import useStore from "@/src/store/useStore";
 import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";

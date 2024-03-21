@@ -1,6 +1,6 @@
 import useClusterer from "@/src/hooks/useClusterer";
+import useStore from "@/src/hooks/useStore";
 import useSearchStore from "@/src/store/useSearchStore";
-import useStore from "@/src/store/useStore";
 import CarMarker from "./CarMarker";
 
 const CarMarkers = () => {

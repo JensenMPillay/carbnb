@@ -1,6 +1,6 @@
 import { forwardRef, useImperativeHandle } from "react";
 
-import useCircle, { CircleProps, CircleRef } from "../hooks/useCircle";
+import useCircle, { CircleProps, CircleRef } from "@/src/hooks/useCircle";
 
 /**
  * Component to render a Google Maps Circle on a map
