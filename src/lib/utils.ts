@@ -1,8 +1,6 @@
-import tailwindConfig from "@/tailwind.config";
 import { Color, type Car } from "@prisma/client";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import resolveConfig from "tailwindcss/resolveConfig";
 import {
   ColorsMap,
   PaintCombinations,
@@ -11,18 +9,6 @@ import {
 
 import type { ClassValue } from "clsx";
 import type { Metadata } from "next";
-import type { Config } from "tailwindcss";
-import type { DefaultColors } from "tailwindcss/types/generated/colors";
-
-/**
- * Extracts the colors from the Tailwind CSS configuration.
- * @return {object} Object containing color definitions.
- */
-export const { colors } =
-  // Reset colors theme type with extended colors
-  resolveConfig(tailwindConfig).theme as unknown as Config["theme"] & {
-    colors: DefaultColors & typeof tailwindConfig.theme.extend.colors;
-  };
 
 /**
  * Merges classnames using Tailwind CSS and clsx.

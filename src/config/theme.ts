@@ -1,7 +1,21 @@
-import { colors } from "@/src/lib/utils";
-import { Theme } from "@supabase/auth-ui-shared";
+import tailwindConfig from "@/tailwind.config";
+import resolveConfig from "tailwindcss/resolveConfig";
 
-const customTheme: Theme = {
+import type { Theme } from "@supabase/auth-ui-shared";
+import type { Config } from "tailwindcss";
+import type { DefaultColors } from "tailwindcss/types/generated/colors";
+
+/**
+ * Extracts the colors from the Tailwind CSS configuration.
+ * @return {object} Object containing color definitions.
+ */
+export const { colors } =
+  // Reset colors theme type with extended colors
+  resolveConfig(tailwindConfig).theme as unknown as Config["theme"] & {
+    colors: DefaultColors & typeof tailwindConfig.theme.extend.colors;
+  };
+
+export const authUITheme: Theme = {
   default: {
     colors: {
       brand: colors.primary.DEFAULT,
@@ -78,5 +92,3 @@ const customTheme: Theme = {
     },
   },
 };
-
-export default customTheme;

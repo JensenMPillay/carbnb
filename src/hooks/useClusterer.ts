@@ -1,4 +1,5 @@
-import { colors, createSVGClustererIcon } from "@/src/lib/utils";
+import { colors } from "@/src/config/theme";
+import { createSVGClustererIcon } from "@/src/lib/utils";
 import type { Cluster, ClusterStats } from "@googlemaps/markerclusterer";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import { useMap } from "@vis.gl/react-google-maps";
