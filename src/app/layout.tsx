@@ -4,7 +4,7 @@ import { Raleway } from "next/font/google";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { Toaster } from "../components/ui/sonner";
-import { ApolloWrapper } from "../providers/apollo-wrapper";
+import { ApolloProvider } from "../providers/apollo-wrapper";
 import "./globals.css";
 
 import type { Metadata } from "next";
@@ -32,7 +32,7 @@ export default function RootLayout({
       <body
         className={cn("min-h-screen w-full antialiased", raleway.className)}
       >
-        <ApolloWrapper>
+        <ApolloProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -46,7 +46,7 @@ export default function RootLayout({
               <Toaster />
             </div>
           </ThemeProvider>
-        </ApolloWrapper>
+        </ApolloProvider>
       </body>
     </html>
   );

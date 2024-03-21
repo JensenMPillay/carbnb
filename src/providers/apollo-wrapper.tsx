@@ -9,7 +9,9 @@ import {
 } from "@apollo/experimental-nextjs-app-support/ssr";
 import { absoluteUrl } from "../lib/utils";
 
-// Create Client
+/**
+ * Creates and configures an Apollo client for accessing the GraphQL server.
+ */
 function makeClient() {
   const httpLink = new HttpLink({
     // Absolute URL ! (SSR)
@@ -38,8 +40,10 @@ function makeClient() {
   });
 }
 
-// Component Wrapper
-export function ApolloWrapper({ children }: React.PropsWithChildren) {
+/**
+ * Apollo Wrapper with Apollo client configured.
+ */
+export function ApolloProvider({ children }: React.PropsWithChildren) {
   return (
     <ApolloNextAppProvider makeClient={makeClient}>
       {children}
