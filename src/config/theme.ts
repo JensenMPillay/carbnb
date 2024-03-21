@@ -6,8 +6,7 @@ import type { Config } from "tailwindcss";
 import type { DefaultColors } from "tailwindcss/types/generated/colors";
 
 /**
- * Extracts the colors from the Tailwind CSS configuration.
- * @return {object} Object containing color definitions.
+ * Object containing color definitions from the Tailwind CSS configuration.
  */
 export const { colors } =
   // Reset colors theme type with extended colors
@@ -15,6 +14,9 @@ export const { colors } =
     colors: DefaultColors & typeof tailwindConfig.theme.extend.colors;
   };
 
+/**
+ * Custom Theme for Supabase Auth-UI.
+ */
 export const authUITheme: Theme = {
   default: {
     colors: {
