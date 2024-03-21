@@ -1,7 +1,7 @@
+import { FormattedLocation } from "@/src/hooks/useGeocoder";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { CarQuery } from "../@types/queries.types";
-import { FormattedLocation } from "../hooks/useGeocoder";
 import { SearchFormSchemaType } from "../lib/schemas/SearchFormSchema";
 import { CarFilterSchemaType } from "../lib/schemas/car/CarSchema";
 
@@ -36,6 +36,9 @@ type SearchStore = {
   setFilteredCars: (cars: CarQuery[] | null) => void;
 };
 
+/**
+ * Search store managing search-related state in the application.
+ */
 const useSearchStore = create<SearchStore>()(
   persist(
     (set, get) => ({

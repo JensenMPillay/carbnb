@@ -9,6 +9,9 @@ type SessionStore = {
   syncSession: () => Promise<void>;
 };
 
+/**
+ * Session store managing session state in the application.
+ */
 const useSessionStore = create<SessionStore>()(
   persist(
     (set, get) => ({
