@@ -1,6 +1,13 @@
 import { Stripe, loadStripe } from "@stripe/stripe-js";
 
 let stripePromise: Promise<Stripe | null>;
+/**
+ * Initializes and returns a Stripe instance.
+ * @return {Promise<Stripe | null>} A promise resolving to a Stripe instance.
+ * @example
+ * const stripePromise = getStripe();
+ * // Output: A promise resolving to a Stripe instance.
+ */
 const getStripe = () => {
   if (!stripePromise) {
     stripePromise = loadStripe(

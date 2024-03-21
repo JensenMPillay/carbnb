@@ -5,6 +5,15 @@ type showNotifProps = {
   description: string;
 };
 
+/**
+ * Displays a success notification.
+ * @param {Object} props - The notification properties.
+ * @param {string} [props.title="Notification"] - The title of the notification.
+ * @param {string} props.description - The description of the notification.
+ * @return {void}
+ * @example
+ * showNotif({ description: "Notification message" });
+ */
 export const showNotif = ({
   title = "Notification",
   description,
@@ -20,6 +29,17 @@ export const showNotif = ({
   });
 };
 
+/**
+ * Displays an error notification.
+ * @param {Object} props - The notification properties.
+ * @param {string} [props.title="Something went wrong..."] - The title of the notification.
+ * @param {string} props.description - The description of the notification.
+ * @return {void}
+ * @example
+ * import { showErrorNotif } from "./path/to/notifications";
+ *
+ * showErrorNotif({ description: "Error message" });
+ */
 export const showErrorNotif = ({
   title = "Something went wrong...",
   description,
@@ -35,6 +55,17 @@ export const showErrorNotif = ({
   });
 };
 
+/**
+ * Displays a warning notification.
+ * @param {Object} props - The notification properties.
+ * @param {string} [props.title="Caution !"] - The title of the notification.
+ * @param {string} props.description - The description of the notification.
+ * @return {void}
+ * @example
+ * import { showWarningNotif } from "./path/to/notifications";
+ *
+ * showWarningNotif({ description: "Warning message" });
+ */
 export const showWarningNotif = ({
   title = "Caution !",
   description,

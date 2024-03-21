@@ -14,20 +14,37 @@ import type { Metadata } from "next";
 import type { Config } from "tailwindcss";
 import type { DefaultColors } from "tailwindcss/types/generated/colors";
 
-// Theme Colors
+/**
+ * Extracts the colors from the Tailwind CSS configuration.
+ * @return {object} Object containing color definitions.
+ */
 export const { colors } =
   // Reset colors theme type with extended colors
   resolveConfig(tailwindConfig).theme as unknown as Config["theme"] & {
     colors: DefaultColors & typeof tailwindConfig.theme.extend.colors;
   };
 
-// Classname Util
-export function cn(...inputs: ClassValue[]) {
+/**
+ * Merges classnames using Tailwind CSS and clsx.
+ * @param {...ClassValue} inputs - Classnames to merge.
+ * @return {string} Merged classnames string.
+ * @example
+ * const classNames = cn("text-xl", "bg-blue-500", { "rounded": true });
+ * // Output: "text-xl bg-blue-500 rounded"
+ */
+export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs));
 }
 
-// URL Settings DEV/PROD
-export function absoluteUrl(path: string) {
+/**
+ * Generates an absolute URL based on the environment.
+ * @param {string} path - Relative path.
+ * @return {string} Absolute URL.
+ * @example
+ * const url = absoluteUrl("/home");
+ * // Output: "http://localhost:3000/home" (in development)
+ */
+export function absoluteUrl(path: string): string {
   // Verify Client Side
   if (typeof window !== "undefined") return path;
   if (process.env.VERCEL_URL)
@@ -35,7 +52,24 @@ export function absoluteUrl(path: string) {
   return `http://localhost:${process.env.PORT ?? 3000}${path}`;
 }
 
-// Basic Metadata Boilerplate
+/**
+ * Constructs metadata for web pages including Open Graph and Twitter card properties.
+ * @param {Object} options - Options for metadata.
+ * @param {string} [options.title="CarBnb"] - Title of the page.
+ * @param {string} [options.description="AirBnb for Cars"] - Description of the page.
+ * @param {string} [options.image="../../public/carbnb-bg.jpg"] - URL of the image.
+ * @param {string} [options.icons="/favicon.ico"] - URL of the icon.
+ * @param {boolean} [options.noIndex=false] - Indicates whether the page should be indexed by search engines.
+ * @return {Metadata} Metadata object containing page information.
+ * @example
+ * const metadata = constructMetadata({
+ *   title: "My Page",
+ *   description: "This is my page",
+ *   image: "https://example.com/image.jpg",
+ *   icons: "https://example.com/favicon.ico",
+ *   noIndex: true
+ * });
+ */
 export function constructMetadata({
   title = "CarBnb",
   description = "AirBnb for Cars",
@@ -88,7 +122,14 @@ export function constructMetadata({
   };
 }
 
-// Convert Color HSL to Hex
+/**
+ * Converts HSL color to hexadecimal format.
+ * @param {string} hsl - HSL color string (e.g., "hsl(210, 50%, 75%)").
+ * @return {string} Hexadecimal color string.
+ * @example
+ * const hexColor = hslToHex("hsl(210, 50%, 75%)");
+ * // Output: "#80c0c0"
+ */
 export function hslToHex(hsl: string): string {
   let formattedHsl = hsl.replaceAll("%", "").split(" ");
   if (formattedHsl.length != 3) return "";
@@ -107,7 +148,15 @@ export function hslToHex(hsl: string): string {
   return `#${f(0)}${f(8)}${f(4)}`;
 }
 
-// Create SVG Icon for Clusterer
+/**
+ * Creates an SVG icon for a clusterer.
+ * @param {string} color - Color of the icon.
+ * @param {number} count - Number displayed on the icon.
+ * @return {SVGSVGElement} SVG element representing the icon.
+ * @example
+ * const svgIcon = createSVGClustererIcon("#ff0000", 5);
+ * // Output: SVG element with circle elements and text
+ */
 export const createSVGClustererIcon = (
   color: string,
   count: number,
@@ -180,7 +229,16 @@ export const createSVGClustererIcon = (
   return svgIcon;
 };
 
-// Car Model Utils
+/**
+ * Generates a URL for searching car models based on brand and year.
+ * @param {Object} options - Options for generating car models search URL.
+ * @param {string} options.brand - Brand of the car.
+ * @param {number} options.year - Year of the car.
+ * @return {string} Search URL.
+ * @example
+ * const searchUrl = generateCarModelsSearchUrl({ brand: "Toyota", year: 2022 });
+ * // Output: "https://data.opendatasoft.com/api/explore/v2.1/catalog/datasets/all-vehicles-model@public/records?..."
+ */
 function generateCarModelsSearchUrl({
   brand,
   year,
@@ -202,6 +260,16 @@ function generateCarModelsSearchUrl({
   return url;
 }
 
+/**
+ * Fetches car models based on brand and year.
+ * @param {Object} options - Options for fetching car models.
+ * @param {string} options.brand - Brand of the car.
+ * @param {number} options.year - Year of the car.
+ * @return {Promise<string[]>} Promise resolving to an array of car models.
+ * @example
+ * const models = await getCarModels({ brand: "Toyota", year: 2022 });
+ * // Output: ["Camry", "Corolla", ...]
+ */
 export async function getCarModels({
   brand,
   year,
@@ -219,7 +287,15 @@ export async function getCarModels({
   return carModels;
 }
 
-// Car Paint Utils
+/**
+ * Generates a URL for fetching car paints based on the brand.
+ * @param {Object} options - Options for generating car paints URL.
+ * @param {string} options.brand - Brand of the car.
+ * @return {URL} URL for fetching car paints.
+ * @example
+ * const carPaintsUrl = generateCarPaintsUrl({ brand: "Toyota" });
+ * // Output: URL object for fetching car paints.
+ */
 function generateCarPaintsUrl({ brand }: { brand: string }): URL {
   const url = new URL("https://cdn.imagin.studio/getPaints");
 
@@ -233,7 +309,20 @@ function generateCarPaintsUrl({ brand }: { brand: string }): URL {
   return url;
 }
 
-export async function getCarPaintCombinations({ url }: { url: URL }) {
+/**
+ * Retrieves paint combinations for a car brand.
+ * @param {Object} options - Options for fetching paint combinations.
+ * @param {URL} options.url - URL to fetch paint combinations from.
+ * @return {Promise<PaintCombinations>} Promise resolving to paint combinations data.
+ * @example
+ * const combinations = await getCarPaintCombinations({ url: paintUrl });
+ * // Output: Paint combinations data
+ */
+async function getCarPaintCombinations({
+  url,
+}: {
+  url: URL;
+}): Promise<PaintCombinations> {
   const response = await fetch(url);
   const json = await response.json();
   const paintCombinations = json.paintData.paintCombinations;
@@ -241,11 +330,20 @@ export async function getCarPaintCombinations({ url }: { url: URL }) {
   return paintCombinations;
 }
 
-export function extractCarColorsMap({
+/**
+ * Extracts color mappings from paint combinations data.
+ * @param {Object} options - Options for extracting color mappings.
+ * @param {PaintCombinations} options.paintCombinations - Paint combinations data.
+ * @return {ColorsMap} Object containing color mappings.
+ * @example
+ * const colorsMap = extractCarColorsMap({ paintCombinations });
+ * // Output: Object containing color mappings
+ */
+function extractCarColorsMap({
   paintCombinations,
 }: {
   paintCombinations: PaintCombinations;
-}) {
+}): ColorsMap {
   // Initialization of colorsMap
   const colorsMap: ColorsMap = {};
   Object.values(Color).forEach(
@@ -287,6 +385,16 @@ export function extractCarColorsMap({
   return colorsMap;
 }
 
+/**
+ * Retrieves true colors for a car brand and primary color.
+ * @param {Object} options - Options for fetching true colors.
+ * @param {string} options.brand - Brand of the car.
+ * @param {string} options.primaryColor - Primary color of the car.
+ * @return {Promise<string[]>} Promise resolving to an array of true colors.
+ * @example
+ * const trueColors = await getCarTrueColors({ brand: "Toyota", primaryColor: "Red" });
+ * // Output: ["Crimson", "Ruby Red", ...]
+ */
 export async function getCarTrueColors({
   brand,
   primaryColor,
@@ -304,7 +412,20 @@ export async function getCarTrueColors({
   return trueColors;
 }
 
-// Car Image Utils
+/**
+ * Generates an image URL for a car based on its specifications.
+ * @param {Object} options - Options for generating car image URL.
+ * @param {Object} options.car - Car details.
+ * @param {string} options.car.brand - Brand of the car.
+ * @param {string} options.car.model - Model of the car.
+ * @param {number} options.car.year - Year of the car.
+ * @param {string} [options.car.trueColor="black"] - True color of the car.
+ * @param {number} [options.angle] - Angle of the image.
+ * @return {string} Image URL.
+ * @example
+ * const imageUrl = generateCarImageUrl({ car: { brand: "Toyota", model: "Camry", year: 2022 }, angle: 90 });
+ * // Output: "https://cdn.imagin.studio/getimage?..."
+ */
 export function generateCarImageUrl({
   car: { brand, model, year, trueColor = "black" },
   angle,
@@ -331,8 +452,15 @@ export function generateCarImageUrl({
   return url.href;
 }
 
-// File Image Utils
-export async function getFileFromUrl(url: URL) {
+/**
+ * Retrieves a file from a URL.
+ * @param {URL} url - URL of the file.
+ * @return {Promise<FormData>} Promise resolving to a FormData object containing the file.
+ * @example
+ * const fileData = await getFileFromUrl(fileUrl);
+ * // Output: FormData object containing the file
+ */
+export async function getFileFromUrl(url: URL): Promise<FormData> {
   const response = await fetch(url);
   const blob = await response.blob();
   const formData = new FormData();
