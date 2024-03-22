@@ -1,4 +1,3 @@
-import { BookingStatuses } from "@/src/components/BookingStatuses";
 import { Badge } from "@/src/components/ui/badge";
 import {
   Tooltip,
@@ -6,6 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/src/components/ui/tooltip";
+import { BookingStatuses } from "@/src/lib/status/BookingStatuses";
 import { BookingStatus } from "@prisma/client";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 

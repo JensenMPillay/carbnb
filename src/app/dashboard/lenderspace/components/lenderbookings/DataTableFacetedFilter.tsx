@@ -1,4 +1,3 @@
-import { StatusProps } from "@/src/components/BookingStatuses";
 import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
 import {
@@ -16,6 +15,7 @@ import {
   PopoverTrigger,
 } from "@/src/components/ui/popover";
 import { Separator } from "@/src/components/ui/separator";
+import { StatusProps } from "@/src/lib/status/BookingStatuses";
 import { cn } from "@/src/lib/utils";
 import { BookingStatus } from "@prisma/client";
 import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons";

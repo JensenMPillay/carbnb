@@ -10,6 +10,9 @@ import {
 } from "@radix-ui/react-icons";
 import { IconProps } from "@radix-ui/react-icons/dist/types";
 
+/**
+ * Represents the properties of a booking status.
+ */
 export type StatusProps = {
   label: BookingStatus;
   icon: (props: IconProps & React.RefAttributes<SVGSVGElement>) => JSX.Element;
@@ -17,6 +20,9 @@ export type StatusProps = {
   variant: "default" | "destructive" | "outline" | "secondary";
 };
 
+/**
+ * Object containing the properties of each booking status.
+ */
 export const BookingStatuses: Record<BookingStatus, StatusProps> = {
   [BookingStatus.PENDING]: {
     label: BookingStatus.PENDING,

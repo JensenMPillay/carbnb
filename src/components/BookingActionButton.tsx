@@ -1,4 +1,3 @@
-import { BookingStatuses } from "@/src/components/BookingStatuses";
 import { Button } from "@/src/components/ui/button";
 import { Loader } from "@/src/components/ui/loader";
 import {
@@ -6,8 +5,18 @@ import {
   UPDATE_BOOKING_MUTATION,
 } from "@/src/lib/graphql/booking";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
+import { BookingStatuses } from "@/src/lib/status/BookingStatuses";
 import { useMutation } from "@apollo/client";
 
+/**
+ * BookingActionButton component for handling booking actions.
+ * @component
+ * @param {object} props - Props object.
+ * @param {string} props.bookingId - ID of the booking.
+ * @param {"ACCEPTED" | "REFUSED" | "CANCELED" | "DELETED"} props.action - Action to perform on the booking.
+ * @example
+ * <BookingActionButton bookingId="123" action="ACCEPTED" />
+ */
 const BookingActionButton = ({
   bookingId,
   action,

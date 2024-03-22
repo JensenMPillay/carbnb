@@ -1,6 +1,6 @@
 "use client";
-import { BookingStatuses } from "@/src/components/BookingStatuses";
 import { Button } from "@/src/components/ui/button";
+import { BookingStatuses } from "@/src/lib/status/BookingStatuses";
 import { CrossCircledIcon } from "@radix-ui/react-icons";
 import { Table } from "@tanstack/react-table";
 import DataTableFacetedFilter from "./DataTableFacetedFilter";
