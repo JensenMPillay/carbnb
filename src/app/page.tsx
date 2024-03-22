@@ -3,8 +3,16 @@ import SearchFormWrapper from "../components/SearchFormWrapper";
 import { RandomSVGComponent } from "../components/VectorImages";
 import { constructMetadata } from "../lib/utils";
 
-export const metadata = constructMetadata();
+import type { Metadata } from "next";
 
+/**
+ * Constructs metadata for the Home page.
+ */
+export const metadata: Metadata = constructMetadata();
+
+/**
+ * Home component renders the main content of the home page.
+ */
 export default function Home() {
   return (
     // Background

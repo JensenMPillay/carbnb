@@ -5,9 +5,12 @@ import { cookies } from "next/headers";
 import DeleteUserButton from "./components/DeleteUserButton";
 import UpdateUserForm from "./components/UpdateUserForm";
 
-type Props = {};
+import type { Metadata } from "next";
 
-export const metadata = constructMetadata({
+/**
+ * Constructs metadata for the Profile page.
+ */
+export const metadata: Metadata = constructMetadata({
   title: "Carbnb | Dashboard | Profile",
   description: "Manage your account settings on Carbnb",
 });
@@ -16,7 +19,10 @@ export const dynamic = "force-dynamic";
 
 export const revalidate = 0;
 
-export default async function Profile({}: Props) {
+/**
+ * Profile page component.
+ */
+export default async function Profile() {
   // Supabase Client
   const cookieStore = cookies();
 

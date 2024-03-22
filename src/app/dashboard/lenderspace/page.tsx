@@ -10,9 +10,12 @@ import { cookies } from "next/headers";
 import LenderContent from "./components/LenderContent";
 import RoleButton from "./components/RoleButton";
 
-type Props = {};
+import type { Metadata } from "next";
 
-export const metadata = constructMetadata({
+/**
+ * Constructs metadata for the Lender Space page.
+ */
+export const metadata: Metadata = constructMetadata({
   title: "Carbnb | Dashboard | Lender Space",
   description:
     "Manage your car rental listings and received reservations on Carbnb.",
@@ -22,7 +25,10 @@ export const dynamic = "force-dynamic";
 
 export const revalidate = 0;
 
-export default async function LenderSpace({}: Props) {
+/**
+ * Lender Space page component.
+ */
+export default async function LenderSpace() {
   // Supabase Client
   const cookieStore = cookies();
 

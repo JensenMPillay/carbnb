@@ -1,9 +1,8 @@
 import SearchPageWrapper from "./components/SearchWrapper";
 
-type Props = {};
-
-function Search({}: Props) {
+/**
+ * Search page component.
+ */
+export default function Search() {
   return <SearchPageWrapper />;
 }
-
-export default Search;

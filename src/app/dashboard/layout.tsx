@@ -9,6 +9,10 @@ import { Separator } from "@/src/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "@/src/components/ui/tabs";
 import { usePathname, useRouter } from "next/navigation";
 
+/**
+ * Dashboard layout component.
+ * @param {React.ReactNode} props.children - The child components to be rendered within the layout.
+ */
 export default function DashboardLayout({
   children,
 }: {

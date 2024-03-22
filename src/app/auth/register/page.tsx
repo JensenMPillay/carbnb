@@ -4,21 +4,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/src/components/ui/card";
-
 import getSupabaseServerClient from "@/src/lib/supabase/get-supabase-server-client";
 import { constructMetadata } from "@/src/lib/utils";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import RegisterFormWrapper from "./components/RegisterFormWrapper";
 
-type Props = {};
+import type { Metadata } from "next";
 
-export const metadata = constructMetadata({
+/**
+ * Constructs metadata for the Register page.
+ */
+export const metadata: Metadata = constructMetadata({
   title: "Carbnb | Register",
   description: "Complete your registration in just a few more steps",
 });
 
-export default async function Register({}: Props) {
+/**
+ * Register page component.
+ */
+export default async function Register() {
   // Supabase Client
   const cookieStore = cookies();
 

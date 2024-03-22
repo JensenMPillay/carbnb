@@ -3,11 +3,19 @@ import { constructMetadata } from "@/src/lib/utils";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export const metadata = constructMetadata({
+import type { Metadata } from "next";
+
+/**
+ * Constructs metadata for the Dashboard component.
+ */
+export const metadata: Metadata = constructMetadata({
   title: "Carbnb | Dashboard",
   description: "Manage your car rental listings and bookings on Carbnb",
 });
 
+/**
+ * Dashboard page component.
+ */
 export default async function Dashboard() {
   // Supabase Client
   const cookieStore = cookies();

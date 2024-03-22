@@ -8,11 +8,20 @@ import {
 import { Separator } from "@/src/components/ui/separator";
 import { constructMetadata } from "@/src/lib/utils";
 
-export const metadata = constructMetadata({
+import type { Metadata } from "next";
+
+/**
+ * Constructs metadata for the Search page.
+ */
+export const metadata: Metadata = constructMetadata({
   title: "Carbnb | Search",
   description: "Search Your Ideal Car",
 });
 
+/**
+ * Search layout component.
+ * @param {React.ReactNode} props.children - The child components to be rendered within the layout.
+ */
 export default function SearchLayout({
   children,
 }: {

@@ -1,6 +1,10 @@
 import { RandomSVGComponent } from "@/src/components/VectorImages";
 import { Card } from "@/src/components/ui/card";
 
+/**
+ * Auth layout component.
+ * @param {React.ReactNode} props.children - The child components to be rendered within the layout.
+ */
 export default function AuthLayout({
   children,
 }: {

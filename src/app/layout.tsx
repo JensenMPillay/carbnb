@@ -16,12 +16,19 @@ const raleway: NextFontWithVariable = Raleway({
   display: "swap",
 });
 
+/**
+ * Constructs metadata for the RootLayout component.
+ */
 export const metadata: Metadata = constructMetadata();
 
 // export const dynamic = "force-dynamic";
 
 // export const revalidate = 0;
 
+/**
+ * RootLayout component serves as the root layout for the application.
+ * @param {React.ReactNode} children The child components to be rendered within the layout.
+ */
 export default function RootLayout({
   children,
 }: {

@@ -7,11 +7,19 @@ import {
 import { constructMetadata } from "@/src/lib/utils";
 import SignFormWrapper from "./components/SignFormWrapper";
 
-export const metadata = constructMetadata({
+import type { Metadata } from "next";
+
+/**
+ * Constructs metadata for the Sign page.
+ */
+export const metadata: Metadata = constructMetadata({
   title: "Carbnb | Sign",
   description: "Join us or sign in to your account",
 });
 
+/**
+ * Sign page component.
+ */
 export default function Sign() {
   return (
     <>

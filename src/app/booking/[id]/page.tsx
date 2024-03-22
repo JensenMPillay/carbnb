@@ -4,6 +4,9 @@ import BookingContainer from "./components/BookingContainer";
 import getSupabaseServerClient from "@/src/lib/supabase/get-supabase-server-client";
 import { redirect } from "next/navigation";
 
+/**
+ * Booking page component.
+ */
 export default async function Booking() {
   // Supabase Client
   const cookieStore = cookies();
