@@ -143,10 +143,10 @@ export function hslToHex(hsl: string): string {
  * const svgIcon = createSVGClustererIcon("#ff0000", 5);
  * // Output: SVG element with circle elements and text
  */
-export const createSVGClustererIcon = (
+export function createSVGClustererIcon(
   color: string,
   count: number,
-): SVGSVGElement => {
+): SVGSVGElement {
   const svgIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svgIcon.setAttribute("fill", color);
   svgIcon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
@@ -213,7 +213,7 @@ export const createSVGClustererIcon = (
   svgIcon.appendChild(circle4);
   svgIcon.appendChild(textElement);
   return svgIcon;
-};
+}
 
 /**
  * Generates a URL for searching car models based on brand and year.

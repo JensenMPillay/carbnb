@@ -1,6 +1,9 @@
 import { Brand, Category, Color, FuelType, Transmission } from "@prisma/client";
 import { z } from "zod";
 
+/**
+ * Zod schema for defining the structure of a car object.
+ */
 export const carSchema = z.object({
   category: z.nativeEnum(Category),
   brand: z.nativeEnum(Brand),
@@ -31,8 +34,14 @@ export const carSchema = z.object({
   }),
 });
 
+/**
+ * Type definition representing the structure of a car object.
+ */
 export type CarSchemaType = z.infer<typeof carSchema>;
 
+/**
+ * Base schema for filtering cars.
+ */
 const carFilterBaseSchema = carSchema.pick({
   category: true,
   brand: true,
@@ -42,6 +51,9 @@ const carFilterBaseSchema = carSchema.pick({
   pricePerDay: true,
 });
 
+/**
+ * Extended schema for filtering cars.
+ */
 const carFilterExtendedSchema = z.object({
   category: z.array(carSchema.shape.category),
   transmission: z.array(carSchema.shape.transmission),
@@ -49,8 +61,14 @@ const carFilterExtendedSchema = z.object({
   radius: z.number().min(1, { message: "Search area is required." }),
 });
 
+/**
+ * Combined schema for filtering cars.
+ */
 export const carFilterSchema = carFilterBaseSchema
   .merge(carFilterExtendedSchema)
   .partial();
 
+/**
+ * Type definition representing the structure of a car filter.
+ */
 export type CarFilterSchemaType = z.infer<typeof carFilterSchema>;

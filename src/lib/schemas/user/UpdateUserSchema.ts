@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+/**
+ * Zod schema for defining the structure of an update user object.
+ */
 export const updateUserSchema = z.object({
   email: z.string().min(1, { message: "Email is required" }).email({
     message: "Must be a valid email",
@@ -36,4 +39,7 @@ export const updateUserSchema = z.object({
     }),
 });
 
+/**
+ * Type definition representing the structure of an update user object.
+ */
 export type UpdateUserSchemaType = z.infer<typeof updateUserSchema>;

@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+/**
+ * Zod schema for defining the structure of a search form object.
+ */
 export const searchFormSchema = z.object({
   location: z.object({
     id: z
@@ -31,4 +34,7 @@ export const searchFormSchema = z.object({
   }),
 });
 
+/**
+ * Type definition representing the structure of a search form object.
+ */
 export type SearchFormSchemaType = z.infer<typeof searchFormSchema>;
