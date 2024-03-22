@@ -1,5 +1,13 @@
 type SVGProps = React.SVGAttributes<SVGElement>;
 
+/**
+ * Component for rendering a transmission icon.
+ * @component
+ * @param className Optional additional CSS classes for customization (optional).
+ * @param rest Any other additional attributes to pass to the SVG element (optional).
+ * @example
+ * <TransmissionIcon className="size-8" />
+ */
 export const TransmissionIcon = ({ className, ...rest }: SVGProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -22,6 +30,14 @@ export const TransmissionIcon = ({ className, ...rest }: SVGProps) => (
   </svg>
 );
 
+/**
+ * Component for rendering a fuel type icon.
+ * @component
+ * @param className Optional additional CSS classes for customization.
+ * @param rest Any other additional attributes to pass to the SVG element.
+ * @example
+ * <FuelTypeIcon className="size-8" />
+ */
 export const FuelTypeIcon = ({ className, ...rest }: SVGProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -41,6 +57,14 @@ export const FuelTypeIcon = ({ className, ...rest }: SVGProps) => (
   </svg>
 );
 
+/**
+ * Component for rendering a year icon.
+ * @component
+ * @param className Optional additional CSS classes for customization (optional).
+ * @param rest Any other additional attributes to pass to the SVG element (optional).
+ * @example
+ * <YearIcon className="size-8" />
+ */
 export const YearIcon = ({ className, ...rest }: SVGProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -57,6 +81,14 @@ export const YearIcon = ({ className, ...rest }: SVGProps) => (
   </svg>
 );
 
+/**
+ * Component for rendering a euro icon.
+ * @component
+ * @param className Optional additional CSS classes for customization.
+ * @param rest Any other additional attributes to pass to the SVG element.
+ * @example
+ * <EuroIcon className="size-8" />
+ */
 export const EuroIcon = ({ className, ...rest }: SVGProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

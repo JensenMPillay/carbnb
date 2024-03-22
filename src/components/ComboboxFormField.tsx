@@ -32,6 +32,24 @@ type ComboboxFormFieldProps<FormSchemaType extends FieldValues> = {
   resetFields?: () => void;
 };
 
+/**
+ * Component for rendering a combobox form field.
+ * @component
+ * @template FormSchemaType - Type of form schema.
+ * @param {UseFormReturn<FormSchemaType>} form The useFormReturn object from react-hook-form.
+ * @param {Path<FormSchemaType>} fieldName The name of the field in the form schema.
+ * @param {array} items An array of strings representing the items for the combobox.
+ * @param {function} [updateItems] A function to update the items in the combobox asynchronously (optional).
+ * @param {function} [resetFields] A function to reset the fields of the form (optional).
+ * @example
+ * <ComboboxFormField
+ *   form={form}
+ *   fieldName="category"
+ *   items={categories}
+ *   updateItems={fetchCategories}
+ *   resetFields={resetFields}
+ * />
+ */
 const ComboboxFormField = <FormSchemaType extends FieldValues>({
   form,
   fieldName,

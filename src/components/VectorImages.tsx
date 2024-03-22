@@ -1,5 +1,13 @@
 type SVGProps = React.SVGAttributes<SVGElement>;
 
+/**
+ * Component for rendering a SVG image.
+ * @component
+ * @param className Optional additional CSS classes for customization (optional).
+ * @param rest Any other additional attributes to pass to the SVG element (optional).
+ * @example
+ * <SVGDeal className="flex-1" />
+ */
 export const SVGDeal = ({ className, ...rest }: SVGProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -911,6 +919,14 @@ export const SVGDeal = ({ className, ...rest }: SVGProps) => (
   </svg>
 );
 
+/**
+ * Component for rendering a SVG image.
+ * @component
+ * @param className Optional additional CSS classes for customization (optional).
+ * @param rest Any other additional attributes to pass to the SVG element (optional).
+ * @example
+ * <SVGGoodbye className="flex-1" />
+ */
 export const SVGGoodbye = ({ className, ...rest }: SVGProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -2443,6 +2459,14 @@ export const SVGGoodbye = ({ className, ...rest }: SVGProps) => (
   </svg>
 );
 
+/**
+ * Component for rendering a SVG image.
+ * @component
+ * @param className Optional additional CSS classes for customization (optional).
+ * @param rest Any other additional attributes to pass to the SVG element (optional).
+ * @example
+ * <SVGSearch className="flex-1" />
+ */
 export const SVGSearch = ({ className, ...rest }: SVGProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -3024,6 +3048,14 @@ export const SVGSearch = ({ className, ...rest }: SVGProps) => (
   </svg>
 );
 
+/**
+ * Component for rendering a SVG image.
+ * @component
+ * @param className Optional additional CSS classes for customization (optional).
+ * @param rest Any other additional attributes to pass to the SVG element (optional).
+ * @example
+ * <SVGValidation className="flex-1" />
+ */
 export const SVGValidation = ({ className, ...rest }: SVGProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -4345,8 +4377,19 @@ export const SVGValidation = ({ className, ...rest }: SVGProps) => (
   </svg>
 );
 
+/**
+ * Array of SVG images.
+ */
 const SVGArray = [SVGDeal, SVGGoodbye, SVGSearch, SVGValidation];
 
+/**
+ * Component for rendering a random SVG image.
+ * @component
+ * @param className Optional additional CSS classes for customization (optional).
+ * @param rest Any other additional attributes to pass to the SVG element (optional).
+ * @example
+ * <RandomSVGComponent className="flex-1" />
+ */
 export const RandomSVGComponent = ({ className, ...rest }: SVGProps) => {
   const randomId = Math.floor(Math.random() * SVGArray.length);
   const SVGComponent = SVGArray[randomId];

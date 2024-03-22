@@ -10,6 +10,14 @@ type LogoProps = {
   color?: string;
 };
 
+/**
+ * Logo component to display the application logo.
+ * @component
+ * @param {string} className The CSS class for styling the logo.
+ * @param {string} [color] The color theme for the logo. Defaults to the theme set in the application (optional).
+ * @example
+ * <Logo className="h-8 w-8" color="dark" />
+ */
 const Logo = ({ className, color }: LogoProps) => {
   // Theme
   const { resolvedTheme } = useTheme();

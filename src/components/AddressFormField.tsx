@@ -31,6 +31,26 @@ type AddressFormFieldProps<FormSchemaType extends FieldValues> = {
   classNameListWrapper?: string;
 };
 
+/**
+ * AddressFormField component for handling address input with autocomplete.
+ * @component
+ * @template FormSchemaType - Type of form schema.
+ * @param {object} props - Props object.
+ * @param {UseFormReturn<FormSchemaType>} props.form - Form with Schema<T>.
+ * @param {Path<FormSchemaType>} props.fieldName - Name of the field in the form schema.
+ * @param {{ id: string; description: string } | undefined} [props.defaultValue] - Default value for the address field (optional).
+ * @param {string} [props.classNameItem] - Classname for the form item container (optional).
+ * @param {string} [props.classNameLabel] - Classname for the form label (optional).
+ * @param {string} [props.classNameInput] - Classname for the input element (optional).
+ * @param {string} [props.classNameInputWrapper] - Classname for the input wrapper (optional).
+ * @param {string} [props.classNameListWrapper] - Classname for the suggestion list wrapper (optional).
+ * @example
+ * <AddressFormField
+ *   form={form}
+ *   fieldName="address"
+ *   defaultValue={{ id: "1", description: "New York, USA" }}
+ * />
+ */
 const AddressFormField = <FormSchemaType extends FieldValues>({
   form,
   fieldName,

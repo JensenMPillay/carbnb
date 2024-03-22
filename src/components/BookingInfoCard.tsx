@@ -9,6 +9,17 @@ type BookingInfoCardProps = {
   size?: "sm" | "md" | "lg";
 };
 
+/**
+ * BookingInfoCard component for displaying booking information.
+ * @component
+ * @param {object} props - Props object.
+ * @param {string} props.address - Address for the booking.
+ * @param {Date} props.startDate - Start date of the booking.
+ * @param {Date} props.endDate - End date of the booking.
+ * @param {"sm" | "md" | "lg"} [props.size="sm"] - Size of the card (small, medium, large) (optional).
+ * @example
+ * <BookingInfoCard address="123 Main St" startDate={new Date()} endDate={new Date()} size="md" />
+ */
 const BookingInfoCard = ({
   address,
   startDate,

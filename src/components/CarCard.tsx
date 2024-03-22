@@ -25,6 +25,14 @@ type CarCardProps = {
   className?: string;
 };
 
+/**
+ * Component for rendering a card representing a car.
+ * @component
+ * @param car The car data to display.
+ * @param className Optional additional CSS classes for customization.
+ * @example
+ * <CarCard car={carData} className="text-white" />
+ */
 const CarCard = ({
   car: {
     category,

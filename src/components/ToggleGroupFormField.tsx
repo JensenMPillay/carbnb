@@ -16,6 +16,23 @@ type ToggleGroupFormFieldProps<FormSchemaType extends FieldValues> = {
   type: "single" | "multiple";
 };
 
+/**
+ * ToggleGroupFormField component renders a form field with a toggle group, allowing selection of single or multiple items.
+ * @component
+ * @template FormSchemaType - The type of the form schema.
+ * @param {object} props - The props object.
+ * @param {UseFormReturn<FormSchemaType>} props.form - The form object provided by react-hook-form.
+ * @param {Path<FormSchemaType>} props.fieldName - The name of the field in the form.
+ * @param {Array<string>} props.items - The array of items to be displayed in the toggle group.
+ * @param {"single" | "multiple"} props.type - The type of toggle group, either "single" for single selection or "multiple" for multiple selection.
+ * @example
+ * <ToggleGroupFormField
+    form={form}
+    fieldName="category"
+    items={categories}
+    type="multiple"
+  />
+ */
 const ToggleGroupFormField = <FormSchemaType extends FieldValues>({
   form,
   fieldName,

@@ -26,6 +26,12 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Separator } from "./ui/separator";
 
+/**
+ * SearchForm component for rendering a search form.
+ * @component
+ * @example
+ * <SearchForm />
+ */
 const SearchForm = () => {
   // Router
   const router = useRouter();

@@ -19,6 +19,18 @@ type RangeInputFormFieldProps<FormSchemaType extends FieldValues> = {
   unit?: string;
 };
 
+/**
+ * RangeInputFormField component for rendering a range input field in a form.
+ * @component
+ * @template FormSchemaType The type of the form schema.
+ * @param {object} props The props for the RangeInputFormField component.
+ * @param {UseFormReturn<FormSchemaType>} props.form The useForm hook return object.
+ * @param {Path<FormSchemaType>} props.fieldName The name of the field in the form schema.
+ * @param {number} props.minValue The minimum value of the range input.
+ * @param {number} props.maxValue The maximum value of the range input.
+ * @param {number} props.step The step value for the range input.
+ * @param {string} [props.unit] The unit of measurement for the range input (optional).
+ */
 const RangeInputFormField = <FormSchemaType extends FieldValues>({
   form,
   fieldName,

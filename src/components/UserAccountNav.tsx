@@ -21,6 +21,14 @@ type UserAccountNavProps = {
   user: User;
 };
 
+/**
+ * UserAccountNav component renders the user account navigation menu.
+ * @component
+ * @param {object} props - The props object.
+ * @param {User} props.user - The user object containing user information.
+ * @example
+ * <UserAccountNav user={user} />
+ */
 const UserAccountNav = ({ user }: UserAccountNavProps) => {
   // Session
   const { syncSession } = useSessionStore();

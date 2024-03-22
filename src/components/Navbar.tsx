@@ -16,9 +16,13 @@ import Logo from "./Logo";
 import UserAccountNav from "./UserAccountNav";
 import { Button, buttonVariants } from "./ui/button";
 
-type Props = {};
-
-const Navbar = (props: Props) => {
+/**
+ * Navbar component for the application navigation bar.
+ * @component
+ * @example
+ * <Navbar />
+ */
+const Navbar = () => {
   const [origin, setOrigin] = useState<string>("");
   // Get Real Pathname
   const pathname = usePathname();
