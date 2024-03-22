@@ -8,6 +8,10 @@ import { PrismaClient } from "@prisma/client";
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
+/**
+ * PrismaClient is a singleton instance of PrismaClient class used to interact with the database.
+ * In development environment, it is attached to the global object to prevent exhausting the database connection limit.
+ */
 const prisma = globalForPrisma.prisma || new PrismaClient();
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
