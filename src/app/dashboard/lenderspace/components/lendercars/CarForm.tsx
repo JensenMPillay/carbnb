@@ -107,7 +107,7 @@ const CarForm = ({
   // Update Models List by Brand & Year
   const updateModelItems: () => Promise<void> = async () => {
     const { brand, year } = carForm.getValues();
-    const brandPrefix = brand.split("_")[0];
+    const brandPrefix = brand.split("_")[0] ?? "";
     try {
       const carModels: string[] = await getCarModels({
         brand: brandPrefix,
@@ -122,7 +122,7 @@ const CarForm = ({
   // Update TrueColor List by Brand & PrimaryColor
   const updateTrueColorItems: () => Promise<void> = async () => {
     const { brand, primaryColor } = carForm.getValues();
-    const brandPrefix = brand.split("_")[0];
+    const brandPrefix = brand.split("_")[0] ?? "";
     try {
       const carTrueColors: string[] = await getCarTrueColors({
         brand: brandPrefix,

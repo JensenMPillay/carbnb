@@ -267,9 +267,8 @@ export async function getCarModels({
   const response = await fetch(url);
   const json = await response.json();
   const results = await json.results;
-  const carModels: string[] = results.map(
-    (result: resultODModel) => result.basemodel,
-  );
+  const carModels: string[] =
+    results.map((result: resultODModel) => result.basemodel) ?? [];
   return carModels;
 }
 
@@ -357,7 +356,7 @@ function extractCarColorsMap({
       // Verification : paintDescription in colorsMap[colourCluster]
       if (
         !colorsMap[colourCluster] ||
-        !colorsMap[colourCluster].includes(paintDescription)
+        !colorsMap[colourCluster]?.includes(paintDescription)
       ) {
         // Create colourCluster key if needed & Complete [...]
         colorsMap[colourCluster] = [
@@ -393,7 +392,7 @@ export async function getCarTrueColors({
     url: url,
   });
   const colorsMap: ColorsMap = extractCarColorsMap({ paintCombinations });
-  const trueColors: string[] = colorsMap[primaryColor.toLowerCase()];
+  const trueColors: string[] = colorsMap[primaryColor.toLowerCase()] ?? [];
 
   return trueColors;
 }
@@ -426,8 +425,8 @@ export function generateCarImageUrl({
     process.env.NEXT_PUBLIC_IMAGIN_API_KEY || "",
   );
   url.searchParams.append("make", brand);
-  url.searchParams.append("modelFamily", model.split(" ")[0]);
-  url.searchParams.append("modelRange", model.split(" ")[1]);
+  url.searchParams.append("modelFamily", model.split(" ")[0] ?? "");
+  url.searchParams.append("modelRange", model.split(" ")[1] ?? "");
   url.searchParams.append("modelYear", `${year}`);
   url.searchParams.append("paintDescription", trueColor);
   // url.searchParams.append("transmission", transmission);
