@@ -17,6 +17,12 @@ export type StripeApiResponse =
   | StripeApiSuccessResponse
   | StripeApiErrorResponse;
 
+/**
+ * POST function for handling POST requests to create a payment intent and process a payment.
+ * @param {NextRequest} request - The Next.js request object.
+ * @param {NextResponse} response - The Next.js response object.
+ * @returns {Promise<NextResponse>} A promise that resolves to a Next.js response object.
+ */
 export async function POST(request: NextRequest, response: NextResponse) {
   // User Info
   const headersList = headers();

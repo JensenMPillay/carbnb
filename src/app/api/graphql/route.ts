@@ -4,7 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabaseContext } from "./context";
 import { schema } from "./schema";
 
-// Router
+/**
+ * Defines a handler function for the GraphQL API endpoint with schema, context, endpoint and correct req/res configuration.
+ * @returns The response for the GraphQL API endpoint.
+ */
 const { handleRequest } = createYoga<{
   req: NextApiRequest;
   res: NextApiResponse;

@@ -4,6 +4,11 @@ import { headers } from "next/headers";
 
 import type Stripe from "stripe";
 
+/**
+ * POST function for handling POST requests from Stripe webhook events about payments.
+ * @param {Request} request - The request object containing the webhook event.
+ * @returns {Promise<Response>} A promise that resolves to a response indicating the success or failure of processing the webhook event.
+ */
 export async function POST(request: Request) {
   const body = await request.text();
   const signature = headers().get("Stripe-Signature") ?? "";

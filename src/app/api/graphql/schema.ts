@@ -5,5 +5,8 @@ import "./types/Car";
 import "./types/Location";
 import "./types/User";
 
-// Schema
+/**
+ * Builds the schema using the schema builder.
+ * @returns The built GraphQL schema.
+ */
 export const schema = builder.toSchema();

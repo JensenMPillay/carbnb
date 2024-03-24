@@ -7,6 +7,11 @@ import { cookies, headers } from "next/headers";
 import type { CookieOptions } from "@supabase/ssr";
 import type Stripe from "stripe";
 
+/**
+ * POST function for handling POST requests from Stripe webhook events about connected accounts.
+ * @param {Request} request - The request object containing the webhook event.
+ * @returns {Promise<Response>} A promise that resolves to a response indicating the success or failure of processing the webhook event.
+ */
 export async function POST(request: Request) {
   // Supabase Client
   const cookieStore = cookies();
@@ -53,7 +58,11 @@ export async function POST(request: Request) {
     // Lender Stripe Account Updated
     case "account.updated":
       const accountUpdated = event.data.object;
-      if (!accountUpdated.metadata || !accountUpdated.details_submitted)
+      if (
+        !accountUpdated.metadata ||
+        !accountUpdated.metadata.userId ||
+        !accountUpdated.details_submitted
+      )
         return new Response(
           `Webhook Error: "No metadata or details are submitted to update user."`,
           { status: 400 },

@@ -6,7 +6,9 @@ import RelayPlugin from "@pothos/plugin-relay";
 import { DateTimeResolver } from "graphql-scalars";
 import { supabaseContext } from "./context";
 
-// Sync Builder to Prisma
+/**
+ * Defines a schema builder instance for GraphQL schema construction using Pothos, with Prisma integration, Relay plugin, and scalar type definitions.
+ */
 export const builder = new SchemaBuilder<{
   PrismaTypes: PrismaTypes;
   Context: ReturnType<typeof supabaseContext>;

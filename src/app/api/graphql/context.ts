@@ -5,6 +5,12 @@ import { cookies } from "next/headers";
 import type { CookieOptions } from "@supabase/ssr";
 import type { NextApiRequest, NextApiResponse } from "next";
 
+/**
+ * Defines a function to create the Supabase context for handling Supabase client and user session.
+ * @param req - The Next.js API request object.
+ * @param res - The Next.js API response object.
+ * @returns The Supabase context including the request, Supabase client, user, and access token.
+ */
 export async function supabaseContext(
   req: NextApiRequest,
   res: NextApiResponse,

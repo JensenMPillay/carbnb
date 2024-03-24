@@ -5,6 +5,11 @@ import { compareAsc } from "date-fns";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+/**
+ * GET function for handling GET requests to process bookings and update their status.
+ * @param {NextRequest} request - The Next.js request object.
+ * @returns {Promise<NextResponse>} A promise that resolves to a Next.js response object.
+ */
 export async function GET(request: NextRequest) {
   // Verification
   const authHeader = request.headers.get("authorization");

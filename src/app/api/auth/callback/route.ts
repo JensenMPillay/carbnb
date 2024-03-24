@@ -6,6 +6,11 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import type { CookieOptions } from "@supabase/ssr";
 
+/**
+ * GET function for handling GET requests to authenticate users and redirect them based on their session status.
+ * @param {NextRequest} request - The Next.js request object.
+ * @returns {Promise<NextResponse>} A promise that resolves to a Next.js response object.
+ */
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
