@@ -44,6 +44,16 @@ type CarProps = {
   }) => Promise<void>;
 };
 
+/**
+ * Component representing a form for adding or updating a car.
+ * @component
+ * @param {object} props - The props object.
+ * @param {CarQuery} props.car - The car data for prefilling the form in case of update.
+ * @param {function} props.callbackAction - The callback function to be called on form submission.
+ * @param {ReactNode} props.children - Optional children components.
+ * @example
+ * <CarForm car={car} callbackAction={callbackAction} />
+ */
 const CarForm = ({
   car,
   callbackAction,

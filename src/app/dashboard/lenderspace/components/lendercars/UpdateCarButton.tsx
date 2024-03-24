@@ -33,6 +33,14 @@ type CallbackActionProps = {
   locationData: Location | undefined;
 };
 
+/**
+ * Component representing a button to update car information.
+ * @component
+ * @param {object} props - The props object.
+ * @param {CarQuery} props.car - The car data to be updated.
+ * @example
+ * <UpdateCarButton car={car} />
+ */
 const UpdateCarButton = ({ car }: CarProps) => {
   // Open State
   const [open, setOpen] = useState<boolean>(false);

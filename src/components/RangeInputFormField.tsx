@@ -30,6 +30,14 @@ type RangeInputFormFieldProps<FormSchemaType extends FieldValues> = {
  * @param {number} props.maxValue The maximum value of the range input.
  * @param {number} props.step The step value for the range input.
  * @param {string} [props.unit] The unit of measurement for the range input (optional).
+ * @example
+ * <RangeInputFormField
+    form={form}
+    fieldName="year"
+    minValue={2000}
+    maxValue={new Date().getFullYear()}
+    step={1}
+  />
  */
 const RangeInputFormField = <FormSchemaType extends FieldValues>({
   form,

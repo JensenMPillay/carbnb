@@ -20,6 +20,20 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
+/**
+ * DataTable component to display tabular data with sorting, filtering, and pagination functionalities.
+ * @component
+ * @template TData - The type of data in the table.
+ * @template TValue - The type of value in the table.
+ * @param {object} props - The props object.
+ * @param {ColumnDef<TData, TValue>[]} props.columns - The array of column definitions.
+ * @param {TData[]} props.data - The array of data to be displayed in the table.
+ * @example
+ * <DataTable
+    columns={columns}
+    data={bookings}
+  />
+ */
 export function DataTable<TData, TValue>({
   columns,
   data,

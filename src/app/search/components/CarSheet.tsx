@@ -23,6 +23,12 @@ import { useMutation } from "@apollo/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+/**
+ * Sheet component for displaying car details and initiating booking.
+ * @component
+ * @example
+ * <CarSheet />
+ */
 const CarSheet = () => {
   // Router
   const router = useRouter();

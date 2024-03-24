@@ -18,6 +18,14 @@ import { useMutation } from "@apollo/client";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 
+/**
+ * Component representing a button to delete a car.
+ * @component
+ * @param {object} props - The props object.
+ * @param {string} props.carId - The ID of the car to be deleted.
+ * @example
+ * <DeleteCarButton carId="car-id" />
+ */
 const DeleteCarButton = ({ carId }: { carId: string }) => {
   // Open State
   const [open, setOpen] = useState<boolean>(false);

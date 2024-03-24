@@ -13,6 +13,15 @@ interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
 }
 
+/**
+ * DataTableViewOptions component for rendering the view options dropdown menu of the data table.
+ * @component
+ * @template TData - The type of data in the table.
+ * @param {object} props - The props object.
+ * @param {Table<TData>} props.table - The table object.
+ * @example
+ * <DataTableViewOptions table={table} />
+ */
 export default function DataTableViewOptions<TData>({
   table,
 }: DataTableViewOptionsProps<TData>) {

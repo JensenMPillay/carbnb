@@ -19,9 +19,13 @@ import { useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-type Props = {};
-
-const DeleteUserButton = (props: Props) => {
+/**
+ * Component representing a button to delete the user's account.
+ * @component
+ * @example
+ * <DeleteUserButton />
+ */
+const DeleteUserButton = () => {
   // Open State
   const [open, setOpen] = useState<boolean>(false);
 

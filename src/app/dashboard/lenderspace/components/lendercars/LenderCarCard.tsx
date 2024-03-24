@@ -13,6 +13,16 @@ type CarProps = {
   car: CarQuery;
 };
 
+/**
+ * Component representing a card displaying information about a car for lenders.
+ * @component
+ * @param {object} props - The props object.
+ * @param {CarQuery} props.car - The car data to be displayed.
+ * @example
+ * cars.map((car: CarQuery) => (
+    <LenderCarCard key={car.id} car={car} />
+  ))}
+ */
 const LenderCarCard = ({ car }: CarProps) => {
   // Mutation
   const [updateCar] = useMutation(UPDATE_CAR_MUTATION, {
@@ -31,7 +41,6 @@ const LenderCarCard = ({ car }: CarProps) => {
 
   // Update Callback
   const onChange = async (checkValue: boolean) => {
-    event?.preventDefault();
     try {
       if (car) {
         await updateCar({

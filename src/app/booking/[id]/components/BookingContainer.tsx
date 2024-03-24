@@ -9,9 +9,13 @@ import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { useParams } from "next/navigation";
 import CheckoutWrapper from "./CheckoutWrapper";
 
-type Props = {};
-
-const BookingContainer = (props: Props) => {
+/**
+ * BookingContainer component for rendering a booking container with booking details, car information, and a checkout wrapper.
+ * @component
+ * @example
+ * <BookingContainer />
+ */
+const BookingContainer = () => {
   // Params ID
   const params = useParams();
   const bookingId = params.id as string;

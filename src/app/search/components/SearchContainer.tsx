@@ -12,6 +12,13 @@ import { useEffect } from "react";
 import CarSheet from "./CarSheet";
 import SearchMap from "./SearchMap";
 
+/**
+ * Container component for managing search functionality.
+ * Manages search parameters, fetches available cars data, and renders search form, map, and car sheet.
+ * @component
+ * @example
+ * <SearchContainer />
+ */
 const SearchContainer = () => {
   // Params
   const searchParams = useSearchParams();

@@ -15,6 +15,19 @@ type CarMarkerProps = {
   clusterer: MarkerClusterer | null;
 };
 
+/**
+ * Component representing a single car marker on the map.
+ * @component
+ * @param {CarMarkerProps} props - Props for the CarMarker component.
+ * @param {CarQuery} props.car - Information about the car associated with the marker.
+ * @param {MarkerClusterer | null} props.clusterer - The marker clusterer used to manage the marker.
+ * @example
+ * <>
+      {cars.map((car) => {
+        return <CarMarker key={car.id} car={car} clusterer={clusterer} />;
+      })}
+  </>
+ */
 const CarMarker = ({ car, clusterer }: CarMarkerProps) => {
   const {
     id,

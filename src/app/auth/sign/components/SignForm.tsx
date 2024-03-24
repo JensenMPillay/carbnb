@@ -11,9 +11,13 @@ import { useTheme } from "next-themes";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-type Props = {};
-
-const SignForm = (props: Props) => {
+/**
+ * SignForm component for rendering a sign-in or sign-up form with Supabase Auth UI.
+ * @component
+ * @example
+ * <SignForm />
+ */
+const SignForm = () => {
   // Session
   const { syncSession } = useSessionStore();
 

@@ -3,10 +3,13 @@ import { BookingQuery, CarQuery } from "@/src/@types/queries.types";
 import { Checkbox } from "@/src/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import BookingStatusBadge from "./BookingStatusBadge";
+import BookingStatusBadge from "../../../../../components/BookingStatusBadge";
 import BookingTableActionButtons from "./BookingTableActionButtons";
 import TableHeader from "./TableHeader";
 
+/**
+ * Definition of columns for the booking table.
+ */
 export const bookingColumns: ColumnDef<BookingQuery>[] = [
   {
     id: "select",

@@ -10,6 +10,15 @@ interface DataTableToolbarProps<TData> {
   table: Table<TData>;
 }
 
+/**
+ * DataTableToolbar component for rendering the toolbar of the data table.
+ * @component
+ * @template TData - The type of data in the table.
+ * @param {object} props - The props object.
+ * @param {Table<TData>} props.table - The table object.
+ * @example
+ * <DataTableToolbar table={table} />
+ */
 export default function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {

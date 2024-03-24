@@ -27,6 +27,22 @@ interface DataTableFacetedFilterProps<TData, TValue> {
   options: Record<BookingStatus, StatusProps>;
 }
 
+/**
+ * DataTableFacetedFilter component for rendering a faceted filter in the data table.
+ * @component
+ * @template TData - The type of data in the table.
+ * @template TValue - The type of value for the column.
+ * @param {object} props - The props object.
+ * @param {Column<TData, TValue>} props.column - The column object.
+ * @param {string} props.title - The title of the filter.
+ * @param {Record<BookingStatus, StatusProps>} props.options - The options for the filter.
+ * @example
+ * <DataTableFacetedFilter
+    column={table.getColumn("status")}
+    title="status"
+    options={BookingStatuses}
+  />
+ */
 export default function DataTableFacetedFilter<TData, TValue>({
   column,
   title,

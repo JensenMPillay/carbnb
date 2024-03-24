@@ -3,9 +3,13 @@ import { Skeleton } from "@/src/components/ui/skeleton";
 import { Suspense } from "react";
 import SignForm from "./SignForm";
 
-type Props = {};
-
-const SignFormWrapper = (props: Props) => {
+/**
+ * SignFormWrapper component for wrapping a sign-in or sign-up form with suspense fallback.
+ * @component
+ * @example
+ * <SignFormWrapper />
+ */
+const SignFormWrapper = () => {
   return (
     <Suspense
       fallback={

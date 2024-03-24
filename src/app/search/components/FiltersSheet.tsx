@@ -27,6 +27,13 @@ import { MixerVerticalIcon } from "@radix-ui/react-icons";
 import { useEffect, useMemo } from "react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 
+/**
+ * Component for managing car filters.
+ * Allows users to refine their car search using customizable filters.
+ * @component
+ * @example
+ * <FiltersSheet />
+ */
 const FiltersSheet = () => {
   // Enums
   const brands = useMemo(() => Object.keys(Brand), []);

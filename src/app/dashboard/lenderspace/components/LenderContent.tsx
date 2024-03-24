@@ -13,9 +13,7 @@ import { bookingColumns } from "./lenderbookings/bookingsColumns";
 import AddCarButton from "./lendercars/AddCarButton";
 import LenderCarCard from "./lendercars/LenderCarCard";
 
-type Props = {};
-
-const LenderContent = (props: Props) => {
+const LenderContent = () => {
   // Access to Store Data after Rendering (SSR Behavior)
   const session = useStore(useSessionStore, (state) => state.session);
 

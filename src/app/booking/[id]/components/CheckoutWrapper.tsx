@@ -11,6 +11,15 @@ type CheckoutWrapperProps = {
   booking: BookingQuery;
 };
 
+/**
+ * CheckoutWrapper component for handling checkout process with Stripe.
+ * Renders a wrapper within Stripe Elements for processing payments.
+ * @component
+ * @param {Object} props - The props object.
+ * @param {BookingQuery} props.booking - The booking information.
+ * @example
+ * <CheckoutWrapper booking={data.booking} />
+ */
 const CheckoutWrapper = ({ booking }: CheckoutWrapperProps) => {
   // Sync Theme w/ Stripe Component
   const theme = useTheme();

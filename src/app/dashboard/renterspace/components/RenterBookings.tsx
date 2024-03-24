@@ -9,11 +9,15 @@ import { showErrorNotif } from "@/src/lib/notifications/toasters";
 import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import Link from "next/link";
 import BookingActionButton from "../../../../components/BookingActionButton";
-import BookingStatusBadge from "../../lenderspace/components/lenderbookings/BookingStatusBadge";
+import BookingStatusBadge from "../../../../components/BookingStatusBadge";
 
-type Props = {};
-
-const RenterBookings = (props: Props) => {
+/**
+ * Component displaying the bookings made by the renter.
+ * @component
+ * @example
+ * <RenterBookings />
+ */
+const RenterBookings = () => {
   // Get Query
   const { loading, error, data } = useQuery(GET_RENTER_BOOKINGS_QUERY, {
     onError: async (error) => {

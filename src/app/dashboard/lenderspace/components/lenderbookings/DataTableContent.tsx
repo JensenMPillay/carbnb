@@ -17,6 +17,17 @@ interface DataTableContentProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
 }
 
+/**
+ * DataTableContent component for rendering the content of the data table.
+ * @component
+ * @template TData - The type of data in the table.
+ * @template TValue - The type of value in the table.
+ * @param {object} props - The props object.
+ * @param {TableType<TData>} props.table - The table object.
+ * @param {ColumnDef<TData, TValue>[]} props.columns - The array of column definitions.
+ * @example
+ * <DataTableContent table={table} columns={columns} />
+ */
 export default function DataTableContent<TData, TValue>({
   table,
   columns,

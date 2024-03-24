@@ -3,9 +3,13 @@ import { Skeleton } from "@/src/components/ui/skeleton";
 import { Suspense } from "react";
 import RegisterForm from "./RegisterForm";
 
-type Props = {};
-
-const RegisterFormWrapper = (props: Props) => {
+/**
+ * RegisterFormWrapper component for wrapping a register form with suspense fallback.
+ * @component
+ * @example
+ * <RegisterFormWrapper />
+ */
+const RegisterFormWrapper = () => {
   return (
     <Suspense
       fallback={

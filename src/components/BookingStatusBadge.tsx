@@ -9,6 +9,14 @@ import { BookingStatuses } from "@/src/lib/status/BookingStatuses";
 import { BookingStatus } from "@prisma/client";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 
+/**
+ * BookingStatusBadge component for displaying booking status with tooltip.
+ * @component
+ * @param {object} props - The props object.
+ * @param {BookingStatus} props.status - The booking status.
+ * @example
+ * <BookingStatusBadge status="ACCEPTED" />
+ */
 const BookingStatusBadge = ({ status }: { status: BookingStatus }) => {
   const { label, tooltip, variant } = BookingStatuses[status];
   return (

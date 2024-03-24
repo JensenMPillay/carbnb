@@ -16,6 +16,21 @@ type ImageProps<FormSchemaType extends FieldValues> = {
   watchedFields: Path<FormSchemaType>[];
 };
 
+/**
+ * Component representing an image preview for a car form.
+ * @component
+ * @template FormSchemaType
+ * @param {object} props - The props object.
+ * @param {UseFormReturn} props.form - The form object returned by useForm hook.
+ * @param {Path} props.fieldName - The name of the field in the form.
+ * @param {Path[]} props.watchedFields - The fields to watch for changes.
+ * @example
+ * <CarFormImage
+    form={form}
+    fieldName="imageUrl"
+    watchedFields={["brand", "model", "year"]}
+  />
+ */
 const CarFormImage = <FormSchemaType extends FieldValues>({
   form,
   fieldName,
@@ -32,14 +47,16 @@ const CarFormImage = <FormSchemaType extends FieldValues>({
 
   useEffect(() => {
     let imageUrl: URL["href"] = src;
-    if (imageParams[1] && imageParams[2]) {
+    if (imageParams[0] && imageParams[1] && imageParams[2]) {
       imageUrl = generateCarImageUrl({
         car: {
           brand: imageParams[0],
           model: imageParams[1],
           year: Number(imageParams[2]),
           trueColor:
-            imageParams[4].toLowerCase() ?? imageParams[3].toLowerCase(),
+            imageParams[4]?.toLowerCase() ??
+            imageParams[3]?.toLowerCase() ??
+            "",
         },
       });
     }

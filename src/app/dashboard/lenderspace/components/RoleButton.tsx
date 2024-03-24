@@ -9,6 +9,14 @@ import { useMutation } from "@apollo/client";
 import { Role } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
+/**
+ * Component representing a button for changing user role.
+ * @example
+ * @param {object} props - The props object.
+ * @param {Role} props.role - The role to be assigned to the user.
+ * @example
+ * <RoleButton role="LENDER">
+ */
 const RoleButton = ({ role }: { role: Role }) => {
   // Session
   const { syncSession } = useSessionStore();
@@ -49,7 +57,11 @@ const RoleButton = ({ role }: { role: Role }) => {
 
   return (
     <Button size="lg" className="mx-auto my-4 flex" onClick={onClickHandler}>
-      {loading ? <Loader className="size-6 text-inherit" /> : "Become a Lender"}
+      {loading ? (
+        <Loader className="size-6 capitalize text-inherit" />
+      ) : (
+        `Become a ${role}`
+      )}
     </Button>
   );
 };

@@ -7,6 +7,13 @@ import { AdvancedMarker, Map } from "@vis.gl/react-google-maps";
 import CarMarkers from "./CarMarkers";
 import FiltersSheet from "./FiltersSheet";
 
+/**
+ * Component for displaying the search map with markers and filters.
+ * Provides the necessary context for using the Google Maps API.
+ * @component
+ * @example
+ * <SearchMap />
+ */
 const SearchMap = () => {
   // Marker Library
   const markerLibrary = useMarker();

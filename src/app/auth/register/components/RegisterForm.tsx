@@ -29,9 +29,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-type Props = {};
-
-const RegisterForm = (props: Props) => {
+/**
+ * RegisterForm component for rendering a registration form.
+ * @component
+ * @example
+ * <RegisterForm />
+ */
+const RegisterForm = () => {
   const roles = ["RENTER", "LENDER"];
 
   // Session

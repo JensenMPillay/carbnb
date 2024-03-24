@@ -29,6 +29,14 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
+/**
+ * Component representing a form for updating user information.
+ * @component
+ * @param {object} props - The props object.
+ * @param {User} props.user - The user object containing user information.
+ * @example
+ * <UpdateUserForm user={user} />
+ */
 const UpdateUserForm = ({ user }: { user: User }) => {
   // User
   const { email, phone, user_metadata } = user;

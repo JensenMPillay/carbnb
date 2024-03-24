@@ -17,6 +17,15 @@ type CheckoutFormProps = {
   booking: BookingQuery;
 };
 
+/**
+ * CheckoutForm component for handling payment checkout using Stripe.
+ * Renders a form with Stripe PaymentElement for processing payments.
+ * @component
+ * @param {Object} props - The props object.
+ * @param {BookingQuery} props.booking - The booking information.
+ * @example
+ * <CheckoutForm booking={data.booking} />
+ */
 const CheckoutForm = ({ booking }: CheckoutFormProps) => {
   // Stripe Loaded State
   const [ready, setReady] = useState<boolean>(false);

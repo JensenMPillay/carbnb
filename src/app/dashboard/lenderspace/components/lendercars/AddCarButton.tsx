@@ -32,6 +32,14 @@ type CallbackActionProps = {
   locationData: Location | undefined;
 };
 
+/**
+ * Component representing a button for adding a new car.
+ * @component
+ * @param {object} props - The props object.
+ * @param {boolean} props.disabled - Indicates whether the button is disabled or not.
+ * @example
+ * <AddCarButton disabled="false" />
+ */
 const AddCarButton = ({ disabled }: { disabled: boolean }) => {
   // Open State
   const [open, setOpen] = useState<boolean>(false);
