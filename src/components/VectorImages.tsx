@@ -4390,9 +4390,9 @@ const SVGArray = [SVGDeal, SVGGoodbye, SVGSearch, SVGValidation];
  * @example
  * <RandomSVGComponent className="flex-1" />
  */
-export const RandomSVGComponent = ({ className, ...rest }: SVGProps) => {
+export const RandomSVGComponent: React.FC<SVGProps> = ({ className, ...rest }) => {
   const randomId = Math.floor(Math.random() * SVGArray.length);
   const SVGComponent = SVGArray[randomId];
 
-  return <SVGComponent className={className} {...rest} />;
+  return (SVGComponent && <SVGComponent className={className} {...rest} />);
 };
