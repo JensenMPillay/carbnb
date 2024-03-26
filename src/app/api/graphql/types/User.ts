@@ -37,7 +37,8 @@ builder.queryField("getUser", (t) =>
   t.prismaField({
     type: "User",
     resolve: async (query, _parent, args, ctx) => {
-      if (!(await ctx).user)
+      const { user } = await ctx;
+      if (!user)
         throw createGraphQLError(
           "You have to be logged in to perform this action.",
         );
@@ -45,7 +46,7 @@ builder.queryField("getUser", (t) =>
       const dbUser = await prisma.user.findUnique({
         ...query,
         where: {
-          id: (await ctx).user?.id,
+          id: user.id,
         },
       });
 
@@ -67,7 +68,8 @@ builder.mutationField("registerUser", (t) =>
       role: t.arg({ type: Role, required: true }),
     },
     resolve: async (query, _parent, args, ctx) => {
-      if (!(await ctx).user)
+      const { user, supabase } = await ctx;
+      if (!user)
         throw createGraphQLError(
           "You have to be logged in to perform this action.",
         );
@@ -75,7 +77,7 @@ builder.mutationField("registerUser", (t) =>
       const dbUser = await prisma.user.findUnique({
         ...query,
         where: {
-          id: (await ctx).user?.id,
+          id: user.id,
         },
       });
 
@@ -107,7 +109,7 @@ builder.mutationField("registerUser", (t) =>
               },
             },
             metadata: {
-              userId: (await ctx).user?.id ?? "",
+              userId: user.id ?? "",
               name: args.name,
               email: args.email,
               phone: args.phone,
@@ -124,7 +126,7 @@ builder.mutationField("registerUser", (t) =>
       const userPrisma = await prisma.user.create({
         ...query,
         data: {
-          id: (await ctx).user?.id,
+          id: user.id,
           email: args.email,
           emailVerified: new Date(),
           stripeCustomerId: stripeAccount?.id,
@@ -135,16 +137,15 @@ builder.mutationField("registerUser", (t) =>
       });
 
       // Sync User Supabase & User Database
-      const userSupabaseAdmin = await (
-        await ctx
-      ).supabase?.auth.admin.updateUserById((await ctx).user?.id!, {
-        email: args.email,
-        email_confirm: true,
-      });
+      const userSupabaseAdmin = await supabase.auth.admin.updateUserById(
+        user.id,
+        {
+          email: args.email,
+          email_confirm: true,
+        },
+      );
 
-      const userSupabase = await (
-        await ctx
-      ).supabase?.auth.updateUser({
+      const userSupabase = await supabase.auth.updateUser({
         data: {
           name: args.name,
           phone: args.phone,
@@ -175,7 +176,8 @@ builder.mutationField("updateUser", (t) =>
       role: t.arg({ type: Role, required: false }),
     },
     resolve: async (query, _parent, args, ctx) => {
-      if (!(await ctx).user)
+      const { user, supabase } = await ctx;
+      if (!user)
         throw createGraphQLError(
           "You have to be logged in to perform this action.",
         );
@@ -183,7 +185,7 @@ builder.mutationField("updateUser", (t) =>
       const dbUser = await prisma.user.findUnique({
         ...query,
         where: {
-          id: (await ctx).user?.id,
+          id: user.id,
         },
       });
 
@@ -215,7 +217,7 @@ builder.mutationField("updateUser", (t) =>
               },
             },
             metadata: {
-              userId: (await ctx).user?.id ?? "",
+              userId: user.id ?? "",
               name: dbUser.name ?? "",
               email: dbUser.email,
               phone: dbUser.phone ?? "",
@@ -232,7 +234,7 @@ builder.mutationField("updateUser", (t) =>
       const userPrisma = await prisma.user.update({
         ...query,
         where: {
-          id: (await ctx).user?.id,
+          id: user.id,
         },
         data: {
           email: args.email ?? undefined,
@@ -243,16 +245,15 @@ builder.mutationField("updateUser", (t) =>
         },
       });
 
-      const userSupabaseAdmin = await (
-        await ctx
-      ).supabase?.auth.admin.updateUserById((await ctx).user?.id!, {
-        email: args.email ?? undefined,
-        password: args.password ?? undefined,
-      });
+      const userSupabaseAdmin = await supabase.auth.admin.updateUserById(
+        user.id!,
+        {
+          email: args.email ?? undefined,
+          password: args.password ?? undefined,
+        },
+      );
 
-      const userSupabase = await (
-        await ctx
-      ).supabase?.auth.updateUser({
+      const userSupabase = await supabase.auth.updateUser({
         data: {
           name: args.name ?? undefined,
           phone: args.phone ?? undefined,
@@ -276,7 +277,8 @@ builder.mutationField("deleteUser", (t) =>
   t.prismaField({
     type: "User",
     resolve: async (query, _parent, args, ctx) => {
-      if (!(await ctx).user)
+      const { user, supabase } = await ctx;
+      if (!user)
         throw createGraphQLError(
           "You have to be logged in to perform this action.",
         );
@@ -284,7 +286,7 @@ builder.mutationField("deleteUser", (t) =>
       const dbUser = await prisma.user.findUnique({
         ...query,
         where: {
-          id: (await ctx).user?.id,
+          id: user.id,
         },
       });
 
@@ -293,13 +295,11 @@ builder.mutationField("deleteUser", (t) =>
       const userPrisma = await prisma.user.delete({
         ...query,
         where: {
-          id: (await ctx).user?.id,
+          id: user.id,
         },
       });
 
-      const userSupabaseAdmin = await (
-        await ctx
-      ).supabase?.auth.admin.deleteUser((await ctx).user?.id!);
+      const userSupabaseAdmin = await supabase.auth.admin.deleteUser(user.id!);
 
       if (!userPrisma || userSupabaseAdmin?.error)
         throw createGraphQLError("An error occurred while deleting the user.");

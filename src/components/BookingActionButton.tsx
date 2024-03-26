@@ -32,7 +32,7 @@ const BookingActionButton = ({
   const [updateBooking, { loading: updateLoading }] = useMutation(
     UPDATE_BOOKING_MUTATION,
     {
-      onCompleted: (data) => {
+      onCompleted: () => {
         showNotif({
           description: `This booking has been successfully ${action}`,
         });
@@ -52,7 +52,7 @@ const BookingActionButton = ({
   const [deleteBooking, { loading: deleteLoading }] = useMutation(
     DELETE_BOOKING_MUTATION,
     {
-      onCompleted: (data) => {
+      onCompleted: () => {
         showNotif({
           description: `This booking has been successfully "${action}"`,
         });

@@ -82,7 +82,10 @@ const AddressFormField = <FormSchemaType extends FieldValues>({
     <FormField
       control={form.control}
       name={fieldName}
-      render={({ field: { value, onChange, ...rest }, fieldState }) => (
+      render={({
+        field: { value, onBlur, disabled, name, ref },
+        fieldState,
+      }) => (
         <FormItem className={cn("flex-1", classNameItem)}>
           <FormLabel className={cn("capitalize", classNameLabel)}>
             Address
@@ -107,7 +110,10 @@ const AddressFormField = <FormSchemaType extends FieldValues>({
                   placeholder={`Search address...`}
                   value={inputValue}
                   onChange={onInputChange}
-                  {...rest}
+                  onBlur={onBlur}
+                  disabled={disabled}
+                  name={name}
+                  ref={ref}
                 />
               </FormControl>
             </div>

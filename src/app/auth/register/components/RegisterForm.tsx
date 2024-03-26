@@ -65,7 +65,7 @@ const RegisterForm = () => {
 
   // Mutation
   const [registerUser, { loading }] = useMutation(REGISTER_USER_MUTATION, {
-    onCompleted: async (data) => {
+    onCompleted: async () => {
       showNotif({
         description: "You'll be redirected shortly!",
       });

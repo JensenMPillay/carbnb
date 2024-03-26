@@ -41,7 +41,7 @@ export default async function LenderSpace() {
 
   const user = session?.user;
 
-  if (!user) return;
+  if (!user || error) return;
   return (
     <TabsContent
       value="/dashboard/lenderspace"

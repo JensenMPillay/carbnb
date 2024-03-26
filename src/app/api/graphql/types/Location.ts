@@ -25,7 +25,7 @@ builder.queryField("getLocation", (t) =>
     args: {
       id: t.arg.string({ required: true }),
     },
-    resolve: async (query, _parent, args, ctx) => {
+    resolve: async (query, _parent, args) => {
       const dbLocation = await prisma.location.findUnique({
         ...query,
         where: {
@@ -55,7 +55,7 @@ builder.mutationField("registerLocation", (t) =>
       country: t.arg.string({ required: true }),
       formatted_address: t.arg.string({ required: true }),
     },
-    resolve: async (query, _parent, args, ctx) => {
+    resolve: async (query, _parent, args) => {
       const dbLocation = await prisma.location.findUnique({
         where: {
           id: args.id,

@@ -21,7 +21,7 @@ const useGeometry = () => {
 
   // Instances States
   // Geometry Service
-  const [isGeometryLoaded, setIsGeometryLoaded] = useState<boolean>(false);
+  const [, setIsGeometryLoaded] = useState<boolean>(false);
 
   // Component Loaded => Instance Libraries
   useEffect(() => {

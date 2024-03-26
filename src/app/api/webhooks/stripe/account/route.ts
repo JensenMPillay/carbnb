@@ -56,7 +56,7 @@ export async function POST(request: Request) {
   // Handle the event
   switch (event.type) {
     // Lender Stripe Account Updated
-    case "account.updated":
+    case "account.updated": {
       const accountUpdated = event.data.object;
       if (
         !accountUpdated.metadata ||
@@ -97,6 +97,7 @@ export async function POST(request: Request) {
         );
       }
       break;
+    }
     default:
       // Unexpected event type
       console.error(`Unhandled event type ${event.type}.`);

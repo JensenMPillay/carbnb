@@ -20,7 +20,7 @@ export default async function Booking() {
 
   const user = session?.user;
 
-  if (!user || !user.user_metadata.isRegistered)
+  if (!user || !user.user_metadata.isRegistered || error)
     return redirect("/auth/sign?origin=booking");
   return <BookingContainer />;
 }

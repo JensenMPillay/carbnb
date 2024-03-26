@@ -23,7 +23,7 @@ export type StripeApiResponse =
  * @param {NextResponse} response - The Next.js response object.
  * @returns {Promise<NextResponse>} A promise that resolves to a Next.js response object.
  */
-export async function POST(request: NextRequest, response: NextResponse) {
+export async function POST(request: NextRequest) {
   // User Info
   const headersList = headers();
   const ip = headersList.get("x-forwarded-for") || "121.0.0.1";

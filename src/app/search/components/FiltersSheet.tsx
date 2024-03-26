@@ -70,10 +70,6 @@ const FiltersSheet = () => {
   // onSubmit Callback
   const onSubmit: SubmitHandler<CarFilterSchemaType> = async (data, event) => {
     event?.preventDefault();
-    try {
-    } catch (error) {
-      console.error(`Error : ${error}`);
-    }
   };
 
   const watchForm = useWatch({

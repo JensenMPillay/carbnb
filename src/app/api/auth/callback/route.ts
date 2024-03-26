@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
   } = await supabaseApiServerClient.auth.getSession();
 
   // No Session
-  if (!session)
+  if (!session || error)
     return NextResponse.redirect(
       origin
         ? `${requestUrl.origin}/auth/sign?origin=${origin}`

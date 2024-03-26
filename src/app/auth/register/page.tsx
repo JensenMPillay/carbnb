@@ -36,7 +36,7 @@ export default async function Register() {
 
   const user = session?.user;
 
-  if (!user) return redirect("/auth/sign");
+  if (!user || error) return redirect("/auth/sign");
   if (user.user_metadata.isRegistered) return redirect("/");
 
   return (

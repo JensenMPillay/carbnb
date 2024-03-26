@@ -26,7 +26,7 @@ type CarProps = {
 const LenderCarCard = ({ car }: CarProps) => {
   // Mutation
   const [updateCar] = useMutation(UPDATE_CAR_MUTATION, {
-    onCompleted: async (data) => {
+    onCompleted: async () => {
       showNotif({
         description: "Your car is updated successfully",
       });

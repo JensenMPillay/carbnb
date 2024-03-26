@@ -26,7 +26,7 @@ const RoleButton = ({ role }: { role: Role }) => {
 
   // Update Mutation
   const [updateUser, { loading }] = useMutation(UPDATE_USER_MUTATION, {
-    onCompleted: async (data) => {
+    onCompleted: async () => {
       showNotif({
         description: "User Info has been updated successfully!",
       });

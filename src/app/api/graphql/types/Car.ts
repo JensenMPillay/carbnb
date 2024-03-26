@@ -97,7 +97,7 @@ builder.queryField("getAvailableCars", (t) =>
       startDate: t.arg({ type: "Date", required: true }),
       endDate: t.arg({ type: "Date", required: true }),
     },
-    resolve: async (query, _parent, args, ctx) => {
+    resolve: async (query, _parent, args) => {
       // All Active Cars
       const dbActiveCars = await prisma.car.findMany({
         ...query,

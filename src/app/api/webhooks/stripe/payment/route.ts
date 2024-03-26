@@ -32,10 +32,10 @@ export async function POST(request: Request) {
   // Handle events
   try {
     switch (event.type) {
-      case "payment_intent.requires_action":
-        const paymentIntentRequiresAction = event.data.object;
-        break;
-      case "payment_intent.amount_capturable_updated":
+      // case "payment_intent.requires_action":
+      //   const paymentIntentRequiresAction = event.data.object;
+      //   break;
+      case "payment_intent.amount_capturable_updated": {
         const paymentIntentAmountCapturableUpdated = event.data.object;
         if (
           paymentIntentAmountCapturableUpdated.status != "requires_capture" ||
@@ -55,7 +55,8 @@ export async function POST(request: Request) {
           },
         });
         break;
-      case "payment_intent.succeeded":
+      }
+      case "payment_intent.succeeded": {
         const paymentIntentSucceeded = event.data.object;
         if (paymentIntentSucceeded.status === "succeeded")
           // Update Booking
@@ -68,7 +69,8 @@ export async function POST(request: Request) {
             },
           });
         break;
-      case "payment_intent.canceled":
+      }
+      case "payment_intent.canceled": {
         const paymentIntentCanceled = event.data.object;
         if (paymentIntentCanceled.status === "canceled")
           // Update Booking
@@ -81,7 +83,8 @@ export async function POST(request: Request) {
             },
           });
         break;
-      case "charge.captured":
+      }
+      case "charge.captured": {
         const chargeCaptured = event.data.object;
         if (
           chargeCaptured.status === "succeeded" &&
@@ -97,7 +100,8 @@ export async function POST(request: Request) {
             },
           });
         break;
-      case "charge.succeeded":
+      }
+      case "charge.succeeded": {
         const chargeSucceeded = event.data.object;
         if (
           chargeSucceeded.status != "succeeded" ||
@@ -122,7 +126,8 @@ export async function POST(request: Request) {
             },
           });
         break;
-      case "charge.failed":
+      }
+      case "charge.failed": {
         const chargeFailed = event.data.object;
         if (chargeFailed.status === "failed" && chargeFailed.payment_intent)
           // Update Booking
@@ -135,7 +140,8 @@ export async function POST(request: Request) {
             },
           });
         break;
-      case "charge.expired":
+      }
+      case "charge.expired": {
         const chargeExpired = event.data.object;
         if (chargeExpired.status != "failed" || !chargeExpired.payment_intent)
           break;
@@ -149,10 +155,11 @@ export async function POST(request: Request) {
           },
         });
         break;
-      case "charge.updated":
-        const chargeUpdated = event.data.object;
-        break;
-      case "charge.refund.updated":
+      }
+      // case "charge.updated":
+      //   const chargeUpdated = event.data.object;
+      //   break;
+      case "charge.refund.updated": {
         const chargeRefundUpdated = event.data.object;
         if (
           chargeRefundUpdated.status === "succeeded" &&
@@ -168,7 +175,8 @@ export async function POST(request: Request) {
             },
           });
         break;
-      case "charge.refunded":
+      }
+      case "charge.refunded": {
         const chargeRefunded = event.data.object;
         if (
           chargeRefunded.status === "succeeded" &&
@@ -184,7 +192,8 @@ export async function POST(request: Request) {
             },
           });
         break;
-      case "refund.updated":
+      }
+      case "refund.updated": {
         const refundUpdated = event.data.object;
         if (
           refundUpdated.status === "succeeded" &&
@@ -200,6 +209,7 @@ export async function POST(request: Request) {
             },
           });
         break;
+      }
       default:
         console.log(`Unhandled event type ${event.type}`);
     }

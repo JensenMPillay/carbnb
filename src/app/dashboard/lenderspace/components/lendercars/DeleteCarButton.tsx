@@ -33,7 +33,7 @@ const DeleteCarButton = ({ carId }: { carId: string }) => {
   // Mutation
   const [deleteCar, { loading }] = useMutation(DELETE_CAR_MUTATION, {
     errorPolicy: "all",
-    onCompleted: async (data) => {
+    onCompleted: async () => {
       showNotif({
         description: "Your car is deleted successfully",
       });

@@ -39,7 +39,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
  */
 const UpdateUserForm = ({ user }: { user: User }) => {
   // User
-  const { email, phone, user_metadata } = user;
+  const { email, user_metadata } = user;
 
   // Session
   const { syncSession } = useSessionStore();
@@ -58,7 +58,7 @@ const UpdateUserForm = ({ user }: { user: User }) => {
 
   // Update Mutation
   const [updateUser, { loading }] = useMutation(UPDATE_USER_MUTATION, {
-    onCompleted: async (data) => {
+    onCompleted: async () => {
       showNotif({
         description: "User Info has been updated successfully!",
       });

@@ -46,6 +46,7 @@ export async function GET(request: NextRequest) {
       if (!stripePaymentId) return false;
       // Start Date Comparison
       const dateStartDiff = compareAsc(currentDay, startDate.toDateString());
+      const dateEndDiff = compareAsc(currentDay, endDate.toDateString());
       switch (status) {
         case "WAITING":
           if (dateStartDiff < 0) break;
@@ -62,7 +63,7 @@ export async function GET(request: NextRequest) {
           }
           break;
         case "ACCEPTED":
-          if (dateStartDiff >= 0) {
+          if (dateStartDiff >= 0)
             // Update Booking State
             await prisma.booking.update({
               where: { id: id },
@@ -70,12 +71,10 @@ export async function GET(request: NextRequest) {
                 status: "IN_PROGRESS",
               },
             });
-            break;
-          }
+          break;
         case "IN_PROGRESS":
           // End Date Comparison
-          const dateEndDiff = compareAsc(currentDay, endDate.toDateString());
-          if (dateEndDiff >= 0) {
+          if (dateEndDiff >= 0)
             // Update Booking State
             await prisma.booking.update({
               where: { id: id },
@@ -83,8 +82,7 @@ export async function GET(request: NextRequest) {
                 status: "COMPLETED",
               },
             });
-            break;
-          }
+          break;
         default:
           break;
       }

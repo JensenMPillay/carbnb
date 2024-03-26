@@ -14,7 +14,7 @@ type SessionStore = {
  */
 const useSessionStore = create<SessionStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       // Data
       session: null,
       // Setter
@@ -23,7 +23,6 @@ const useSessionStore = create<SessionStore>()(
       syncSession: async () => {
         const {
           data: { session: sessionData },
-          error,
         } = await supabaseBrowserClient.auth.getSession();
         set({ session: sessionData });
       },

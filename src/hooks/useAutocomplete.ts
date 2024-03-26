@@ -36,7 +36,7 @@ const useAutocomplete = () => {
 
   // Instances States
   // Service SessionToken
-  const [sessionToken, setSessionToken] =
+  const [, setSessionToken] =
     useState<google.maps.places.AutocompleteSessionToken>();
 
   // Autocomplete Service

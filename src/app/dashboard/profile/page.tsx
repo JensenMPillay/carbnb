@@ -35,7 +35,7 @@ export default async function Profile() {
 
   const user = session?.user;
 
-  if (!user) return;
+  if (!user || error) return;
   return (
     <TabsContent value="/dashboard/profile" className="mt-0 flex-1" forceMount>
       <div className="flex h-full w-full flex-col">

@@ -61,7 +61,7 @@ const AddCarButton = ({ disabled }: { disabled: boolean }) => {
   const [registerCar, { loading: loadingCar }] = useMutation(
     REGISTER_CAR_MUTATION,
     {
-      onCompleted: async (data) => {
+      onCompleted: async () => {
         showNotif({
           description: "Your car is added successfully",
         });

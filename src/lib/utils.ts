@@ -117,12 +117,11 @@ export function constructMetadata({
  * // Output: "#80c0c0"
  */
 export function hslToHex(hsl: string): string {
-  let formattedHsl = hsl.replaceAll("%", "").split(" ");
+  const formattedHsl = hsl.replaceAll("%", "").split(" ");
   if (formattedHsl.length != 3) return "";
-  let h = Number(formattedHsl[0]);
-  let s = Number(formattedHsl[1]);
-  let l = Number(formattedHsl[2]);
-  l /= 100;
+  const h = Number(formattedHsl[0]);
+  const s = Number(formattedHsl[1]);
+  const l = Number(formattedHsl[2]) / 100;
   const a = (s * Math.min(l, 1 - l)) / 100;
   const f = (n: number) => {
     const k = (n + h / 30) % 12;

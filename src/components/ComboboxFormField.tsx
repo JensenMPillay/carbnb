@@ -62,7 +62,7 @@ const ComboboxFormField = <FormSchemaType extends FieldValues>({
     <FormField
       control={form.control}
       name={fieldName}
-      render={({ field, fieldState }) => (
+      render={({ field }) => (
         <FormItem className="flex-1">
           <FormLabel className="capitalize">{fieldName}</FormLabel>
           <Popover modal={true} open={open} onOpenChange={setOpen}>

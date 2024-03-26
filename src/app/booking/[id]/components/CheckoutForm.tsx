@@ -127,7 +127,7 @@ const CheckoutForm = ({ booking }: CheckoutFormProps) => {
       response.client_secret
     ) {
       //   Handle 3D Secure etc...
-      const { error, paymentIntent } = await stripe.handleNextAction({
+      const { error } = await stripe.handleNextAction({
         clientSecret: response.client_secret,
       });
 

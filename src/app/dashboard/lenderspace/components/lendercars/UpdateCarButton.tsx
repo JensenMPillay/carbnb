@@ -62,7 +62,7 @@ const UpdateCarButton = ({ car }: CarProps) => {
   const [updateCar, { loading: loadingCar }] = useMutation(
     UPDATE_CAR_MUTATION,
     {
-      onCompleted: async (data) => {
+      onCompleted: async () => {
         showNotif({
           description: "Your car is updated successfully",
         });

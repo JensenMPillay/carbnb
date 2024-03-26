@@ -37,7 +37,7 @@ const DeleteUserButton = () => {
 
   // Delete Mutation
   const [deleteUser] = useMutation(DELETE_USER_MUTATION, {
-    onCompleted: async (data) => {
+    onCompleted: async () => {
       showNotif({
         description: "User has been deleted successfully!",
       });

@@ -41,7 +41,7 @@ type SearchStore = {
  */
 const useSearchStore = create<SearchStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       // Data
       searchValues: null,
       cars: null,

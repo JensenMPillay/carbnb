@@ -53,7 +53,7 @@ const SearchContainer = () => {
           ? new Date(date.to)
           : new Date(),
     },
-    onCompleted: (data) => {
+    onCompleted: () => {
       // setCars(data?.getAvailableCars);
     },
     onError: (error) => {
