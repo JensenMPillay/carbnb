@@ -34,10 +34,10 @@ const config: Config = {
   coverageDirectory: "coverage",
 
   // An array of regexp pattern strings used to skip coverage collection
-  coveragePathIgnorePatterns: [
-    "\\\\node_modules\\\\",
-    "src/**/*.{d,types,stories,constants,test,spec}.{ts,tsx}",
-  ],
+  // coveragePathIgnorePatterns: [
+  //   "\\\\node_modules\\\\",
+  //   "<rootDir>/src/**/*.{d,types,stories,constants,test,spec}.{ts,tsx}",
+  // ],
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: "v8",
@@ -149,6 +149,9 @@ const config: Config = {
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",
 
+  // The missing Node.js globals must be injected before the environment (e.g. JSDOM).
+  setupFiles: ["<rootDir>/jest.polyfills.ts"],
+
   // The paths to modules that run some code to configure or set up the testing environment before each test
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 
@@ -165,7 +168,9 @@ const config: Config = {
   testEnvironment: "jsdom",
 
   // Options that will be passed to the testEnvironment
-  // testEnvironmentOptions: {},
+  testEnvironmentOptions: {
+    customExportConditions: [""],
+  },
 
   // Adds a location field to test results
   // testLocationInResults: false,
@@ -177,9 +182,7 @@ const config: Config = {
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  // testPathIgnorePatterns: [
-  //   "\\\\node_modules\\\\",
-  // ],
+  testPathIgnorePatterns: ["<rootDir>/.next/", "<rootDir>/node_modules/"],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
