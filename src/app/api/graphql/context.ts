@@ -33,13 +33,11 @@ export async function supabaseContext(req: NextApiRequest) {
     },
   );
 
-  const { data, error } = await supabase.auth.getSession();
+  const { data, error } = await supabase.auth.getUser();
 
-  const { session } = data;
+  const { user } = data;
 
-  if (!session || typeof session === "undefined" || error) return {};
+  if (!user || error) return {};
 
-  const { user, access_token } = session;
-
-  return { req, supabase, user, access_token };
+  return { req, supabase, user };
 }
