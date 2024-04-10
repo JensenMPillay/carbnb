@@ -1,6 +1,6 @@
 import { MockedProvider } from "@apollo/client/testing";
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "test-utils";
 import { Dog, GET_DOG_QUERY } from "./Example";
 
 it("should render dog", async () => {
