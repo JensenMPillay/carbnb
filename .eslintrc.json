@@ -1,6 +1,7 @@
 {
   "plugins": ["@typescript-eslint"],
   "extends": [
+    "eslint-config-prettier",
     "eslint:recommended",
     "next",
     "plugin:testing-library/react",
