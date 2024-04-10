@@ -21,7 +21,7 @@ import {
   RegisterUserSchemaType,
   registerUserSchema,
 } from "@/src/lib/schemas/user/RegisterUserSchema";
-import useSessionStore from "@/src/store/useSessionStore";
+import useUserStore from "@/src/store/useUserStore";
 import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -38,14 +38,11 @@ import { SubmitHandler, useForm } from "react-hook-form";
 const RegisterForm = () => {
   const roles = ["RENTER", "LENDER"];
 
-  // Session
-  const { syncSession } = useSessionStore();
+  // User
+  const { syncUser } = useUserStore();
 
   // Access to Store Data after Rendering (SSR Behavior)
-  const session = useStore(useSessionStore, (state) => state.session);
-
-  // User
-  const user = session?.user;
+  const user = useStore(useUserStore, (state) => state.user);
 
   // Router
   const router = useRouter();
@@ -69,7 +66,7 @@ const RegisterForm = () => {
       showNotif({
         description: "You'll be redirected shortly!",
       });
-      await syncSession();
+      await syncUser();
       router.push(`/api/auth/callback${origin ? "?origin=" + origin : ""}`);
     },
     onError: async (error) => {

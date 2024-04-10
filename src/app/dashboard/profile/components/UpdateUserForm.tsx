@@ -21,7 +21,7 @@ import {
 } from "@/src/lib/schemas/user/UpdateUserSchema";
 import getAccountLink from "@/src/lib/stripe/get-account-link";
 import { cn } from "@/src/lib/utils";
-import useSessionStore from "@/src/store/useSessionStore";
+import useUserStore from "@/src/store/useUserStore";
 import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@supabase/supabase-js";
@@ -41,8 +41,8 @@ const UpdateUserForm = ({ user }: { user: User }) => {
   // User
   const { email, user_metadata } = user;
 
-  // Session
-  const { syncSession } = useSessionStore();
+  // User
+  const { syncUser } = useUserStore();
 
   // Router
   const router = useRouter();
@@ -62,7 +62,7 @@ const UpdateUserForm = ({ user }: { user: User }) => {
       showNotif({
         description: "User Info has been updated successfully!",
       });
-      await syncSession();
+      await syncUser();
       router.refresh();
     },
     onError: async (error) => {
@@ -92,8 +92,8 @@ const UpdateUserForm = ({ user }: { user: User }) => {
 
   // Sync Session after Stripe Registration
   useEffect(() => {
-    syncSession();
-  }, [syncSession]);
+    syncUser();
+  }, [syncUser]);
 
   // Prefill Form
   useEffect(() => {

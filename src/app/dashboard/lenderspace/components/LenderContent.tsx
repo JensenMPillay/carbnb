@@ -6,7 +6,7 @@ import useStore from "@/src/hooks/useStore";
 import { GET_LENDER_BOOKINGS_QUERY } from "@/src/lib/graphql/booking";
 import { GET_LENDER_CARS_QUERY } from "@/src/lib/graphql/car";
 import { showErrorNotif } from "@/src/lib/notifications/toasters";
-import useSessionStore from "@/src/store/useSessionStore";
+import useUserStore from "@/src/store/useUserStore";
 import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { DataTable } from "./lenderbookings/DataTable";
 import { bookingColumns } from "./lenderbookings/bookingsColumns";
@@ -15,10 +15,7 @@ import LenderCarCard from "./lendercars/LenderCarCard";
 
 const LenderContent = () => {
   // Access to Store Data after Rendering (SSR Behavior)
-  const session = useStore(useSessionStore, (state) => state.session);
-
-  // User
-  const user = session?.user;
+  const user = useStore(useUserStore, (state) => state.user);
 
   // Get Queries
   const {

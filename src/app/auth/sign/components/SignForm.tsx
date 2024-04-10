@@ -5,7 +5,7 @@ import { authUITheme } from "@/src/config/theme";
 import useLoading from "@/src/hooks/useLoading";
 import { showNotif } from "@/src/lib/notifications/toasters";
 import supabaseBrowserClient from "@/src/lib/supabase/supabase-browser-client";
-import useSessionStore from "@/src/store/useSessionStore";
+import useUserStore from "@/src/store/useUserStore";
 import { Auth } from "@supabase/auth-ui-react";
 import { useTheme } from "next-themes";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -18,8 +18,8 @@ import { useEffect } from "react";
  * <SignForm />
  */
 const SignForm = () => {
-  // Session
-  const { syncSession } = useSessionStore();
+  // User
+  const { syncUser } = useUserStore();
 
   // Theme
   const { resolvedTheme } = useTheme();
@@ -43,7 +43,7 @@ const SignForm = () => {
         showNotif({
           description: "You'll be redirected shortly!",
         });
-        await syncSession();
+        await syncUser();
         router.push(`/api/auth/callback${origin ? "?origin=" + origin : ""}`);
       }
     });
@@ -51,7 +51,7 @@ const SignForm = () => {
       // Unsubscription
       subscription.unsubscribe();
     };
-  }, [syncSession, router, origin]);
+  }, [syncUser, router, origin]);
 
   return (
     <>

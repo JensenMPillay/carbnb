@@ -18,7 +18,7 @@ import { GET_AVAILABLE_CARS_QUERY } from "@/src/lib/graphql/car";
 import { showErrorNotif } from "@/src/lib/notifications/toasters";
 import { cn } from "@/src/lib/utils";
 import useSearchStore from "@/src/store/useSearchStore";
-import useSessionStore from "@/src/store/useSessionStore";
+import useUserStore from "@/src/store/useUserStore";
 import { useMutation } from "@apollo/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -37,14 +37,12 @@ const CarSheet = () => {
   const { setCarSelected } = useSearchStore();
 
   // Access to Store Data after Rendering (SSR Behavior)
-  const session = useStore(useSessionStore, (state) => state.session);
+  const user = useStore(useUserStore, (state) => state.user);
   const carSelected = useStore(useSearchStore, (state) => state.carSelected);
   const formValues = useStore(
     useSearchStore,
     (state) => state.searchValues?.formValues,
   );
-
-  const user = session?.user;
 
   // Mutation
   const [initBooking, { loading }] = useMutation(INIT_BOOKING_MUTATION, {

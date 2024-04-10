@@ -14,7 +14,7 @@ import { Button, buttonVariants } from "@/src/components/ui/button";
 import { DELETE_USER_MUTATION } from "@/src/lib/graphql/user";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
 import supabaseBrowserClient from "@/src/lib/supabase/supabase-browser-client";
-import useSessionStore from "@/src/store/useSessionStore";
+import useUserStore from "@/src/store/useUserStore";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -29,8 +29,8 @@ const DeleteUserButton = () => {
   // Open State
   const [open, setOpen] = useState<boolean>(false);
 
-  // Session
-  const { syncSession } = useSessionStore();
+  // User
+  const { syncUser } = useUserStore();
 
   // Router
   const router = useRouter();
@@ -42,7 +42,7 @@ const DeleteUserButton = () => {
         description: "User has been deleted successfully!",
       });
       await supabaseBrowserClient.auth.signOut();
-      await syncSession();
+      await syncUser();
       router.push("/");
     },
     onError: async (error) => {

@@ -4,7 +4,7 @@ import { Button } from "@/src/components/ui/button";
 import { Loader } from "@/src/components/ui/loader";
 import { UPDATE_USER_MUTATION } from "@/src/lib/graphql/user";
 import { showErrorNotif, showNotif } from "@/src/lib/notifications/toasters";
-import useSessionStore from "@/src/store/useSessionStore";
+import useUserStore from "@/src/store/useUserStore";
 import { useMutation } from "@apollo/client";
 import { Role } from "@prisma/client";
 import { useRouter } from "next/navigation";
@@ -18,8 +18,8 @@ import { useRouter } from "next/navigation";
  * <RoleButton role="LENDER">
  */
 const RoleButton = ({ role }: { role: Role }) => {
-  // Session
-  const { syncSession } = useSessionStore();
+  // User
+  const { syncUser } = useUserStore();
 
   // Router
   const router = useRouter();
@@ -30,7 +30,7 @@ const RoleButton = ({ role }: { role: Role }) => {
       showNotif({
         description: "User Info has been updated successfully!",
       });
-      await syncSession();
+      await syncUser();
       router.refresh();
       router.push("/dashboard");
     },

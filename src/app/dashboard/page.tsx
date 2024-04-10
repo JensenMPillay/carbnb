@@ -23,11 +23,9 @@ export default async function Dashboard() {
   const supabaseServerClient = getSupabaseServerClient(cookieStore);
 
   const {
-    data: { session },
+    data: { user },
     error,
-  } = await supabaseServerClient.auth.getSession();
-
-  const user = session?.user;
+  } = await supabaseServerClient.auth.getUser();
 
   if (!user || !user.user_metadata.isRegistered || error)
     return redirect("/auth/sign?origin=dashboard");

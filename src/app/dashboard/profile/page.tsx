@@ -29,11 +29,9 @@ export default async function Profile() {
   const supabaseServerClient = getSupabaseServerClient(cookieStore);
 
   const {
-    data: { session },
+    data: { user },
     error,
-  } = await supabaseServerClient.auth.getSession();
-
-  const user = session?.user;
+  } = await supabaseServerClient.auth.getUser();
 
   if (!user || error) return;
   return (

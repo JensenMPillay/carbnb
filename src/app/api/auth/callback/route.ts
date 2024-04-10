@@ -41,24 +41,22 @@ export async function GET(request: NextRequest) {
   if (code) await supabaseApiServerClient.auth.exchangeCodeForSession(code);
 
   const {
-    data: { session },
+    data: { user },
     error,
-  } = await supabaseApiServerClient.auth.getSession();
+  } = await supabaseApiServerClient.auth.getUser();
 
   // No Session
-  if (!session || error)
+  if (!user || error)
     return NextResponse.redirect(
       origin
         ? `${requestUrl.origin}/auth/sign?origin=${origin}`
         : `${requestUrl.origin}/auth/sign`,
     );
 
-  const user = session.user;
-
   // Database Verification
   const dbUser = await prisma.user.findUnique({
     where: {
-      id: user.id!,
+      id: user.id,
     },
   });
 

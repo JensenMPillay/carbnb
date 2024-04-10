@@ -11,7 +11,7 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import useSessionStore from "../store/useSessionStore";
+import useUserStore from "../store/useUserStore";
 import Logo from "./Logo";
 import UserAccountNav from "./UserAccountNav";
 import { Button, buttonVariants } from "./ui/button";
@@ -39,7 +39,7 @@ const Navbar = () => {
   }, [pathname]);
 
   // Access to Store Data after Rendering (SSR Behavior)
-  const session = useStore(useSessionStore, (state) => state.session);
+  const user = useStore(useUserStore, (state) => state.user);
 
   return (
     <nav className="flex h-24 w-full flex-row items-center justify-between px-4">
@@ -75,7 +75,7 @@ const Navbar = () => {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        {!session || !session.user.user_metadata.isRegistered ? (
+        {!user || !user.user_metadata.isRegistered ? (
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -96,7 +96,7 @@ const Navbar = () => {
             </Tooltip>
           </TooltipProvider>
         ) : (
-          <UserAccountNav user={session.user} />
+          <UserAccountNav user={user} />
         )}
       </div>
     </nav>
