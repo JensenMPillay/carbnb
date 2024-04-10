@@ -59,7 +59,7 @@ export function absoluteUrl(path: string): string {
 export function constructMetadata({
   title = "CarBnb",
   description = "AirBnb for Cars",
-  image = "../../public/carbnb-bg.jpg",
+  image = "/thumbnail.png",
   icons = "/favicon.ico",
   noIndex = false,
 }: {
