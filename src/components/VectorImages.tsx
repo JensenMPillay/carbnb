@@ -1,3 +1,5 @@
+import { Children, PropsWithChildren } from "react";
+
 type SVGProps = React.SVGAttributes<SVGElement>;
 
 /**
@@ -19,6 +21,7 @@ export const SVGDeal = ({ className, ...rest }: SVGProps) => (
     className={className}
     {...rest}
   >
+    <title>SVGDeal</title>
     <g>
       <use fill="#F5F5F5" overflow="visible" xlinkHref="#SVGID_1_"></use>
       <clipPath>
@@ -937,6 +940,7 @@ export const SVGGoodbye = ({ className, ...rest }: SVGProps) => (
     className={className}
     {...rest}
   >
+    <title>SVGGoodbye</title>
     <g>
       <path
         fill="#F5F5F5"
@@ -2477,6 +2481,7 @@ export const SVGSearch = ({ className, ...rest }: SVGProps) => (
     className={className}
     {...rest}
   >
+    <title>SVGSearch</title>
     <g>
       <path
         fill="#EBEBEB"
@@ -3066,6 +3071,7 @@ export const SVGValidation = ({ className, ...rest }: SVGProps) => (
     className={className}
     {...rest}
   >
+    <title>SVGValidation</title>
     <g>
       <path
         fill="#F5F5F5"
@@ -4378,21 +4384,25 @@ export const SVGValidation = ({ className, ...rest }: SVGProps) => (
 );
 
 /**
- * Array of SVG images.
- */
-const SVGArray = [SVGDeal, SVGGoodbye, SVGSearch, SVGValidation];
-
-/**
  * Component for rendering a random SVG image.
  * @component
+ * @param svgArray Array of SVG Components
  * @param className Optional additional CSS classes for customization (optional).
  * @param rest Any other additional attributes to pass to the SVG element (optional).
  * @example
- * <RandomSVGComponent className="flex-1" />
+* <RandomSVGComponent>
+    <SVGDeal className="w-full" />
+    <SVGGoodbye className="w-full" />
+    <SVGSearch className="w-full" />
+    <SVGValidation className="w-full" />
+  </RandomSVGComponent>
  */
-export const RandomSVGComponent: React.FC<SVGProps> = ({ className, ...rest }) => {
-  const randomId = Math.floor(Math.random() * SVGArray.length);
-  const SVGComponent = SVGArray[randomId];
+export const RandomSVGComponent = ({ children }: PropsWithChildren) => {
+  const childrenArray = Children.toArray(children);
 
-  return (SVGComponent && <SVGComponent className={className} {...rest} />);
+  const randomIndex = Math.floor(Math.random() * childrenArray.length);
+
+  const randomSVG = childrenArray[randomIndex];
+
+  return <>{randomSVG}</>;
 };
