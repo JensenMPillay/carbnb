@@ -9,7 +9,9 @@
  * you don't want to deal with this.
  */
 
-const { TextDecoder, TextEncoder, ReadableStream } = require("node:util");
+const { TextDecoder, TextEncoder } = require("node:util");
+const { ReadableStream } = require("node:stream/web");
+const { performance } = require("node:perf_hooks");
 
 const { clearImmediate } = require("node:timers");
 
@@ -17,6 +19,7 @@ Object.defineProperties(globalThis, {
   TextDecoder: { value: TextDecoder },
   TextEncoder: { value: TextEncoder },
   ReadableStream: { value: ReadableStream },
+  performance: { value: performance, writable: true },
   clearImmediate: { value: clearImmediate },
 });
 

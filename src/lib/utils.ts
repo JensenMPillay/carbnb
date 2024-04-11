@@ -1,14 +1,17 @@
-import { Color, type Car } from "@prisma/client";
+// import { Color, type Car } from "@prisma/client";
+import { Color } from "@prisma/client";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import {
+
+import { type Car } from "@prisma/client";
+import type { ClassValue } from "clsx";
+import type { Metadata } from "next";
+import type {
   ColorsMap,
   PaintCombinations,
   resultODModel,
 } from "../@types/imaginstudio";
-
-import type { ClassValue } from "clsx";
-import type { Metadata } from "next";
+import { IMAGE_ANGLES } from "../config/supabase";
 
 /**
  * Merges classnames using Tailwind CSS and clsx.
@@ -75,21 +78,23 @@ export function constructMetadata({
     openGraph: {
       title,
       description,
-      images: [
-        {
-          url: image,
-        },
-      ],
+      images: {
+        url: image,
+      },
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [image],
+      images: image,
       creator: "@jensenmpillay",
     },
     icons,
-    metadataBase: new URL(absoluteUrl("/")),
+    metadataBase: new URL(
+      process.env.VERCEL_URL
+        ? "https://carbnb-jmpillay.vercel.app/"
+        : `http://localhost:${process.env.PORT ?? 3000}`,
+    ),
     ...(noIndex && {
       robots: {
         index: false,
@@ -224,7 +229,7 @@ export function createSVGClustererIcon(
  * const searchUrl = generateCarModelsSearchUrl({ brand: "Toyota", year: 2022 });
  * // Output: "https://data.opendatasoft.com/api/explore/v2.1/catalog/datasets/all-vehicles-model@public/records?..."
  */
-function generateCarModelsSearchUrl({
+export function generateCarModelsSearchUrl({
   brand,
   year,
 }: {
@@ -238,7 +243,7 @@ function generateCarModelsSearchUrl({
   // Format ODSQL
   baseUrl.searchParams.append("select", "basemodel");
   baseUrl.searchParams.append("group_by", "basemodel");
-  const query = `make%20LIKE%20"${brand}"%20AND%20YEAR(year)=${year}`;
+  const query = `make%20LIKE%20%22${brand}%22%20AND%20YEAR(year)%3D${year}`;
 
   const url = `${baseUrl}&where=${query}`;
 
@@ -278,9 +283,9 @@ export async function getCarModels({
  * @return {URL} URL for fetching car paints.
  * @example
  * const carPaintsUrl = generateCarPaintsUrl({ brand: "Toyota" });
- * // Output: URL object for fetching car paints.
+ * // Output: https://cdn.imagin.studio/getPaints?customer=[API_KEY]&target=make&make=Toyota
  */
-function generateCarPaintsUrl({ brand }: { brand: string }): URL {
+export function generateCarPaintsUrl({ brand }: { brand: string }): URL {
   const url = new URL("https://cdn.imagin.studio/getPaints");
 
   url.searchParams.append(
@@ -302,7 +307,7 @@ function generateCarPaintsUrl({ brand }: { brand: string }): URL {
  * const combinations = await getCarPaintCombinations({ url: paintUrl });
  * // Output: Paint combinations data
  */
-async function getCarPaintCombinations({
+export async function getCarPaintCombinations({
   url,
 }: {
   url: URL;
@@ -323,7 +328,7 @@ async function getCarPaintCombinations({
  * const colorsMap = extractCarColorsMap({ paintCombinations });
  * // Output: Object containing color mappings
  */
-function extractCarColorsMap({
+export function extractCarColorsMap({
   paintCombinations,
 }: {
   paintCombinations: PaintCombinations;
@@ -414,8 +419,8 @@ export function generateCarImageUrl({
   car: { brand, model, year, trueColor = "black" },
   angle,
 }: {
-  car: Pick<Car, "brand" | "model" | "year" | "trueColor">;
-  angle?: number;
+  car: Pick<Car, "brand" | "model" | "year"> & { trueColor?: Car["trueColor"] };
+  angle?: (typeof IMAGE_ANGLES)[number];
 }): URL["href"] {
   const url = new URL("https://cdn.imagin.studio/getimage");
 
