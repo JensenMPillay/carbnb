@@ -5,7 +5,7 @@ describe("Logo", () => {
   it("renders Logo component with default color", () => {
     render(<Logo className="h-8 w-8" />);
 
-    const logo = screen.getByAltText("logo");
+    const logo = screen.getByAltText(/logo/);
 
     expect(logo).toBeInTheDocument();
     expect(logo).toHaveClass("h-8 w-8");

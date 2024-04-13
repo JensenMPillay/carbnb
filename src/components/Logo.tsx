@@ -41,7 +41,12 @@ const Logo = ({ className, color }: LogoProps) => {
       )
     ) : (
       // Theme Case
-      <Image src={logoSrc} alt="logo" className={className} priority />
+      <Image
+        src={logoSrc}
+        alt={`logo-${resolvedTheme === "dark" ? "white" : "dark"}`}
+        className={className}
+        priority
+      />
     )
   );
 };

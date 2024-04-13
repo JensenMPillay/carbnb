@@ -27,7 +27,7 @@ describe("Navbar", () => {
 
     render(<Navbar />);
 
-    const logo = screen.getByAltText("logo");
+    const logo = screen.getByAltText(/logo/);
 
     expect(logo).toBeInTheDocument();
   });
@@ -110,7 +110,8 @@ describe("Navbar", () => {
 
     await user.click(toggleButton);
 
-    const themeButton = screen.getByRole("button", { name: /dark/i });
-    expect(toggleButton).toBe(themeButton);
+    const themeLogo = screen.getByRole("img", { name: /white/i });
+
+    expect(themeLogo).toBeInTheDocument();
   });
 });
