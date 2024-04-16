@@ -118,8 +118,8 @@ const useAutocomplete = () => {
   // Service Not Working
   if (!autocomplete)
     return {
-      inputValue: "",
-      setInputValue: () => {},
+      inputValue,
+      setInputValue,
       onInputChange: () => {},
       suggestions: [],
       clearSuggestions: () => {},

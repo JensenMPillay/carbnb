@@ -40,9 +40,9 @@ const useGeocoder = () => {
   }, [IsLoaded, geocodingLibrary]);
 
   const getGeocodeResponse = useCallback(
-    async (placeId: string | null) => {
+    async (placeId: string) => {
       // Service Not Working
-      if (!geocoder || !placeId) {
+      if (!geocoder) {
         return;
       }
 
@@ -71,7 +71,7 @@ const useGeocoder = () => {
 
   /**
    * Retrieves location details based on a place ID.
-   * @param {string | null} placeId - The place ID of the location.
+   * @param {string} placeId - The place ID of the location.
    * @returns {Promise<Location | undefined>} - A promise that resolves to the location details or undefined if no location is found.
    * @example
    * const { getLocation } = useGeocoder();
@@ -80,7 +80,7 @@ const useGeocoder = () => {
    * // Output: { id: 'your-place-id', latitude: 123.456, longitude: 78.910, address: '123 Street, City', city: 'City', postalCode: '12345', state: 'State', country: 'Country', formatted_address: '123 Street, City, State, Country', createdAt: Date, updatedAt: Date }
    */
   const getLocation = useCallback(
-    async (placeId: string | null) => {
+    async (placeId: string) => {
       // Get Response Results
       const geocodeResponse = await getGeocodeResponse(placeId);
       if (!geocodeResponse) return;
@@ -133,7 +133,7 @@ const useGeocoder = () => {
 
   /**
    * Retrieves a formatted location description based on a place ID.
-   * @param {string | null} placeId - The place ID of the location.
+   * @param {string} placeId - The place ID of the location.
    * @returns {Promise<FormattedLocation | undefined>} - A promise that resolves to the formatted location or undefined if no location is found.
    * @example
    * const { getFormattedLocation } = useGeocoder();
@@ -142,7 +142,7 @@ const useGeocoder = () => {
    * // Output: { description: '123 Street, City, State, Country', lat: 123.456, lng: 78.910 }
    */
   const getFormattedLocation = useCallback(
-    async (placeId: string | null) => {
+    async (placeId: string) => {
       // Get Response Results
       const geocodeResponse = await getGeocodeResponse(placeId);
       if (!geocodeResponse) return;

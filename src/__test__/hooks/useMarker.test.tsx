@@ -1,48 +1,70 @@
 import useMarker from "@/src/hooks/useMarker";
-import { initialize, mockInstances } from "@googlemaps/jest-mocks";
-import { renderHook } from "@testing-library/react";
+import { initialize } from "@googlemaps/jest-mocks";
 import {
   useApiIsLoaded,
   useMap,
   useMapsLibrary,
 } from "@vis.gl/react-google-maps";
+import { renderHook } from "../test-utils";
 
 jest.mock("@vis.gl/react-google-maps");
+
+const markerLibraryMock = jest.mocked(useMapsLibrary);
+
+const useMapMock = jest.mocked(useMap);
+
+const useIsApiLoadedMock = jest.mocked(useApiIsLoaded);
 
 describe("useMarker", () => {
   beforeEach(() => {
     initialize();
-    mockInstances.clearAll();
-    const map = new google.maps.Map(document.createElement("div"), {
-      mapId: "test-map-id",
-    });
-
-    jest.mocked(useMap).mockReturnValue(map);
-  });
-  it("returns null if google maps API is not loaded", () => {
-    const useApiisLoadedMock = jest
-      .mocked(useApiIsLoaded)
-      .mockReturnValue(false);
-    const useMapsLibraryMock = jest.mocked(useMapsLibrary);
-
-    const { result } = renderHook(useMarker);
-
-    expect(useMap).toHaveBeenCalled();
-    expect(useApiisLoadedMock).toHaveBeenCalled();
-    expect(useMapsLibraryMock).toHaveBeenCalledWith("marker");
-    expect(result.current).toBeNull();
+    jest.clearAllMocks();
   });
 
-  it("returns marker library if google maps API loaded", () => {
-    const useApiisLoadedMock = jest
-      .mocked(useApiIsLoaded)
-      .mockReturnValue(true);
-    const useMapsLibraryMock = jest.mocked(useMapsLibrary);
+  it("returns console.error() if there is no Map", async () => {
+    console.error = jest.fn();
+    const markerLibrary = await google.maps.importLibrary("marker");
+
+    useIsApiLoadedMock.mockReturnValue(true);
+    markerLibraryMock.mockReturnValue(markerLibrary);
 
     renderHook(useMarker);
 
-    expect(useMap).toHaveBeenCalled();
-    expect(useApiisLoadedMock).toHaveBeenCalled();
-    expect(useMapsLibraryMock).toHaveBeenCalledWith("marker");
+    expect(useMapMock).toHaveBeenCalled();
+    expect(console.error).toHaveBeenCalled();
+  });
+
+  it("returns null if google api is not loaded", async () => {
+    const markerLibrary = await google.maps.importLibrary("marker");
+
+    useIsApiLoadedMock.mockReturnValue(false);
+    markerLibraryMock.mockReturnValue(markerLibrary);
+    useMapMock.mockReturnValue(null);
+
+    const { result } = renderHook(useMarker);
+
+    expect(result.current).toBeNull();
+  });
+
+  it("returns null if google marker library is not loaded", () => {
+    useIsApiLoadedMock.mockReturnValue(true);
+    markerLibraryMock.mockReturnValue(null);
+    useMapMock.mockReturnValue(null);
+
+    const { result } = renderHook(useMarker);
+
+    expect(result.current).toBeNull();
+  });
+
+  it("returns google marker library", async () => {
+    const markerLibrary = await google.maps.importLibrary("marker");
+
+    useIsApiLoadedMock.mockReturnValue(true);
+    markerLibraryMock.mockReturnValue(markerLibrary);
+    useMapMock.mockReturnValue(null);
+
+    const { result } = renderHook(useMarker);
+
+    expect(result.current).toStrictEqual(markerLibrary);
   });
 });

@@ -1,41 +1,42 @@
 import useClusterer from "@/src/hooks/useClusterer";
-import { initialize, mockInstances } from "@googlemaps/jest-mocks";
+import { initialize, Map } from "@googlemaps/jest-mocks";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
-import { renderHook } from "@testing-library/react";
 import { useMap } from "@vis.gl/react-google-maps";
+import { renderHook } from "../test-utils";
 
 jest.mock("@vis.gl/react-google-maps");
 
 jest.mock("@googlemaps/markerclusterer");
 
+const useMapMock = jest.mocked(useMap);
+
+const markerClustererMock = jest.mocked(MarkerClusterer);
+
 describe("useClusterer", () => {
   beforeEach(() => {
     initialize();
-    mockInstances.clearAll();
+    jest.clearAllMocks();
   });
 
-  it("initializes MarkerClusterer when map is available", () => {
-    const map = new google.maps.Map(document.createElement("div"), {
-      mapId: "test-map-id",
-    });
-
-    jest.mocked(useMap).mockReturnValue(map);
-
-    const rendererMock = { render: jest.fn() };
-
-    const markerClustererMock = jest.mocked(MarkerClusterer).mockReturnValue(
-      new MarkerClusterer({
-        map: map,
-        renderer: rendererMock,
-      }),
-    );
+  it("returns console.error() if there is no Map", async () => {
+    console.error = jest.fn();
 
     renderHook(useClusterer);
 
-    expect(useMap).toHaveBeenCalled();
-    expect(markerClustererMock).toHaveBeenCalledWith({
-      map: map,
-      renderer: rendererMock,
+    expect(useMapMock).toHaveBeenCalled();
+    expect(console.error).toHaveBeenCalled();
+  });
+
+  it("returns marker clusterer", async () => {
+    const map = new Map(document.createElement("div"), {
+      mapId: "test-map-id",
     });
+
+    useMapMock.mockReturnValue(map);
+
+    renderHook(useClusterer);
+
+    expect(useMapMock).toHaveBeenCalled();
+    expect(markerClustererMock).toHaveBeenCalled();
   });
 });
