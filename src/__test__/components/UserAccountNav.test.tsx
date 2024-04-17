@@ -36,20 +36,24 @@ jest.mocked(useUserStore).mockReturnValue({
   syncUser: syncUserMock,
 });
 
-const mockedUser = {
-  id: "user-id",
-  app_metadata: {},
-  aud: "",
-  created_at: "",
-  user_metadata: {
-    name: "John Doe",
-  },
-  email: "john.doe@example.com",
-};
-
 describe("UserAccountNav", () => {
+  const userMock = {
+    id: "user-id",
+    app_metadata: {},
+    aud: "",
+    created_at: "",
+    user_metadata: {
+      name: "John Doe",
+    },
+    email: "john.doe@example.com",
+  };
+
+  it("renders", () => {
+    render(<UserAccountNav user={userMock} />);
+  });
+
   it("renders UserAccountNav component button when user doesn't have an  avatar", () => {
-    render(<UserAccountNav user={mockedUser} />);
+    render(<UserAccountNav user={userMock} />);
 
     const iconButton = screen.getByRole("button", { name: /avatar/i });
 
@@ -57,15 +61,15 @@ describe("UserAccountNav", () => {
   });
 
   it("renders UserAccountNav component button when user has an avatar", () => {
-    const mockedUserWithAvatar = {
-      ...mockedUser,
+    const userWithAvatarMock = {
+      ...userMock,
       user_metadata: {
-        ...mockedUser.user_metadata,
+        ...userMock.user_metadata,
         image: "/path/to/avatar.png",
       },
     };
 
-    render(<UserAccountNav user={mockedUserWithAvatar} />);
+    render(<UserAccountNav user={userWithAvatarMock} />);
 
     const avatarButton = screen.getByRole("button", { name: /picture/i });
 
@@ -75,7 +79,7 @@ describe("UserAccountNav", () => {
   it("renders UserAccountNav component with user information", async () => {
     user.setup();
 
-    render(<UserAccountNav user={mockedUser} />);
+    render(<UserAccountNav user={userMock} />);
 
     const iconButton = screen.getByRole("button", { name: /avatar/i });
     await user.click(iconButton);
@@ -87,7 +91,7 @@ describe("UserAccountNav", () => {
   it("renders Sign Out button and calls signOut function when clicked", async () => {
     user.setup();
 
-    render(<UserAccountNav user={mockedUser} />);
+    render(<UserAccountNav user={userMock} />);
 
     const iconButton = screen.getByRole("button", { name: /avatar/i });
     await user.click(iconButton);

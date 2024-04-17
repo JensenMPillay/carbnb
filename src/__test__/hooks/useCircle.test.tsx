@@ -9,22 +9,22 @@ const useMapMock = jest.mocked(useMap);
 
 const latLngEqualsMock = jest.mocked(latLngEquals);
 
-const circleOptions = {
-  radius: 1000,
-  center: { lat: 37.7749, lng: -122.4194 },
-  fillColor: "#FF0000",
-  strokeColor: "#FF0000",
-  strokeOpacity: 0.8,
-  strokeWeight: 2,
-  draggable: true,
-  onRadiusChanged: jest.fn(),
-  onCenterChanged: jest.fn(),
-};
-
 describe("useCircle", () => {
   beforeEach(() => {
     initialize();
   });
+
+  const circleOptions = {
+    radius: 1000,
+    center: { lat: 37.7749, lng: -122.4194 },
+    fillColor: "#FF0000",
+    strokeColor: "#FF0000",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    draggable: true,
+    onRadiusChanged: jest.fn(),
+    onCenterChanged: jest.fn(),
+  };
 
   it("returns console.error() if there is no Map", async () => {
     console.error = jest.fn();

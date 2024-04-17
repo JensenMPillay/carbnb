@@ -13,86 +13,86 @@ jest.mock("@vis.gl/react-google-maps");
 
 const useMapsLibraryMock = jest.mocked(useMapsLibrary);
 
-const useApiisLoadedMock = jest.mocked(useApiIsLoaded).mockReturnValue(true);
-
-const responseMock = {
-  predictions: [
-    {
-      description: "Paris, France",
-      distance_meters: 0,
-      matched_substrings: [],
-      place_id: "ChIJD7fiBh9u5kcRYJSMaMOCCwQ",
-      structured_formatting: {
-        main_text: "Paris",
-        main_text_matched_substrings: [],
-        secondary_text: "France",
-      },
-      terms: [{ value: "Paris" }, { value: "France" }],
-      types: ["locality", "political"],
-    },
-    {
-      description:
-        "Paris Charles de Gaulle Airport (CDG), 95700 Roissy-en-France, France",
-      distance_meters: 15000,
-      matched_substrings: [{ length: 5, offset: 0 }],
-      place_id: "ChIJBXgFOihi5kcRWyCiC4zRn-o",
-      structured_formatting: {
-        main_text: "Paris Charles de Gaulle Airport (CDG)",
-        main_text_matched_substrings: [{ length: 5, offset: 0 }],
-        secondary_text: "95700 Roissy-en-France, France",
-      },
-      terms: [
-        { value: "Paris Charles de Gaulle Airport (CDG)" },
-        { value: "95700" },
-        { value: "Roissy-en-France" },
-        { value: "France" },
-      ],
-      types: ["airport", "point_of_interest", "establishment"],
-    },
-    {
-      description: "Louvre Museum, Rue de Rivoli, Paris, France",
-      distance_meters: 2500,
-      matched_substrings: [{ length: 6, offset: 0 }],
-      place_id: "ChIJ35l7Y3iE5kcRJ4CFfj4y9QY",
-      structured_formatting: {
-        main_text: "Louvre Museum",
-        main_text_matched_substrings: [{ length: 6, offset: 0 }],
-        secondary_text: "Rue de Rivoli, Paris, France",
-      },
-      terms: [
-        { value: "Louvre Museum" },
-        { value: "Rue de Rivoli" },
-        { value: "Paris" },
-        { value: "France" },
-      ],
-      types: ["museum", "point_of_interest", "establishment"],
-    },
-  ],
-  status: "OK",
-};
-
-const TestComponent = () => {
-  const { inputValue, onInputChange, suggestions } = useAutocomplete();
-  return (
-    <div>
-      <input
-        value={inputValue}
-        onChange={onInputChange}
-        data-testid="test-input"
-      ></input>
-      <ul>
-        {suggestions.map((suggestion, index) => (
-          <li key={index}>{suggestion.description}</li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+const useApiIsLoadedMock = jest.mocked(useApiIsLoaded).mockReturnValue(true);
 
 describe("useAutocomplete", () => {
   beforeEach(() => {
     initialize();
   });
+
+  const responseMock = {
+    predictions: [
+      {
+        description: "Paris, France",
+        distance_meters: 0,
+        matched_substrings: [],
+        place_id: "ChIJD7fiBh9u5kcRYJSMaMOCCwQ",
+        structured_formatting: {
+          main_text: "Paris",
+          main_text_matched_substrings: [],
+          secondary_text: "France",
+        },
+        terms: [{ value: "Paris" }, { value: "France" }],
+        types: ["locality", "political"],
+      },
+      {
+        description:
+          "Paris Charles de Gaulle Airport (CDG), 95700 Roissy-en-France, France",
+        distance_meters: 15000,
+        matched_substrings: [{ length: 5, offset: 0 }],
+        place_id: "ChIJBXgFOihi5kcRWyCiC4zRn-o",
+        structured_formatting: {
+          main_text: "Paris Charles de Gaulle Airport (CDG)",
+          main_text_matched_substrings: [{ length: 5, offset: 0 }],
+          secondary_text: "95700 Roissy-en-France, France",
+        },
+        terms: [
+          { value: "Paris Charles de Gaulle Airport (CDG)" },
+          { value: "95700" },
+          { value: "Roissy-en-France" },
+          { value: "France" },
+        ],
+        types: ["airport", "point_of_interest", "establishment"],
+      },
+      {
+        description: "Louvre Museum, Rue de Rivoli, Paris, France",
+        distance_meters: 2500,
+        matched_substrings: [{ length: 6, offset: 0 }],
+        place_id: "ChIJ35l7Y3iE5kcRJ4CFfj4y9QY",
+        structured_formatting: {
+          main_text: "Louvre Museum",
+          main_text_matched_substrings: [{ length: 6, offset: 0 }],
+          secondary_text: "Rue de Rivoli, Paris, France",
+        },
+        terms: [
+          { value: "Louvre Museum" },
+          { value: "Rue de Rivoli" },
+          { value: "Paris" },
+          { value: "France" },
+        ],
+        types: ["museum", "point_of_interest", "establishment"],
+      },
+    ],
+    status: "OK",
+  };
+
+  const TestComponent = () => {
+    const { inputValue, onInputChange, suggestions } = useAutocomplete();
+    return (
+      <div>
+        <input
+          value={inputValue}
+          onChange={onInputChange}
+          data-testid="test-input"
+        ></input>
+        <ul>
+          {suggestions.map((suggestion, index) => (
+            <li key={index}>{suggestion.description}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
 
   it("returns places library if google maps API loaded", async () => {
     const placesLibrary = await google.maps.importLibrary("places");
@@ -138,7 +138,7 @@ describe("useAutocomplete", () => {
     const expectedValue = "Paris";
 
     useMapsLibraryMock.mockReturnValue(placesLibrary);
-    useApiisLoadedMock.mockReturnValueOnce(false);
+    useApiIsLoadedMock.mockReturnValueOnce(false);
 
     render(<TestComponent />);
 

@@ -2,7 +2,11 @@ import Footer from "@/src/components/Footer";
 import { render, screen } from "../test-utils";
 
 describe("Footer", () => {
-  it("renders Footer component with correct  content", () => {
+  it("renders", () => {
+    render(<Footer />);
+  });
+
+  it("renders Footer component with correct content", () => {
     render(<Footer />);
 
     const date = new Date().getFullYear();

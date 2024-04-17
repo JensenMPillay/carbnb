@@ -2,6 +2,10 @@ import Header from "@/src/components/Header";
 import { render, screen } from "../test-utils";
 
 describe("Header", () => {
+  it("renders", () => {
+    render(<Header />);
+  });
+
   it("renders Header component with correct logo", () => {
     render(<Header />);
 

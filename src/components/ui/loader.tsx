@@ -20,6 +20,7 @@ function Loader({ size = 24, className, ...props }: ISVGProps) {
       strokeLinejoin="round"
       className={cn("animate-spin", className)}
     >
+      <title className="sr-only">Loader</title>
       <path d="M21 12a9 9 0 1 1-6.219-8.56" />
     </svg>
   );

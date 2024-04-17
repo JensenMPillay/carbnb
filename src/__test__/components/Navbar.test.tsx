@@ -79,7 +79,7 @@ describe("Navbar", () => {
 
   it("renders correct user avatar if logged", () => {
     usePathnameMock.mockReturnValue("/");
-    const mockedUser = {
+    const userMock = {
       id: "user-id",
       app_metadata: {},
       aud: "",
@@ -91,7 +91,7 @@ describe("Navbar", () => {
       },
       email: "john.doe@example.com",
     };
-    useStoreMock.mockReturnValue(mockedUser);
+    useStoreMock.mockReturnValue(userMock);
 
     render(<Navbar />);
 

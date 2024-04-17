@@ -21,7 +21,7 @@ export const SVGDeal = ({ className, ...rest }: SVGProps) => (
     className={className}
     {...rest}
   >
-    <title>SVGDeal</title>
+    <title className="sr-only">SVGDeal</title>
     <g>
       <use fill="#F5F5F5" overflow="visible" xlinkHref="#SVGID_1_"></use>
       <clipPath>
@@ -940,7 +940,7 @@ export const SVGGoodbye = ({ className, ...rest }: SVGProps) => (
     className={className}
     {...rest}
   >
-    <title>SVGGoodbye</title>
+    <title className="sr-only">SVGGoodbye</title>
     <g>
       <path
         fill="#F5F5F5"
@@ -2481,7 +2481,7 @@ export const SVGSearch = ({ className, ...rest }: SVGProps) => (
     className={className}
     {...rest}
   >
-    <title>SVGSearch</title>
+    <title className="sr-only">SVGSearch</title>
     <g>
       <path
         fill="#EBEBEB"
@@ -3071,7 +3071,7 @@ export const SVGValidation = ({ className, ...rest }: SVGProps) => (
     className={className}
     {...rest}
   >
-    <title>SVGValidation</title>
+    <title className="sr-only">SVGValidation</title>
     <g>
       <path
         fill="#F5F5F5"

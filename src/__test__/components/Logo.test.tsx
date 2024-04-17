@@ -2,6 +2,10 @@ import Logo from "@/src/components/Logo";
 import { render, screen } from "../test-utils";
 
 describe("Logo", () => {
+  it("renders", async () => {
+    render(<Logo className="h-8 w-8" />);
+  });
+
   it("renders Logo component with default color", async () => {
     render(<Logo className="h-8 w-8" />);
 
