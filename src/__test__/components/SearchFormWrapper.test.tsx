@@ -5,14 +5,7 @@ import { render } from "../test-utils";
 
 jest.mock("next/navigation");
 
-jest.mocked(useRouter).mockReturnValue({
-  back: jest.fn(),
-  forward: jest.fn(),
-  push: jest.fn(),
-  replace: jest.fn(),
-  refresh: jest.fn(),
-  prefetch: jest.fn(),
-});
+jest.mocked(useRouter);
 
 describe("SearchForm", () => {
   beforeEach(() => {

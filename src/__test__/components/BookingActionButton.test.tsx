@@ -12,8 +12,6 @@ import { render, screen } from "../test-utils";
 
 jest.mock("@/src/lib/notifications/toasters");
 
-console.error = jest.fn();
-
 const successNotifMock = jest.mocked(showNotif);
 
 const errorNotifMock = jest.mocked(showErrorNotif);
@@ -76,7 +74,9 @@ describe("BookingActionButton", () => {
   });
 
   it("should render success state on delete", async () => {
+    console.error = jest.fn();
     user.setup();
+
     const mocks = [
       {
         request: {
@@ -99,7 +99,9 @@ describe("BookingActionButton", () => {
   });
 
   it("should render error state on delete", async () => {
+    console.error = jest.fn();
     user.setup();
+
     const mocks = [
       {
         request: {
@@ -122,7 +124,9 @@ describe("BookingActionButton", () => {
   });
 
   it("should render graphql error state on delete", async () => {
+    console.error = jest.fn();
     user.setup();
+
     const mocks = [
       {
         request: {
@@ -147,7 +151,9 @@ describe("BookingActionButton", () => {
   });
 
   it("should render success state on update", async () => {
+    console.error = jest.fn();
     user.setup();
+
     const mocks = [
       {
         request: {
@@ -170,7 +176,9 @@ describe("BookingActionButton", () => {
   });
 
   it("should render error state on update", async () => {
+    console.error = jest.fn();
     user.setup();
+
     const mocks = [
       {
         request: {
@@ -193,7 +201,9 @@ describe("BookingActionButton", () => {
   });
 
   it("should render graphql error state on update", async () => {
+    console.error = jest.fn();
     user.setup();
+
     const mocks = [
       {
         request: {

@@ -1,9 +1,9 @@
 import useStore from "@/src/hooks/useStore";
 import { render, screen } from "@testing-library/react";
 
-const mockCallback = jest.fn();
-
 describe("useStore", () => {
+  const mockCallback = jest.fn();
+
   const TestComponent: React.FC<{
     store: (callback: (state: unknown) => unknown) => unknown;
     callback: (state: unknown) => unknown;

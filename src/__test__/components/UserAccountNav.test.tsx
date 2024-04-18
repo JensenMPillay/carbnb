@@ -2,6 +2,7 @@ import UserAccountNav from "@/src/components/UserAccountNav";
 import supabaseBrowserClient from "@/src/lib/supabase/supabase-browser-client";
 import useUserStore from "@/src/store/useUserStore";
 import user from "@testing-library/user-event";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { render, screen, waitFor } from "../test-utils";
 
@@ -9,31 +10,19 @@ jest.mock("next/navigation");
 jest.mock("@/src/lib/supabase/supabase-browser-client");
 jest.mock("@/src/store/useUserStore");
 
-const pushMock = jest.fn();
-const refreshMock = jest.fn();
-
-// useRouter Mock
 jest.mocked(useRouter).mockReturnValue({
-  back: jest.fn(),
-  forward: jest.fn(),
-  push: pushMock,
-  replace: jest.fn(),
-  refresh: refreshMock,
-  prefetch: jest.fn(),
-});
+  push: jest.fn(),
+  refresh: jest.fn(),
+} as unknown as AppRouterInstance);
 
-// supabaseBrowserClient Mock
 const signOutMock = jest
   .mocked(supabaseBrowserClient.auth.signOut)
   .mockResolvedValue({
     error: null,
   });
 
-const syncUserMock = jest.fn();
-
-// useUserStore Mock
 jest.mocked(useUserStore).mockReturnValue({
-  syncUser: syncUserMock,
+  syncUser: jest.fn(),
 });
 
 describe("UserAccountNav", () => {
@@ -106,13 +95,13 @@ describe("UserAccountNav", () => {
       expect(signOutMock).toHaveBeenCalledTimes(1);
     });
     await waitFor(() => {
-      expect(syncUserMock).toHaveBeenCalledTimes(1);
+      expect(useUserStore().syncUser).toHaveBeenCalledTimes(1);
     });
     await waitFor(() => {
-      expect(refreshMock).toHaveBeenCalledTimes(1);
+      expect(useRouter().refresh).toHaveBeenCalledTimes(1);
     });
     await waitFor(() => {
-      expect(pushMock).toHaveBeenCalledTimes(1);
+      expect(useRouter().push).toHaveBeenCalledTimes(1);
     });
   });
 });

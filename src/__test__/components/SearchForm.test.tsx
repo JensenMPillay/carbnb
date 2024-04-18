@@ -2,25 +2,18 @@ import SearchForm from "@/src/components/SearchForm";
 import useStore from "@/src/hooks/useStore";
 import user from "@testing-library/user-event";
 import { format } from "date-fns";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { usePathname, useRouter } from "next/navigation";
 import { render, screen } from "../test-utils";
 
 jest.mock("next/navigation");
-
-const pushMock = jest.fn();
-
 jest.mock("@/src/hooks/useStore");
 
 const useStoreMock = jest.mocked(useStore);
 
 jest.mocked(useRouter).mockReturnValue({
-  back: jest.fn(),
-  forward: jest.fn(),
-  push: pushMock,
-  replace: jest.fn(),
-  refresh: jest.fn(),
-  prefetch: jest.fn(),
-});
+  push: jest.fn(),
+} as unknown as AppRouterInstance);
 
 jest.mocked(usePathname).mockReturnValue("/search");
 
@@ -93,7 +86,7 @@ describe("SearchForm", () => {
 
     await user.click(screen.getByRole("button", { name: "" }));
 
-    expect(pushMock).toHaveBeenCalledWith(`/search?${urlParamsMock}`, {
+    expect(useRouter().push).toHaveBeenCalledWith(`/search?${urlParamsMock}`, {
       scroll: false,
     });
   });

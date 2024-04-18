@@ -196,7 +196,7 @@ describe("getCarPaintCombinations", () => {
 });
 
 describe("extractCarColorsMap", () => {
-  test("Extract car colors map from paint combinations data", () => {
+  it("Extract car colors map from paint combinations data", () => {
     const paintCombinations = {
       pspc0016: {
         paintSwatch: {
@@ -694,7 +694,7 @@ describe("generateCarImageUrl", () => {
 });
 
 describe("getFileFromUrl", () => {
-  test("fetches a file from a URL and returns it as FormData", async () => {
+  it("fetches a file from a URL and returns it as FormData", async () => {
     const url = new URL(
       `https://cdn.imagin.studio/getimage?customer=${process.env.NEXT_PUBLIC_IMAGIN_API_KEY}&make=Toyota&modelFamily=Camry&modelRange=&modelYear=2022&paintDescription=black&countryCode=FR&zoomType=fullscreen`,
     );

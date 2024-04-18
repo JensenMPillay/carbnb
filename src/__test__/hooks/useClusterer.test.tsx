@@ -5,7 +5,6 @@ import { useMap } from "@vis.gl/react-google-maps";
 import { renderHook } from "../test-utils";
 
 jest.mock("@vis.gl/react-google-maps");
-
 jest.mock("@googlemaps/markerclusterer");
 
 const useMapMock = jest.mocked(useMap);

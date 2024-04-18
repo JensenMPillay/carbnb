@@ -5,10 +5,9 @@ import { usePathname } from "next/navigation";
 import { render, screen } from "../test-utils";
 
 jest.mock("next/navigation");
+jest.mock("@/src/hooks/useStore");
 
 const usePathnameMock = jest.mocked(usePathname);
-
-jest.mock("@/src/hooks/useStore");
 
 const useStoreMock = jest.mocked(useStore);
 
