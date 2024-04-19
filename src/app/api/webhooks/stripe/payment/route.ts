@@ -58,7 +58,13 @@ export async function POST(request: Request) {
       }
       case "payment_intent.succeeded": {
         const paymentIntentSucceeded = event.data.object;
-        if (paymentIntentSucceeded.status === "succeeded")
+        if (paymentIntentSucceeded.status === "succeeded") {
+          const bookingPrisma = await prisma.booking.findUnique({
+            where: {
+              stripePaymentId: paymentIntentSucceeded.id,
+            },
+          });
+          if (!bookingPrisma) break;
           // Update Booking
           await prisma.booking.update({
             where: {
@@ -68,6 +74,7 @@ export async function POST(request: Request) {
               paymentStatus: "SUCCEEDED",
             },
           });
+        }
         break;
       }
       case "payment_intent.canceled": {
