@@ -1,3 +1,4 @@
+import { IMAGE_ANGLES } from "@/src/config/supabase";
 import {
   absoluteUrl,
   cn,
@@ -667,11 +668,11 @@ describe("generateCarImageUrl", () => {
         year: 2022,
         trueColor: "black",
       },
-      angle: 22 as const,
+      angle: "29" as (typeof IMAGE_ANGLES)[number],
     };
     const imageUrl = generateCarImageUrl(options);
 
-    const expectedUrl = `https://cdn.imagin.studio/getimage?customer=${process.env.NEXT_PUBLIC_IMAGIN_API_KEY}&make=Toyota&modelFamily=Camry&modelRange=&modelYear=2022&paintDescription=black&countryCode=FR&zoomType=fullscreen&angle=22`;
+    const expectedUrl = `https://cdn.imagin.studio/getimage?customer=${process.env.NEXT_PUBLIC_IMAGIN_API_KEY}&make=${options.car.brand}&modelFamily=${options.car.model}&modelRange=&modelYear=${options.car.year}&paintDescription=${options.car.trueColor}&countryCode=FR&zoomType=fullscreen&angle=${options.angle}`;
 
     expect(imageUrl).toBe(expectedUrl);
   });
@@ -687,7 +688,7 @@ describe("generateCarImageUrl", () => {
 
     const imageUrl = generateCarImageUrl(options);
 
-    const expectedUrl = `https://cdn.imagin.studio/getimage?customer=${process.env.NEXT_PUBLIC_IMAGIN_API_KEY}&make=Toyota&modelFamily=Camry&modelRange=&modelYear=2022&paintDescription=black&countryCode=FR&zoomType=fullscreen`;
+    const expectedUrl = `https://cdn.imagin.studio/getimage?customer=${process.env.NEXT_PUBLIC_IMAGIN_API_KEY}&make=${options.car.brand}&modelFamily=${options.car.model}&modelRange=&modelYear=${options.car.year}&paintDescription=black&countryCode=FR&zoomType=fullscreen`;
 
     expect(imageUrl).toBe(expectedUrl);
   });

@@ -6,4 +6,4 @@ export const IMAGE_BUCKET = "car_images" as const;
 /**
  * Array of angles for imaginstudio images.
  */
-export const IMAGE_ANGLES = [0, 9, 22, 29] as const;
+export const IMAGE_ANGLES = ["01", "09", "27", "17", "29", "13"] as const;
