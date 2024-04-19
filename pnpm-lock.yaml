@@ -156,8 +156,8 @@ dependencies:
     specifier: ^1.4.41
     version: 1.4.41(react-dom@18.2.0)(react@18.2.0)
   stripe:
-    specifier: ^14.25.0
-    version: 14.25.0
+    specifier: ^15.3.0
+    version: 15.3.0
   zod:
     specifier: ^3.22.5
     version: 3.22.5
@@ -7515,8 +7515,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /stripe@14.25.0:
-    resolution: {integrity: sha512-wQS3GNMofCXwH8TSje8E1SE8zr6ODiGtHQgPtO95p9Mb4FhKC9jvXR2NUTpZ9ZINlckJcFidCmaTFV4P6vsb9g==}
+  /stripe@15.3.0:
+    resolution: {integrity: sha512-5J1NUZaCy0DnFINyxKWR+107BQ7gkhhOwMRp+ckHQP8j7+0HbwE8cN2Vi/qnja3k3sFC2ft6g6hcvM7lmavEAQ==}
     engines: {node: '>=12.*'}
     dependencies:
       '@types/node': 20.12.7
