@@ -1,5 +1,7 @@
 # Carbnb
 
+## Introduction
+
 Carbnb is a peer-to-peer car rental application, revolutionizing the way individuals rent vehicles from each other, akin to Airbnb but for cars.
 
 ## Features
@@ -34,4 +36,4 @@ Carbnb is a peer-to-peer car rental application, revolutionizing the way individ
 7. Receive secure payments through the platform as a lender, providing peace of mind and financial security.
 
 ## Contribute and Report Issues
-We welcome contributions to Carbnb! If you encounter any bugs or have suggestions for improvements, please open an issue on GitHub. Your feedback helps us continually enhance the platform for our users. Let's build Carbnb together!
+We welcome contributions to Carbnb! If you encounter any bugs or have suggestions for improvements, please open an issue on GitHub. Your feedback helps us continually enhance the platform for our users.
