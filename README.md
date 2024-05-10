@@ -27,7 +27,7 @@ Carbnb is a peer-to-peer car rental application, revolutionizing the way individ
 - **React Testing Library**: Testing utilities for testing React components.
 
 ## Usage
-1. Visit Carbnb.
+1. Visit [Carbnb](https://carbnb-jmpillay.vercel.app/)
 2. Sign up or log in to access the platform.
 3. Browse available car listings or list your own vehicle for rent.
 4. Communicate with hosts or renters through the messaging feature to finalize details.
