@@ -1,9 +1,9 @@
-import { render, screen } from "@/src/__test__/test-utils";
-import Register from "@/src/app/auth/register/page";
+import Dashboard from "@/src/app/dashboard/page";
 import getSupabaseServerClient from "@/src/lib/supabase/get-supabase-server-client";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { render } from "../../test-utils";
 
 function RegisterFormWrapper() {
   return <div data-testid="register-form"></div>;
@@ -40,7 +40,7 @@ describe("Register", () => {
     created_at: "",
     user_metadata: {
       name: "John Doe",
-      isRegistered: false,
+      isRegistered: true,
     },
     email: "john.doe@example.com",
   };
@@ -48,26 +48,23 @@ describe("Register", () => {
   it("renders", async () => {
     getUserMock.mockReturnValue({ data: { user: userMock }, error: null });
 
-    render(await Register());
+    render(await Dashboard());
   });
 
-  it("renders with Register Card", async () => {
+  it("redirects to profile page", async () => {
     getUserMock.mockReturnValue({ data: { user: userMock }, error: null });
 
-    render(await Register());
+    render(await Dashboard());
 
-    expect(
-      screen.getByText("Complete your registration in just a few more steps"),
-    ).toBeInTheDocument();
-    expect(screen.getByTestId("register-form")).toBeInTheDocument();
+    expect(redirectMock).toHaveBeenCalledWith("/dashboard/profile");
   });
 
   it("redirects to Sign Page if no user", async () => {
     getUserMock.mockReturnValue({ data: { user: null }, error: null });
 
-    render(await Register());
+    render(await Dashboard());
 
-    expect(redirectMock).toHaveBeenCalledWith("/auth/sign");
+    expect(redirectMock).toHaveBeenCalledWith("/auth/sign?origin=dashboard");
   });
 
   it("redirects to Sign Page if error", async () => {
@@ -76,24 +73,24 @@ describe("Register", () => {
       error: new Error(),
     });
 
-    render(await Register());
+    render(await Dashboard());
 
-    expect(redirectMock).toHaveBeenCalledWith("/auth/sign");
+    expect(redirectMock).toHaveBeenCalledWith("/auth/sign?origin=dashboard");
   });
 
-  it("redirects to Home Page if user has been registered already", async () => {
+  it("redirects to Sign Page if user has not been registered yet", async () => {
     getUserMock.mockReturnValue({
       data: {
         user: {
           ...userMock,
-          user_metadata: { ...userMock.user_metadata, isRegistered: true },
+          user_metadata: { ...userMock.user_metadata, isRegistered: false },
         },
       },
       error: null,
     });
 
-    render(await Register());
+    render(await Dashboard());
 
-    expect(redirectMock).toHaveBeenCalledWith("/");
+    expect(redirectMock).toHaveBeenCalledWith("/auth/sign?origin=dashboard");
   });
 });
