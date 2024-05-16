@@ -57,11 +57,11 @@ const CarMarker = ({ car, clusterer }: CarMarkerProps) => {
   if (!latitude || !longitude) return;
   return (
     <AdvancedMarker
+      clickable
       position={{ lat: latitude, lng: longitude }}
       key={id}
       title={`${brand} ${model}`}
       ref={refCallback}
-      gmpClickable
       onClick={() => setCarSelected(car)}
     >
       <span
