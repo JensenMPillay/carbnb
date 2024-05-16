@@ -29,7 +29,7 @@ const SearchMap = () => {
   return (
     <Map
       mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_ID ?? ""}
-      className="h-[75dvh] w-full rounded"
+      className="relative h-[75dvh] w-full rounded"
       defaultZoom={10}
       defaultCenter={userLocation}
       gestureHandling={"greedy"}
