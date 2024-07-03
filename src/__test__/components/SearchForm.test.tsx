@@ -18,6 +18,17 @@ jest.mocked(useRouter).mockReturnValue({
 jest.mocked(usePathname).mockReturnValue("/search");
 
 describe("SearchForm", () => {
+  const defaultValuesMock = {
+    location: {
+      id: "ChIJLU7jZClu5kcR4PcOOO6p3I0",
+      description:
+        "Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France",
+    },
+    date: {
+      from: new Date("2030-06-15"),
+      to: new Date("2030-06-22"),
+    },
+  };
   it("renders", () => {
     render(<SearchForm />);
   });
@@ -36,18 +47,6 @@ describe("SearchForm", () => {
   });
 
   it("renders with default values", () => {
-    const defaultValuesMock = {
-      location: {
-        id: "ChIJLU7jZClu5kcR4PcOOO6p3I0",
-        description:
-          "Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France",
-      },
-      date: {
-        from: new Date("2024-06-15"),
-        to: new Date("2024-06-22"),
-      },
-    };
-
     useStoreMock.mockReturnValue(defaultValuesMock);
 
     render(<SearchForm />);
@@ -61,18 +60,6 @@ describe("SearchForm", () => {
 
   it("submits formData and redirect to /search with URL Params", async () => {
     user.setup();
-
-    const defaultValuesMock = {
-      location: {
-        id: "ChIJLU7jZClu5kcR4PcOOO6p3I0",
-        description:
-          "Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France",
-      },
-      date: {
-        from: new Date("2024-06-15"),
-        to: new Date("2024-06-22"),
-      },
-    };
 
     useStoreMock.mockReturnValue(defaultValuesMock);
 
